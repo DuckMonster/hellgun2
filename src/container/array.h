@@ -1,5 +1,6 @@
 #pragma once
 #include <new>
+#include <string.h>
 
 #define INDEX_NONE (~0)
 

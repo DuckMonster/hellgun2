@@ -5,6 +5,7 @@
 #include "collision/collision.h"
 #include "collision/collider.h"
 #include "math/matrix_math.h"
+#include "scene.h"
 #include <stdio.h>
 
 Game game;
@@ -23,6 +24,10 @@ void Game::init()
 	editor_camera.far_plane = 1000.f;
 
 	player.init();
+
+	Collider* collider = scene.add_collider();
+	collider->position = Vec3(0.f, -5.f, 0.f);
+	collider->set_aabb(Vec3(10.f, 1.f, 10.f));
 }
 
 void Game::update()
@@ -130,6 +135,9 @@ void Game::render()
 	{
 		info.view = editor_camera.get_view();
 		info.projection = editor_camera.get_projection();
+
+		for(const auto& collider : scene.colliders)
+			collider.debug_draw(Color::blue);
 	}
 	else
 	{

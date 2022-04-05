@@ -127,7 +127,7 @@ void Debug::render(const Render_Info& info)
 	{
 		debug_mat.set("u_Model", info.transform);
 		debug_mat.set("u_Color", info.color);
-		glLineWidth(info.thickness);
+		//glLineWidth(info.thickness);
 		glPointSize(info.thickness);
 
 		info.mesh->draw();
