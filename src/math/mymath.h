@@ -21,6 +21,7 @@ class Math
 {
 public:
 	static inline bool is_nearly_zero(float val, float check = SMALL_NUMBER) { return val > -check && val < check; }
+	static bool is_nan(float val);
 
 	static inline float radians(float degrees) { return (degrees / 180.f) * PI; }
 	static inline float degrees(float radians) { return (radians / PI) * 180.f; }

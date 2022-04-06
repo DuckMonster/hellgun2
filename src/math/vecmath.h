@@ -5,6 +5,11 @@ extern "C"
 	float sqrtf(float);
 }
 
+inline bool contains_nan(const Vec3& vec)
+{
+	return Math::is_nan(vec.x + vec.y + vec.z);
+}
+
 inline bool is_nearly_zero(const Vec3& vec, float check = SMALL_NUMBER)
 {
 	return
@@ -50,4 +55,9 @@ inline Vec3 cross(const Vec3& a, const Vec3& b)
 		a.z * b.x - a.x * b.z,
 		a.x * b.y - a.y * b.x
 	);
+}
+
+inline Vec3 constrain_to_plane(const Vec3& a, const Vec3& normal)
+{
+	return a - normal * dot(a, normal);
 }

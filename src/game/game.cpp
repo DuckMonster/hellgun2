@@ -4,8 +4,11 @@
 #include "core/context.h"
 #include "collision/collision.h"
 #include "collision/collider.h"
-#include "math/matrix_math.h"
 #include "scene.h"
+
+#include "entity/player.h"
+#include "entity/dummy.h"
+
 #include <stdio.h>
 
 Game game;
@@ -23,11 +26,18 @@ void Game::init()
 	editor_camera.near_plane = 0.1f;
 	editor_camera.far_plane = 1000.f;
 
-	player.init();
+	// Spawn entities
+	scene.spawn_entity<Player>(Vec3::zero);
+	scene.spawn_entity<Dummy>(Vec3(2.f, 10.f, 0.f));
 
+	// Create "map"
 	Collider* collider = scene.add_collider();
 	collider->position = Vec3(0.f, -5.f, 0.f);
 	collider->set_aabb(Vec3(10.f, 1.f, 10.f));
+
+	collider = scene.add_collider();
+	collider->position = Vec3(-5.f, 0.f, 0.f);
+	collider->set_aabb(Vec3(1.f, 10.f, 10.f));
 }
 
 void Game::update()
@@ -52,7 +62,8 @@ void Game::update()
 	}
 	else
 	{
-		player.update();
+		for(auto* entity : scene.entities)
+			entity->update();
 	}
 }
 
@@ -94,36 +105,16 @@ void Game::editor_update()
 
 	// Sweep testing
 	{
-		Collider a;
-		a.set_aabb(Vec3(1.f));
-		a.position = editor_camera.position + editor_camera.right() * 1.f;
+		AABB test_aabb = AABB::from_center_size(editor_camera.position + editor_camera.right(), Vec3::one);
+		Vec3 delta = editor_camera.forward() * 50.f;
+		Hit_Result hit = scene.sweep_aabb(test_aabb, delta);
 
-		Collider b;
-		b.set_aabb(Vec3(5.f, 10.f, 20.f));
-		b.position = Vec3(-5.f, 0.f, 0.f);
+		Color clr = hit.has_hit ? Color::red : Color::blue;
+		debug.vector(test_aabb.center(), delta, clr);
+		debug.box(hit.position, test_aabb.size(), Quat::identity);
 
-		Hit_Result hit = a.sweep(editor_camera.forward() * 50.f, &b);
-
-		Color clr = Color::blue;
 		if (hit.has_hit)
-			clr = Color::red;
-
-		a.debug_draw(clr);
-		b.debug_draw(clr);
-
-		if (hit.is_penetrating)
-		{
-			debug.vector(hit.location, hit.normal * hit.penetration_depth, Color::red);
-			debug.box(hit.location + hit.normal * hit.penetration_depth, a.size, Quat::identity, Color::red);
-		}
-		else
-		{
-			if (hit.has_hit)
-				debug.vector(hit.location, hit.normal * 2.f, clr);
-
-			debug.line(a.position, hit.location, clr);
-			debug.box(hit.location, a.size, Quat::identity, clr);
-		}
+			debug.vector(hit.position, hit.normal * 2.f, clr);
 	}
 }
 
@@ -135,9 +126,6 @@ void Game::render()
 	{
 		info.view = editor_camera.get_view();
 		info.projection = editor_camera.get_projection();
-
-		for(const auto& collider : scene.colliders)
-			collider.debug_draw(Color::blue);
 	}
 	else
 	{
@@ -146,7 +134,11 @@ void Game::render()
 	}
 	info.view_projection = info.projection * info.view;
 
-	player.render(info);
+	for(auto* entity : scene.entities)
+		entity->render(info);
+	for(auto* collider : scene.colliders)
+		collider->debug_draw(Color::blue);
+
 	debug.render(info);
 }
 

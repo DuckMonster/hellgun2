@@ -1,7 +1,6 @@
 #include "debug.h"
 #include "gfx/mesh.h"
 #include "gfx/material.h"
-#include "math/matrix_math.h"
 #include "game/game.h"
 
 Debug debug;
@@ -113,9 +112,9 @@ void Debug::box(const Mat4& transform, const Color& color, float thickness)
 	info.thickness = thickness;
 }
 
-void Debug::box(const Vec3& location, const Vec3& scale, const Quat& rotation, const Color& color, float thickness)
+void Debug::box(const Vec3& position, const Vec3& scale, const Quat& rotation, const Color& color, float thickness)
 {
-	box(mat_translation(location) * rotation.matrix() * mat_scale(scale), color, thickness);
+	box(mat_translation(position) * rotation.matrix() * mat_scale(scale), color, thickness);
 }
 
 void Debug::render(const Render_Info& info)

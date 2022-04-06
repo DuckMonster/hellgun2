@@ -1,6 +1,8 @@
 #include "time.h"
 #include <windows.h>
 
+constexpr float MAX_DELTA_TIME = 0.1f;
+
 namespace
 {
 	u64 clk_freq;
@@ -36,6 +38,9 @@ void time_update()
 	frame_elapsed = calc_delta_between(clk_begin, clk_now);
 
 	clk_prev = clk_now;
+
+	if (frame_delta > MAX_DELTA_TIME)
+		frame_delta = MAX_DELTA_TIME;
 }
 
 float time_delta()

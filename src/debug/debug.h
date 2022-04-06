@@ -4,6 +4,8 @@
 #include "gfx/mesh.h"
 #include "game/renderinfo.h"
 
+struct Hit_Result;
+
 struct Debug
 {
 private:
@@ -25,7 +27,9 @@ public:
 	void vector(const Vec3& origin, const Vec3& vec, const Color& color = Color::red, float thickness = 2.f, float point_size = 10.f);
 
 	void box(const Mat4& transform, const Color& color = Color::red, float thickness = 2.f);
-	void box(const Vec3& location, const Vec3& scale = Vec3(1.f), const Quat& rotation = Quat::identity, const Color& color = Color::red, float thickness = 2.f);
+	void box(const Vec3& position, const Vec3& scale = Vec3(1.f), const Quat& rotation = Quat::identity, const Color& color = Color::red, float thickness = 2.f);
+
+	void hit_result(const Hit_Result& hit);
 
 	void render(const Render_Info& info);
 };

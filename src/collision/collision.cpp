@@ -1,6 +1,13 @@
 #include "collision.h"
 
-Hit_Result intersect_aabb(const AABB& src, const AABB& tar)
+Hit_Result Collision::select_first_hit(const Hit_Result& a, const Hit_Result& b)
+{
+	if (!a.has_hit) return b;
+	if (!b.has_hit) return a;
+	return a.time < b.time ? a : b;
+}
+
+Hit_Result Collision::intersect_aabb(const AABB& src, const AABB& tar)
 {
 	struct Axis_Result
 	{
@@ -12,7 +19,6 @@ Hit_Result intersect_aabb(const AABB& src, const AABB& tar)
 
 	auto test_axis = [&src, &tar](const Vec3& axis) -> Axis_Result
 	{
-		Axis_Result result;
 		float a_min = dot(src.min, axis);
 		float a_max = dot(src.max, axis);
 		float b_min = dot(tar.min, axis);
@@ -26,7 +32,7 @@ Hit_Result intersect_aabb(const AABB& src, const AABB& tar)
 
 		// Depth is less than 0 in either direction
 		if (p_depth <= 0.f || n_depth <= 0.f)
-			return result;
+			return { false, axis, 0.f };
 
 		if (p_depth < n_depth)
 			return { true, axis, p_depth };
@@ -54,9 +60,9 @@ Hit_Result intersect_aabb(const AABB& src, const AABB& tar)
 	return Hit_Result::make_penetrating(src.center(), axis_result.axis * axis_result.depth);
 }
 
-Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar)
+Hit_Result Collision::sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar)
 {
-	if (is_nearly_zero(delta, 0.001f))
+	if (is_nearly_zero(delta))
 		return intersect_aabb(src, tar);
 
 	struct Axis_Result
@@ -75,9 +81,20 @@ Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar)
 		float b_min = dot(tar.min, axis);
 		float b_max = dot(tar.max, axis);
 
+		// We dont actually move on this axis....
+		// Do a regular overlap check
 		if (axis_delta == 0.f)
-			return { axis, 0.f, 1.f };
-		else if (axis_delta > 0.f)
+		{
+			// Intersecting, give arbitrarily large time span
+			if (a_max > b_min && b_max > a_min)
+				return { axis, -BIG_NUMBER, BIG_NUMBER };
+
+			// Not intersecting, but time span as 0 somewhere far away
+			else
+				return { axis, BIG_NUMBER, BIG_NUMBER };
+		}
+
+		if (axis_delta > 0.f)
 			return { -axis, (b_min - a_max) / axis_delta, (b_max - a_min) / axis_delta };
 		else
 			return { axis, (b_max - a_min) / axis_delta, (b_min - a_max) / axis_delta };
@@ -105,7 +122,7 @@ Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar)
 
 	// The last enter was before or equal to 0... that means we're penetrating
 	// Use regular intersection to figure out depenetration
-	if (last_enter <= 0.f)
+	if (last_enter < 0.f)
 		return intersect_aabb(src, tar);
 
 	// Get the last entry, that will be our hit

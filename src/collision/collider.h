@@ -29,7 +29,8 @@ public:
 	}
 
 	Hit_Result intersect(const Collider* other) const;
-	Hit_Result sweep(const Vec3& delta, const Collider* other) const;
+	Hit_Result sweep_to(const Vec3& delta, const Collider* target) const;
+	Hit_Result sweep_test(const AABB& src, const Vec3& delta) const;
 
 	void debug_draw(const Color& clr, float thickness = 2.f) const;
 };

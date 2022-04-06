@@ -6,5 +6,7 @@
 #include "math/vecmath.h"
 #include "math/quat.h"
 #include "math/color.h"
+#include "math/matrix.h"
+#include "math/matrixmath.h"
 
 #define NOMINMAX

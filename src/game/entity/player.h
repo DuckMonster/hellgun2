@@ -10,9 +10,6 @@
 class Player : public Entity
 {
 public:
-	Mesh mesh;
-	Material mat;
-
 	Vec3 velocity;
 
 	void init() override;

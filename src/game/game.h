@@ -1,6 +1,5 @@
 #pragma once
 #include "camera.h"
-#include "player.h"
 
 #define EDITOR_CAM_SPD (15.f)
 #define EDITOR_CAM_SENS (0.001f)
@@ -9,8 +8,6 @@ struct Game
 {
 	Camera camera;
 	Camera editor_camera;
-
-	Player player;
 
 	void init();
 	void update();

@@ -1,5 +1,5 @@
 #pragma once
-#include "renderinfo.h"
+#include "game/renderinfo.h"
 
 class Entity
 {

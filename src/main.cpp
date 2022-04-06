@@ -2,16 +2,17 @@
 #include "core/context.h"
 #include "core/input.h"
 #include "game/game.h"
-#include "game/player.h"
 #include "debug/debug.h"
-#include "container/array.h"
+#include "resource/resourcecommon.h"
 
 int main()
 {
 	context.open("Hellgun", 800, 600);
 
 	load_gl_extensions();
+
 	time_init();
+	load_common_resources();
 
 	debug.init();
 	game.init();
