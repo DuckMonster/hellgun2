@@ -15,7 +15,7 @@ struct Mesh
 	void init();
 	void add_buffer(u32 idx);
 
-	void bind_buffer(u32 idx, u32 num_elements, u64 stride = 0, u64 offset = 0);
+	void bind_attribute(u32 buffer_idx, u32 attr_idx, u32 num_elements, u64 stride = 0, u64 offset = 0);
 	void buffer_data(u32 idx, u64 size, const void* data);
 
 	void add_element_buffer();

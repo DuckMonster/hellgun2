@@ -9,12 +9,12 @@ void Mesh::add_buffer(u32 idx)
 {
 	glGenBuffers(1, buffers + idx);
 }
-void Mesh::bind_buffer(u32 idx, u32 num_elements, u64 stride, u64 offset)
+void Mesh::bind_attribute(u32 buffer_idx, u32 attr_idx, u32 num_elements, u64 stride, u64 offset)
 {
 	bind();
-	glBindBuffer(GL_ARRAY_BUFFER, buffers[idx]);
-	glEnableVertexAttribArray(idx);
-	glVertexAttribPointer(idx, num_elements, GL_FLOAT, false, stride, (void*)offset);
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[buffer_idx]);
+	glEnableVertexAttribArray(attr_idx);
+	glVertexAttribPointer(attr_idx, num_elements, GL_FLOAT, false, stride, (void*)offset);
 }
 
 void Mesh::buffer_data(u32 idx, u64 size, const void* data)

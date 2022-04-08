@@ -8,8 +8,8 @@ struct Camera
 
 	float fov = 90.f;
 
-	float near_plane = 0.1f;
-	float far_plane = 10.f;
+	float near = 0.1f;
+	float far = 10.f;
 
 	Vec3 forward() { return -rotation.axis_z(); }
 	Vec3 up() { return rotation.axis_y(); }

@@ -78,4 +78,14 @@ struct Mat4
 
 		return x + y + z + w;
 	}
+
+	Vec4 operator*(const Vec4& v)
+	{
+		Vec4 x = Vec4(m00 * v.x, m01 * v.x, m02 * v.x, m03 * v.x);
+		Vec4 y = Vec4(m10 * v.y, m11 * v.y, m12 * v.y, m13 * v.y);
+		Vec4 z = Vec4(m20 * v.z, m21 * v.z, m22 * v.z, m23 * v.z);
+		Vec4 w = Vec4(m30 * v.w, m31 * v.w, m32 * v.w, m33 * v.w);
+
+		return x + y + z + w;
+	}
 };

@@ -1,6 +1,7 @@
 #include "debug.h"
 #include "gfx/mesh.h"
 #include "gfx/material.h"
+#include "gfx/gridfont.h"
 #include "game/game.h"
 
 Debug debug;
@@ -11,12 +12,13 @@ namespace
 	Mesh line_mesh;
 	Mesh point_mesh;
 	Mesh box_mesh;
+	Grid_Font debug_font;
 }
 
 void Debug::init()
 {
 	// Load material
-	debug_mat.load_file("res/debug.vert", "res/debug.frag");
+	debug_mat.load_file("res/shader/debug.vert", "res/shader/debug.frag");
 
 	// Load line mesh
 	const float line_data[] = {
@@ -26,7 +28,7 @@ void Debug::init()
 
 	line_mesh.init();
 	line_mesh.add_buffer(0);
-	line_mesh.bind_buffer(0, 3);
+	line_mesh.bind_attribute(0, 0, 3);
 	line_mesh.buffer_data(0, sizeof(line_data), line_data);
 	line_mesh.draw_mode = GL_LINES;
 	line_mesh.draw_num = 2;
@@ -36,7 +38,7 @@ void Debug::init()
 
 	point_mesh.init();
 	point_mesh.add_buffer(0);
-	point_mesh.bind_buffer(0, 3);
+	point_mesh.bind_attribute(0, 0, 3);
 	point_mesh.buffer_data(0, sizeof(point_data), point_data);
 	point_mesh.draw_mode = GL_POINTS;
 	point_mesh.draw_num = 1;
@@ -67,7 +69,7 @@ void Debug::init()
 
 	box_mesh.init();
 	box_mesh.add_buffer(0);
-	box_mesh.bind_buffer(0, 3);
+	box_mesh.bind_attribute(0, 0, 3);
 	box_mesh.buffer_data(0, sizeof(box_data), box_data);
 
 	box_mesh.add_element_buffer();
@@ -75,6 +77,9 @@ void Debug::init()
 
 	box_mesh.draw_mode = GL_LINES;
 	box_mesh.draw_num = 4 * 2 * 3;
+
+	// Load font
+	debug_font.load_file("res/font.tga", 6, 9);
 }
 
 void Debug::line(const Vec3& from, const Vec3& to, const Color& color, float thickness)
@@ -117,20 +122,67 @@ void Debug::box(const Vec3& position, const Vec3& scale, const Quat& rotation, c
 	box(mat_translation(position) * rotation.matrix() * mat_scale(scale), color, thickness);
 }
 
+void Debug::text(const String& str, const Vec2& position, const Color& foreground, const Color& background, const Vec2& alignment)
+{
+	Text_Info& info = text_list.add_default();
+	info.string = str;
+	info.position = position;
+	info.alignment = alignment;
+	info.foreground = foreground;
+	info.background = background;
+}
+
+void Debug::print(const String& str, float duration)
+{
+	Print_Info& info = print_list.add_default();
+	info.string = str;
+	info.print_time = time_elapsed();
+	info.duration = duration;
+}
+
 void Debug::render(const Render_Info& info)
 {
+	// Draw list
 	debug_mat.use();
 	debug_mat.set("u_ViewProjection", info.view_projection);
 
-	for(const auto& info : draw_list)
+	for(const auto& draw : draw_list)
 	{
-		debug_mat.set("u_Model", info.transform);
-		debug_mat.set("u_Color", info.color);
-		//glLineWidth(info.thickness);
-		glPointSize(info.thickness);
+		debug_mat.set("u_Model", draw.transform);
+		debug_mat.set("u_Color", draw.color);
+		glLineWidth(draw.thickness);
+		glPointSize(draw.thickness);
 
-		info.mesh->draw();
+		draw.mesh->draw();
 	}
 
 	draw_list.empty();
+
+	// Text list
+	for(const auto& text : text_list)
+	{
+		Grid_Font_Info font_info;
+		font_info.alignment = text.alignment;
+		font_info.foreground = text.foreground;
+		font_info.background = text.background;
+
+		debug_font.render_text(text.string, text.position, font_info, info);
+	}
+
+	text_list.empty();
+
+	// Print list
+	float y = 10.f;
+	for(int i = 0; i < print_list.count(); ++i)
+	{
+		debug_font.render_text(print_list[i].string, Vec2(10.f, y), Grid_Font_Info(), info);
+		y += debug_font.glyph_h;
+
+		// Check duration
+		if (time_since(print_list[i].print_time) >= print_list[i].duration)
+		{
+			print_list.remove_at(i);
+			i--;
+		}
+	}
 }

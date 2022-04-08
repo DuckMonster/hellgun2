@@ -2,6 +2,8 @@
 
 struct Vec2
 {
+	static const Vec2 zero;
+	static const Vec2 one;
 	static const Vec2 right;
 	static const Vec2 up;
 
@@ -18,6 +20,7 @@ struct Vec2
 	Vec2 operator+(const Vec2& other) const { return Vec2(x + other.x, y + other.y); }
 	Vec2 operator-(const Vec2& other) const { return Vec2(x - other.x, y - other.y); }
 	Vec2 operator*(float scalar) const { return Vec2(x * scalar, y * scalar); }
+	Vec2 operator*(const Vec2& other) const  { return Vec2(x * other.x, y * other.y); }
 
 	Vec2& operator+=(const Vec2& other) { x += other.x; y += other.y; return *this; }
 	Vec2& operator-=(const Vec2& other) { x -= other.x; y -= other.y; return *this; }
@@ -52,4 +55,20 @@ struct Vec3
 	Vec3& operator+=(const Vec3& other) { x += other.x; y += other.y; z += other.z; return *this; }
 	Vec3& operator-=(const Vec3& other) { x -= other.x; y -= other.y; z -= other.z; return *this; }
 	Vec3& operator*=(float scalar) { x *= scalar; y *= scalar; z *= scalar; return *this; }
+};
+
+struct Vec4
+{
+	float x;
+	float y;
+	float z;
+	float w;
+
+	Vec4() : x(0.f), y(0.f), z(0.f), w(0.f) {}
+	Vec4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
+
+	Vec4 operator+(const Vec4& other) { return Vec4(x + other.x, y + other.y, z + other.z, w + other.w); }
+	Vec4 operator-(const Vec4& other) { return Vec4(x - other.x, y - other.y, z - other.z, w - other.w); }
+	Vec4 operator*(float scalar) { return Vec4(x * scalar, y * scalar, z * scalar, w * scalar); }
+	Vec4 operator/(float scalar) { return Vec4(x / scalar, y / scalar, z / scalar, w / scalar); }
 };

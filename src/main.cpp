@@ -5,6 +5,8 @@
 #include "debug/debug.h"
 #include "resource/resourcecommon.h"
 
+#include "gfx/gridfont.h"
+
 int main()
 {
 	context.open("Hellgun", 800, 600);

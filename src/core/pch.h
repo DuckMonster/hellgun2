@@ -8,5 +8,6 @@
 #include "math/color.h"
 #include "math/matrix.h"
 #include "math/matrixmath.h"
+#include "container/string.h"
 
 #define NOMINMAX

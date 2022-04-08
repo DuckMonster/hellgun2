@@ -35,9 +35,23 @@ inline float length_sqrd(const Vec3& vec)
 	return vec.x * vec.x + vec.y * vec.y + vec.z * vec.z;
 }
 
+inline float distance(const Vec3& a, const Vec3& b)
+{
+	return length(b - a);
+}
+inline float distance_sqrd(const Vec3& a, const Vec3& b)
+{
+	return length_sqrd(b - a);
+}
+
 inline Vec3 normalize(const Vec3& v)
 {
 	return v / length(v);
+}
+
+inline Vec3 direction_to(const Vec3& from, const Vec3& to)
+{
+	return normalize(to - from);
 }
 
 inline float dot(const Vec2& a, const Vec2& b)
@@ -57,7 +71,17 @@ inline Vec3 cross(const Vec3& a, const Vec3& b)
 	);
 }
 
+inline Vec3 constrain_to_direction(const Vec3& a, const Vec3& direction)
+{
+	return direction * dot(a, direction);
+}
 inline Vec3 constrain_to_plane(const Vec3& a, const Vec3& normal)
 {
 	return a - normal * dot(a, normal);
+}
+
+inline Vec3 arbitrary_perpendicular(const Vec3& vec)
+{
+	const Vec3 ARBITRARY = Vec3(125.2451f, -53.542148f, 854.25799856f);
+	return normalize(cross(vec, ARBITRARY));
 }

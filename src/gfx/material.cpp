@@ -3,71 +3,88 @@
 #include <stdlib.h>
 #include "core/io.h"
 
-static GLuint load_shader(const char* name, GLenum type, const char* src, GLint src_len = -1)
+Shader Shader::load_file(GLenum type, const char* path)
 {
-	GLuint shader = glCreateShader(type);
+	Shader shader;
 
-	GLint* len_ptr = NULL;
-	if (src_len >= 0)
-		len_ptr = &src_len;
+	// Read source file
+	char* src;
+	GLint src_len;
+	load_whole_file(path, &src, &src_len);
 
-	glShaderSource(shader, 1, &src, len_ptr);
-	glCompileShader(shader);
+	// Create and upload source
+	shader.path = path;
+	shader.type = type;
+	shader.handle = glCreateShader(type);
+
+	glShaderSource(shader.handle, 1, &src, &src_len);
+	glCompileShader(shader.handle);
 
 	// Compile result
-	GLint result;
-	glGetShaderiv(shader, GL_COMPILE_STATUS, &result);
+	int result;
+	glGetShaderiv(shader.handle, GL_COMPILE_STATUS, &result);
+	shader.compile_result = result;
 
-	if (!result)
+	if (!shader.compile_result)
 	{
 		static char BUFFER[1024];
-		glGetShaderInfoLog(shader, 1024, NULL, BUFFER);
+		glGetShaderInfoLog(shader.handle, 1024, NULL, BUFFER);
 
-		printf("Shader '%s' compile error:\n%s\n", name, BUFFER);
+		printf("Shader '%s' compile error:\n%s\n", path, BUFFER);
 	}
 
+	::free(src);
 	return shader;
+}
+
+void Shader::free()
+{
+	glDeleteShader(handle);
+	*this = Shader();
 }
 
 void Material::load_file(const char* vertex_path, const char* fragment_path)
 {
-	// Load vertex shader
-	char* vertex_src;
-	u64 vertex_len;
-	load_whole_file(vertex_path, &vertex_src, &vertex_len);
+	Array<Shader> shaders;
+	shaders.add(Shader::load_file(GL_VERTEX_SHADER, vertex_path));
+	shaders.add(Shader::load_file(GL_FRAGMENT_SHADER, fragment_path));
 
-	GLuint vertex = load_shader(vertex_path, GL_VERTEX_SHADER, vertex_src, vertex_len);
-	free(vertex_src);
+	link_program(shaders);
 
-	// Load fragment shader
-	char* fragment_src;
-	u64 fragment_len;
-	load_whole_file(fragment_path, &fragment_src, &fragment_len);
-
-	GLuint fragment = load_shader(fragment_path, GL_FRAGMENT_SHADER, fragment_src, fragment_len);
-	free(fragment_src);
-
-	create_program(vertex, vertex_path, fragment, fragment_path);
-	glDeleteShader(vertex);
-	glDeleteShader(fragment);
+	// After link, we can free all the shaders
+	for(auto& shader : shaders)
+		shader.free();
 }
 
-void Material::load_source(const char* vertex_src, const char* fragment_src)
+void Material::load_file(const char* vertex_path, const char* geometry_path, const char* fragment_path)
 {
-	GLuint vertex = load_shader("inline_vert", GL_VERTEX_SHADER, vertex_src);
-	GLuint fragment = load_shader("inline_frag", GL_FRAGMENT_SHADER, fragment_src);
+	Array<Shader> shaders;
+	shaders.add(Shader::load_file(GL_VERTEX_SHADER, vertex_path));
+	shaders.add(Shader::load_file(GL_GEOMETRY_SHADER, geometry_path));
+	shaders.add(Shader::load_file(GL_FRAGMENT_SHADER, fragment_path));
 
-	create_program(vertex, "inline_vert", fragment, "inline_frag");
+	link_program(shaders);
 
-	glDeleteShader(vertex);
-	glDeleteShader(fragment);
+	// After link, we can free all the shaders
+	for(auto& shader : shaders)
+		shader.free();
 }
 
-void Material::create_program(GLuint vertex, const char* vertex_name, GLuint fragment, const char* fragment_name)
+void Material::link_program(const Array<Shader>& shaders)
 {
 	program = glCreateProgram();
-	glAttachShader(program, vertex);
-	glAttachShader(program, fragment);
+
+	// First, check that all the shaders actually compiled correctly
+	for(const auto& shader : shaders)
+	{
+		if (!shader.compile_result)
+			return;
+	}
+
+	// Attach shaders
+	for(const auto& shader : shaders)
+		glAttachShader(program, shader.handle);
+
 	glLinkProgram(program);
 
 	// Link result
@@ -79,12 +96,12 @@ void Material::create_program(GLuint vertex, const char* vertex_name, GLuint fra
 		static char BUFFER[1024];
 		glGetProgramInfoLog(program, 1024, NULL, BUFFER);
 
-		printf("Program '%s'/'%s' link error:\n%s\n", vertex_name, fragment_name, BUFFER);
+		printf("Program link error:\n%s\n", BUFFER);
 	}
 
 	// Detach shaders
-	glDetachShader(program, vertex);
-	glDetachShader(program, fragment);
+	for(const auto& shader : shaders)
+		glDetachShader(program, shader.handle);
 }
 
 void Material::use()
@@ -92,12 +109,24 @@ void Material::use()
 	glUseProgram(program);
 }
 
+void Material::set(const char* name, const float& value)
+{
+	GLint uniform = glGetUniformLocation(program, name);
+	if (uniform == -1)
+	{
+		//printf("Uniform '%s' not found\n", name);
+		return;
+	}
+
+	glUniform1f(uniform, value);
+}
+
 void Material::set(const char* name, const Mat4& mat)
 {
 	GLint uniform = glGetUniformLocation(program, name);
 	if (uniform == -1)
 	{
-		printf("Uniform '%s' not found\n", name);
+		//printf("Uniform '%s' not found\n", name);
 		return;
 	}
 
@@ -109,7 +138,7 @@ void Material::set(const char* name, const Color& clr)
 	GLint uniform = glGetUniformLocation(program, name);
 	if (uniform == -1)
 	{
-		printf("Uniform '%s' not found\n", name);
+		//printf("Uniform '%s' not found\n", name);
 		return;
 	}
 

@@ -56,6 +56,11 @@ float time_elapsed()
 	return frame_elapsed;
 }
 
+float time_since(float time_point)
+{
+	return time_elapsed() - time_point;
+}
+
 void time_dilate(float value)
 {
 	time_dilation = value;

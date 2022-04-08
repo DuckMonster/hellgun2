@@ -24,8 +24,8 @@ Mat4 Camera::get_projection()
 	return Mat4(
 		1.f / (aspect * tan_half_fov), 0.f, 0.f, 0.f,
 		0.f, 1.f / tan_half_fov, 0.f, 0.f,
-		0.f, 0.f, -((far_plane + near_plane) / (far_plane - near_plane)), -1.f,
-		0.f, 0.f, -((2.f * far_plane * near_plane) / (far_plane - near_plane)), 0.f
+		0.f, 0.f, -((far + near) / (far - near)), -1.f,
+		0.f, 0.f, -((2.f * far * near) / (far - near)), 0.f
 	);
 }
 

@@ -10,12 +10,11 @@ struct Array
 public:
 	struct Iterator
 	{
-		Iterator(Array<T>& arr, int index) : arr(arr), index(index) {};
+		Iterator(Array<T>& arr, int index) : arr(arr), index(index) {}
 
 		Iterator& operator++() { index++; return *this; }
 		Iterator& operator--() { index--; return *this; }
 		T& operator*() { return arr[index]; }
-		const T& operator*() const { return arr[index]; }
 
 		bool operator==(const Iterator& other) { return index == other.index; }
 		bool operator!=(const Iterator& other) { return index != other.index; }
@@ -24,10 +23,32 @@ public:
 		int index = 0;
 	};
 
+	struct Const_Iterator
+	{
+		Const_Iterator(const Array<T>& arr, int index) : arr(arr), index(index) {}
+
+		Const_Iterator& operator++() { index++; return *this; }
+		Const_Iterator& operator--() { index--; return *this; }
+		const T& operator*() { return arr[index]; }
+
+		bool operator==(const Const_Iterator& other) { return index == other.index; }
+		bool operator!=(const Const_Iterator& other) { return index != other.index; }
+
+		const Array<T>& arr;
+		int index = 0;
+	};
+
 	Array() {}
+	~Array()
+	{
+		if (_data)
+			free(_data);
+	}
 
 	u32 capacity() const { return _capacity; }
 	u32 count() const { return _count; }
+	T* data() { return _data; }
+	const T* data() const { return _data; }
 
 	T& operator[](u32 index) { return _data[index]; }
 	const T& operator[](u32 index) const { return _data[index]; }
@@ -95,6 +116,8 @@ public:
 
 	Iterator begin() { return Iterator(*this, 0); }
 	Iterator end() { return Iterator(*this, _count); }
+	Const_Iterator begin() const { return Const_Iterator(*this, 0); }
+	Const_Iterator end() const { return Const_Iterator(*this, _count); }
 
 private:
 	void ensure_capacity(u32 new_capacity)

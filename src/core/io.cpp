@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void load_whole_file(const char* path, char** out_data, u64* out_size)
+void load_whole_file(const char* path, char** out_data, int* out_size)
 {
 	FILE* file = NULL;
 	fopen_s(&file, path, "rb");

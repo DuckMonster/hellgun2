@@ -2,7 +2,7 @@
 #include "math/matrix.h"
 #include "container/array.h"
 #include "gfx/mesh.h"
-#include "game/renderinfo.h"
+#include "gfx/renderinfo.h"
 
 struct Hit_Result;
 
@@ -16,8 +16,27 @@ private:
 		Color color;
 		float thickness;
 	};
-
 	Array<Draw_Info> draw_list;
+
+	struct Text_Info
+	{
+		String string;
+
+		Vec2 position;
+		Vec2 alignment;
+
+		Color foreground;
+		Color background;
+	};
+	Array<Text_Info> text_list;
+
+	struct Print_Info
+	{
+		String string;
+		float print_time;
+		float duration;
+	};
+	Array<Print_Info> print_list;
 
 public:
 	void init();
@@ -30,6 +49,9 @@ public:
 	void box(const Vec3& position, const Vec3& scale = Vec3(1.f), const Quat& rotation = Quat::identity, const Color& color = Color::red, float thickness = 2.f);
 
 	void hit_result(const Hit_Result& hit);
+
+	void text(const String& str, const Vec2& position, const Color& foreground = Color::white, const Color& background = Color::black, const Vec2& alignment = Vec2::zero);
+	void print(const String& str, float duration = 0.f);
 
 	void render(const Render_Info& info);
 };

@@ -3,6 +3,8 @@
 #include <windows.h>
 #include <gl/gl.h>
 #include <GL/glext.h>
+#undef near
+#undef far
 
 void load_gl_extensions();
 
@@ -48,5 +50,8 @@ GL_PROC(PFNGLGETPROGRAMINFOLOGPROC, glGetProgramInfoLog);
 // UNIFORMS
 GL_PROC(PFNGLGETUNIFORMLOCATIONPROC, glGetUniformLocation);
 
+GL_PROC(PFNGLUNIFORM1FPROC, glUniform1f);
 GL_PROC(PFNGLUNIFORM4FVPROC, glUniform4fv);
 GL_PROC(PFNGLUNIFORMMATRIX4FVPROC, glUniformMatrix4fv);
+
+// TEXTURES

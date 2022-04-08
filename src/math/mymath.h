@@ -26,6 +26,8 @@ public:
 	static inline float radians(float degrees) { return (degrees / 180.f) * PI; }
 	static inline float degrees(float radians) { return (radians / PI) * 180.f; }
 
+	static inline float square(float a) { return a * a; }
+
 	static inline float sin(float rad) { return sinf(rad); }
 	static inline float cos(float rad) { return cosf(rad); }
 	static inline float tan(float rad) { return tanf(rad); }
@@ -84,5 +86,11 @@ public:
 	static float pow(float base, float exponent)
 	{
 		return powf(base, exponent);
+	}
+
+	template<typename T>
+	static T lerp(T a, T b, float alpha)
+	{
+		return a + (b - a) * alpha;
 	}
 };

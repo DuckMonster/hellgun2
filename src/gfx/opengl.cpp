@@ -16,7 +16,7 @@ void handle_gl_debug(GLenum source, GLenum type, GLuint id, GLenum severity, GLs
 	if (severity == GL_DEBUG_SEVERITY_NOTIFICATION)
 		return;
 
-	printf("[OPENGL] '%s'\n", message);
+	//printf("[OPENGL] '%s'\n", message);
 }
 
 void load_gl_extensions()
@@ -51,6 +51,7 @@ void load_gl_extensions()
 	// UNIFORMS
 	LOAD_GL(glGetUniformLocation);
 
+	LOAD_GL(glUniform1f);
 	LOAD_GL(glUniform4fv);
 	LOAD_GL(glUniformMatrix4fv);
 

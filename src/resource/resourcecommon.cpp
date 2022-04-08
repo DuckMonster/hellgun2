@@ -27,12 +27,12 @@ void load_common_resources()
 	// Common_Mesh::rect
 	rect.init();
 	rect.add_buffer(0);
-	rect.bind_buffer(0, 2);
+	rect.bind_attribute(0, 0, 2);
 	rect.buffer_data(0, sizeof(RECT_DATA), RECT_DATA);
 
 	rect.draw_mode = GL_TRIANGLES;
 	rect.draw_num = 6;
 
 	// Common_Mat::test
-	test.load_file("res/test.vert", "res/test.frag");
+	test.load_file("res/shader/test.vert", "res/shader/test.frag");
 }
