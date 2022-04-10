@@ -68,9 +68,9 @@ inline Mat4 inverse(const Mat4& m)
 	inv[15] =  s0 * s5  * s10 - s0 * s6  * s9  - s4 * s1 * s10 + s4 * s2 * s9  + s8  * s1 * s6  - s8  * s2 * s5;
 
 	float det = s0 * inv[0] + s1 * inv[4] + s2 * inv[8] + s3 * inv[12];
-	if( det != 0.0 )
+	if( det != 0.f )
 	{
-		det = 1.0 / det;
+		det = 1.f / det;
 	}
 	for( int i = 0; i < 16; i++ )
 	{

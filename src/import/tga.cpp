@@ -96,7 +96,7 @@ void Tga_File::flip_vertical()
 	// Copy over every line 
 	const u32 line_size = width * channels;
 
-	for(int line = 0; line < height; ++line)
+	for(u32 line = 0; line < height; ++line)
 	{
 		char* src = buffer + (height - line - 1) * line_size;
 		char* tar = data + line * line_size;

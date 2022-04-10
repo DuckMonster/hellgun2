@@ -35,8 +35,8 @@ void handle_mouse_btn_event(GLFWwindow* window, int button, int action, int mods
 
 void handle_mouse_move_event(GLFWwindow* window, double xpos, double ypos)
 {
-	set_mouse_x(xpos);
-	set_mouse_y(ypos);
+	set_mouse_x((float)xpos);
+	set_mouse_y((float)ypos);
 }
 
 void Context::open(const char* title, u32 in_width, u32 in_height)

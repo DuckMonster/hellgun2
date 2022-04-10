@@ -8,7 +8,7 @@ u64 Hash::fnv64(const void* data, u32 size)
 	u64 hash = offset;
 	u8* bytes = (u8*)data;
 
-	for(int i = 0; i < size; ++i)
+	for(u32 i = 0; i < size; ++i)
 	{
 		hash = hash ^ bytes[i];
 		hash = hash * prime;

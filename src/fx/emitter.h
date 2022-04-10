@@ -60,7 +60,7 @@ public:
 			return;
 
 		// Kill particles
-		for(int i = 0; i < particle_vertices.count(); ++i)
+		for(u32 i = 0; i < particle_vertices.count(); ++i)
 		{
 			if (particle_vertices[i].kill_time < age)
 			{
@@ -72,7 +72,7 @@ public:
 		}
 
 		// Update particles
-		for(int i = 0; i < particles.count(); ++i)
+		for(u32 i = 0; i < particles.count(); ++i)
 			particles[i].update(particle_vertices[i]);
 
 		mesh.buffer_subdata(0, 0, particle_vertices.data_size(), particle_vertices.data());

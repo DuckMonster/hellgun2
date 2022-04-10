@@ -1,9 +1,6 @@
 #pragma once
 #include "vec.h"
-extern "C"
-{
-	float sqrtf(float);
-}
+#include <math.h>
 
 inline bool contains_nan(const Vec3& vec)
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include <intrin.h>
+#include <math.h>
 
 #define PI (3.14159265359f)
 #define HALF_PI (1.57079632679f)
@@ -7,15 +8,6 @@
 #define KINDA_SMALL_NUMBER (0.0001f)
 #define SMALL_NUMBER (0.0000001f)
 #define BIG_NUMBER (3.4e+38f)
-
-extern "C"
-{
-	float sinf(float);
-	float cosf(float);
-	float tanf(float);
-	float fabsf(float);
-	float powf(float, float);
-}
 
 class Math
 {

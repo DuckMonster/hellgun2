@@ -12,7 +12,7 @@ void Scene::destroy_entity(Entity* entity)
 
 void Scene::finish_destruction()
 {
-	for(int i = 0; i < entities.count(); ++i)
+	for(u32 i = 0; i < entities.count(); ++i)
 	{
 		if (entities[i]->marked_for_destroy)
 		{
@@ -37,7 +37,7 @@ Collider* Scene::add_collider()
 
 void Scene::destroy_collider(Collider* collider)
 {
-	for(int i=0; i<colliders.count(); ++i)
+	for(u32 i=0; i<colliders.count(); ++i)
 	{
 		if (colliders[i] == collider)
 		{

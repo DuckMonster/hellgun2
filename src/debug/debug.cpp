@@ -173,7 +173,7 @@ void Debug::render(const Render_Info& info)
 
 	// Print list
 	float y = 10.f;
-	for(int i = 0; i < print_list.count(); ++i)
+	for(u32 i = 0; i < print_list.count(); ++i)
 	{
 		debug_font.render_text(print_list[i].string, Vec2(10.f, y), Grid_Font_Info(), info);
 		y += debug_font.glyph_h;

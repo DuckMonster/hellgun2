@@ -127,7 +127,7 @@ struct String
 	{
 		String result;
 
-		u32 c_str_len = strlen(c_str);
+		u32 c_str_len = (u32)strlen(c_str);
 		result.resize(length() + c_str_len);
 		memcpy(result.data(), data(), length());
 		memcpy(result.data() + length(), c_str, c_str_len);

@@ -60,7 +60,7 @@ public:
 	}
 	~Array()
 	{
-		for(int i = 0; i < _count; ++i)
+		for(u32 i = 0; i < _count; ++i)
 			_data[i].~T();
 
 		if (_data)
@@ -176,7 +176,7 @@ public:
 	void empty()
 	{
 		// Destruct all items
-		for(int i = 0; i < _count; ++i)
+		for(u32 i = 0; i < _count; ++i)
 			_data[i].~T();
 
 		_count = 0;
