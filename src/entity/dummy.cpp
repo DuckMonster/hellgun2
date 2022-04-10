@@ -4,7 +4,7 @@
 
 void Dummy::init()
 {
-	collider = scene.add_collider();
+	collider = scene->add_collider();
 	collider->set_aabb(Vec3(3.f));
 	collider->owner = this;
 	collider->position = position;
@@ -12,7 +12,7 @@ void Dummy::init()
 
 void Dummy::on_destroyed()
 {
-	scene.destroy_collider(collider);
+	scene->destroy_collider(collider);
 }
 
 void Dummy::update()
@@ -25,7 +25,7 @@ void Dummy::update()
 	sweep_info.source_entity = this;
 	sweep_info.ignore_self = true;
 
-	Hit_Result hit = scene.sweep_aabb(aabb, velocity * time_delta(), sweep_info);
+	Hit_Result hit = scene->sweep_aabb(aabb, velocity * time_delta(), sweep_info);
 
 	position = hit.position;
 	collider->position = position;

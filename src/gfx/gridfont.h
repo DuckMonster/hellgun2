@@ -16,8 +16,8 @@ struct Grid_Font_Info
 struct Grid_Font
 {
 	Mesh mesh;
-	Material mat;
-	Texture texture;
+	Material* mat;
+	Texture* texture;
 
 	// Data for generating glyph UVs
 	float glyph_w;

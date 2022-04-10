@@ -11,12 +11,9 @@
 
 #include "math/random.h"
 
-#include "fx/emitter.h"
-
 #include <stdio.h>
 
-Game game;
-Emitter emitter;
+Game* game;
 
 void Game::init()
 {
@@ -32,36 +29,36 @@ void Game::init()
 	editor_camera.far = 1000.f;
 
 	// Spawn player
-	player = scene.spawn_entity<Player>(Vec3::zero);
+	player = scene->spawn_entity<Player>(Vec3::zero);
 
 	// Create "map"
 	Collider* collider;
 
 	// Bottom wall
-	collider = scene.add_collider();
+	collider = scene->add_collider();
 	collider->position = Vec3(0.f, -25.f, 0.f);
 	collider->set_aabb(Vec3(50.f, 1.f, 10.f));
 
 	// Top wall
-	collider = scene.add_collider();
+	collider = scene->add_collider();
 	collider->position = Vec3(0.f, 25.f, 0.f);
 	collider->set_aabb(Vec3(50.f, 1.f, 10.f));
 
 	// Left wall
-	collider = scene.add_collider();
+	collider = scene->add_collider();
 	collider->position = Vec3(-25.f, 0.f, 0.f);
 	collider->set_aabb(Vec3(1.f, 50.f, 10.f));
 
 	// Right wall
-	collider = scene.add_collider();
+	collider = scene->add_collider();
 	collider->position = Vec3(25.f, 0.f, 0.f);
 	collider->set_aabb(Vec3(1.f, 50.f, 10.f));
 
 	// Enemy spawning stuff
 	enemy_spawn_time = 2.f;
 
-	emitter.init();
-	emitter.position = Vec3(0.f, -25.f, 0.f);
+	test_system.init();
+	test_system.emitter.position = Vec3(0.f, -25.f, 0.f);
 }
 
 void Game::update()
@@ -92,7 +89,7 @@ void Game::update()
 	if (enemy_spawn_time <= 0.f)
 	{
 		Vec3 spawn_pos = Vec3(Random::range(-10.f, 10.f), Random::range(0.f, 10.f), 0.f);
-		//scene.spawn_entity<Enemy>(spawn_pos);
+		//scene->spawn_entity<Enemy>(spawn_pos);
 
 		enemy_spawn_time = Random::range(1.5f, 2.5f);
 	}
@@ -103,18 +100,18 @@ void Game::update()
 	}
 	else
 	{
-		for(auto* entity : scene.entities)
+		for(auto* entity : scene->entities)
 			entity->update();
 	}
 
-	if (scene.pending_destruction)
-		scene.finish_destruction();
+	if (scene->pending_destruction)
+		scene->finish_destruction();
 
-	emitter.update();
+	test_system.update();
 
 	// Debug text
-	debug.text(String::printf("FPS: %d", (u32)(1.f / time_delta())), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
-	debug.text(String::printf("Entity count: %d", scene.entities.count()), Vec2(context.width, 12.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+	debug->text(String::printf("FPS: %d", (u32)(1.f / time_delta())), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+	debug->text(String::printf("Entity count: %d", scene->entities.count()), Vec2(context.width, 12.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
 }
 
 void Game::editor_update()
@@ -157,14 +154,14 @@ void Game::editor_update()
 	{
 		AABB test_aabb = AABB::from_center_size(editor_camera.position + editor_camera.right(), Vec3::one);
 		Vec3 delta = editor_camera.forward() * 50.f;
-		Hit_Result hit = scene.sweep_aabb(test_aabb, delta);
+		Hit_Result hit = scene->sweep_aabb(test_aabb, delta);
 
 		Color clr = hit.has_hit ? Color::red : Color::blue;
-		debug.vector(test_aabb.center(), delta, clr);
-		debug.box(hit.position, test_aabb.size(), Quat::identity);
+		debug->vector(test_aabb.center(), delta, clr);
+		debug->box(hit.position, test_aabb.size(), Quat::identity);
 
 		if (hit.has_hit)
-			debug.vector(hit.position, hit.normal * 2.f, clr);
+			debug->vector(hit.position, hit.normal * 2.f, clr);
 	}
 }
 
@@ -185,14 +182,14 @@ void Game::render()
 	}
 	info.view_projection = info.projection * info.view;
 
-	for(auto* entity : scene.entities)
+	for(auto* entity : scene->entities)
 		entity->render(info);
-	for(auto* collider : scene.colliders)
+	for(auto* collider : scene->colliders)
 		collider->debug_draw(Color::blue);
 
-	emitter.render(info);
+	test_system.render(info);
 
-	debug.render(info);
+	debug->render(info);
 }
 
 Ray Game::get_mouse_world_ray()

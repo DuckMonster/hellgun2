@@ -25,6 +25,7 @@ void load_gl_extensions()
 	LOAD_GL(glGenBuffers);
 	LOAD_GL(glBindBuffer);
 	LOAD_GL(glBufferData);
+	LOAD_GL(glBufferSubData);
 
 	// VAO
 	LOAD_GL(glGenVertexArrays);

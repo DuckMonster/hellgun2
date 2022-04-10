@@ -1,6 +1,7 @@
 #pragma once
 #include "camera.h"
 #include "math/ray.h"
+#include "fx/testsystem.h"
 
 #define EDITOR_CAM_SPD (15.f)
 #define EDITOR_CAM_SENS (0.001f)
@@ -24,9 +25,11 @@ struct Game
 	bool editor_mode = false;
 	i32 time_dilation_exp = 0;
 
+	Test_System test_system;
+
 private:
 	void editor_update();
 	void change_time_dilation(i32 delta);
 };
 
-extern Game game;
+extern Game* game;

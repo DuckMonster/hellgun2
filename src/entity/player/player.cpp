@@ -7,6 +7,7 @@
 #include "bullet.h"
 #include "math/plane.h"
 #include "ammodrop.h"
+#include "resource/resource.h"
 #include <stdio.h>
 
 void Player::init()
@@ -26,24 +27,24 @@ void Player::update()
 		Vec3 aim_position = calculate_aim_position();
 		Vec3 direction = normalize(aim_position - position);
 
-		Bullet* bullet = scene.spawn_entity<Bullet>(position);
+		Bullet* bullet = scene->spawn_entity<Bullet>(position);
 		bullet->velocity = direction * 120.f;
 
 		velocity += -direction * 20.f;
 		ammo--;
 
-		debug.print("POW!", 2.f);
+		debug->print("POW!", 2.f);
 	}
 
 	update_movement();
 	move(velocity * time_delta());
 
 	// Check for ammo drops
-	Ammo_Drop* ammo = scene.sphere_find_entity<Ammo_Drop>(position, 1.f);
+	Ammo_Drop* ammo = scene->sphere_find_entity<Ammo_Drop>(position, 1.f);
 	if (ammo)
 	{
 		gain_ammo();
-		scene.destroy_entity(ammo);
+		scene->destroy_entity(ammo);
 	}
 }
 
@@ -53,7 +54,7 @@ void Player::update_movement()
 	if (is_grounded)
 	{
 		AABB box = AABB::from_center_size(position, Vec3(1.f));
-		Hit_Result hit = scene.sweep_aabb(box, Vec3(0.f, -0.1f, 0.f));
+		Hit_Result hit = scene->sweep_aabb(box, Vec3(0.f, -0.1f, 0.f));
 
 		// No ground under us, we're airborne!
 		if (!hit.has_hit)
@@ -65,7 +66,7 @@ void Player::update_movement()
 		if (velocity.y < 1.2f)
 		{
 			AABB box = AABB::from_center_size(position, Vec3(1.f));
-			Hit_Result hit = scene.sweep_aabb(box, Vec3(0.f, -0.1f, 0.f));
+			Hit_Result hit = scene->sweep_aabb(box, Vec3(0.f, -0.1f, 0.f));
 
 			if (hit.has_hit)
 			{
@@ -130,7 +131,7 @@ void Player::move(Vec3 delta)
 	while(!is_nearly_zero(delta) && ++it < 10)
 	{
 		AABB box = AABB::from_center_size(position, Vec3::one);
-		Hit_Result hit = scene.sweep_aabb(box, delta);
+		Hit_Result hit = scene->sweep_aabb(box, delta);
 
 		if (hit.is_penetrating)
 		{
@@ -155,11 +156,11 @@ void Player::move(Vec3 delta)
 
 void Player::render(const Render_Info& info)
 {
-	auto& mat = Common_Mat::test;
+	Material* mat = Resource::load_material("res/shader/test.vert", "res/shader/test.frag");
 
-	mat.use();
-	mat.set("u_ViewProjection", info.view_projection);
-	mat.set("u_Model", mat_translation(position));
+	mat->use();
+	mat->set("u_ViewProjection", info.view_projection);
+	mat->set("u_Model", mat_translation(position));
 
 	auto& mesh = Common_Mesh::rect;
 	mesh.bind();
@@ -168,7 +169,7 @@ void Player::render(const Render_Info& info)
 
 Vec3 Player::calculate_aim_position()
 {
-	Ray mouse_ray = game.get_mouse_world_ray();
+	Ray mouse_ray = game->get_mouse_world_ray();
 	Plane game_plane = Plane(Vec3::zero, Vec3(0.f, 0.f, 1.f));
 
 	Vec3 aim_position;

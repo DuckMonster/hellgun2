@@ -5,17 +5,17 @@
 
 void Bullet::update()
 {
-	Hit_Result hit = scene.sweep_aabb(AABB::from_center_size(position, Vec3(0.5f)), velocity * time_delta());
+	Hit_Result hit = scene->sweep_aabb(AABB::from_center_size(position, Vec3(0.5f)), velocity * time_delta());
 	if (hit.has_hit)
 	{
-		scene.destroy_entity(this);
+		scene->destroy_entity(this);
 		if (hit.collider->owner)
-			scene.destroy_entity(hit.collider->owner);
+			scene->destroy_entity(hit.collider->owner);
 
 		// Spawn ammo drop
 		Vec3 drop_velocity = velocity - constrain_to_direction(velocity, hit.normal) * 1.5f;
 
-		Ammo_Drop* drop = scene.spawn_entity<Ammo_Drop>(hit.position + hit.normal * 0.5f);
+		Ammo_Drop* drop = scene->spawn_entity<Ammo_Drop>(hit.position + hit.normal * 0.5f);
 		drop->velocity = drop_velocity;
 	}
 	else
@@ -23,7 +23,7 @@ void Bullet::update()
 		position += velocity * time_delta();
 
 		if (get_age() > 2.f)
-			scene.destroy_entity(this);
+			scene->destroy_entity(this);
 	}
 }
 

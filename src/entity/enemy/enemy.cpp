@@ -6,7 +6,7 @@
 
 void Enemy::init()
 {
-	collider = scene.add_collider();
+	collider = scene->add_collider();
 	collider->set_aabb(Vec3(3.f));
 	collider->owner = this;
 	collider->position = position;
@@ -14,12 +14,12 @@ void Enemy::init()
 
 void Enemy::on_destroyed()
 {
-	scene.destroy_collider(collider);
+	scene->destroy_collider(collider);
 }
 
 void Enemy::update() 
 {
-	Vec3 direction = direction_to(position, game.player->position);
+	Vec3 direction = direction_to(position, game->player->position);
 	position += direction * ENEMY_SPD * time_delta();
 
 	collider->position = position;

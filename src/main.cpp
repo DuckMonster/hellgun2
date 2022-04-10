@@ -2,10 +2,10 @@
 #include "core/context.h"
 #include "core/input.h"
 #include "game/game.h"
+#include "game/scene.h"
 #include "debug/debug.h"
 #include "resource/resourcecommon.h"
-
-#include "gfx/gridfont.h"
+#include "test.h"
 
 int main()
 {
@@ -16,8 +16,13 @@ int main()
 	time_init();
 	load_common_resources();
 
-	debug.init();
-	game.init();
+	debug = new Debug();
+	debug->init();
+
+	game = new Game();
+	scene = new Scene();
+
+	game->init();
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -33,7 +38,11 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		game.update();
-		game.render();
+		game->update();
+		game->render();
 	}
+
+	delete game;
+	delete scene;
+	delete debug;
 }

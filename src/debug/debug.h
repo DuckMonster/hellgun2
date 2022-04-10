@@ -55,5 +55,4 @@ public:
 
 	void render(const Render_Info& info);
 };
-
-extern Debug debug;
+extern Debug* debug;

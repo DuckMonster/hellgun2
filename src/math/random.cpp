@@ -8,7 +8,7 @@ int Random::number(int max)
 int Random::range(int min, int max)
 {
 	if (max < min)
-		Math::swap(min, max);
+		swap(min, max);
 
 	return min + (rand() % (max - min));
 }

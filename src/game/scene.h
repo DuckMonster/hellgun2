@@ -54,4 +54,4 @@ public:
 
 	Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, Sweep_Info info = Sweep_Info());
 };
-extern Scene scene;
+extern Scene* scene;

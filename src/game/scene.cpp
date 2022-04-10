@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "entity/entity.h"
 
-Scene scene;
+Scene* scene;
 
 void Scene::destroy_entity(Entity* entity)
 {

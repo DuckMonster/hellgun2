@@ -34,7 +34,7 @@ void Collider::debug_draw(const Color& clr, float thickness) const
 	{
 		case Shape_Type::AABB:
 		{
-			debug.box(position, size, Quat::identity, clr, thickness);
+			debug->box(position, size, Quat::identity, clr, thickness);
 			return;
 		}
 

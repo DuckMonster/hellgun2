@@ -20,7 +20,13 @@ void Mesh::bind_attribute(u32 buffer_idx, u32 attr_idx, u32 num_elements, u64 st
 void Mesh::buffer_data(u32 idx, u64 size, const void* data)
 {
 	glBindBuffer(GL_ARRAY_BUFFER, buffers[idx]);
-	glBufferData(GL_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, size, data, storage_mode);
+}
+
+void Mesh::buffer_subdata(u32 idx, u64 offset, u64 size, const void* data)
+{
+	glBindBuffer(GL_ARRAY_BUFFER, buffers[idx]);
+	glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 }
 
 void Mesh::add_element_buffer()

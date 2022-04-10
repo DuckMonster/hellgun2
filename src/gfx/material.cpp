@@ -30,7 +30,7 @@ Shader Shader::load_file(GLenum type, const char* path)
 		static char BUFFER[1024];
 		glGetShaderInfoLog(shader.handle, 1024, NULL, BUFFER);
 
-		printf("Shader '%s' compile error:\n%s\n", path, BUFFER);
+		error("Shader '%s' compile error:\n%s\n", path, BUFFER);
 	}
 
 	::free(src);
@@ -96,7 +96,7 @@ void Material::link_program(const Array<Shader>& shaders)
 		static char BUFFER[1024];
 		glGetProgramInfoLog(program, 1024, NULL, BUFFER);
 
-		printf("Program link error:\n%s\n", BUFFER);
+		error("Program link error:\n%s\n", BUFFER);
 	}
 
 	// Detach shaders

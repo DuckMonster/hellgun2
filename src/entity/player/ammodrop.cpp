@@ -12,7 +12,7 @@ void Ammo_Drop::update()
 
 	velocity -= velocity * friction * time_delta();
 
-	Hit_Result hit = scene.sweep_aabb(AABB::from_center_size(position, Vec3(1.f)), velocity * time_delta());
+	Hit_Result hit = scene->sweep_aabb(AABB::from_center_size(position, Vec3(1.f)), velocity * time_delta());
 	if (hit.has_hit)
 	{
 		position = hit.position;

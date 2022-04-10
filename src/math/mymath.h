@@ -62,14 +62,6 @@ public:
  	static float max(float a, float b, float c) { return a > b ? (a > c ? a : c) : (b > c ? b : c); }
 
 	template<typename T>
-	static void swap(T& a, T& b)
-	{
-		T temp = a;
-		a = b;
-		b = temp;
-	}
-
-	template<typename T>
 	static T clamp(T value, T min, T max)
 	{
 		if (min > max)

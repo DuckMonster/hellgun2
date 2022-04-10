@@ -1,15 +1,6 @@
 #include "gridfont.h"
 #include "import/tga.h"
-
-static const float QUAD[] = {
-	-1.f, -1.f,		0.f, 0.f,
-	1.f, -1.f,		1.f, 0.f,
-	1.f, 1.f,		1.f, 1.f,
-
-	-1.f, -1.f,		0.f, 0.f,
-	1.f, 1.f,		1.f, 1.f,
-	-1.f, 1.f,		0.f, 1.f,
-};
+#include "resource/resource.h"
 
 void Grid_Font::load_file(const char* path, u32 glyph_w, u32 glyph_h)
 {
@@ -18,27 +9,18 @@ void Grid_Font::load_file(const char* path, u32 glyph_w, u32 glyph_h)
 	mesh.bind_attribute(0, 0, 2, 4 * sizeof(float), 0);
 	mesh.bind_attribute(0, 1, 2, 4 * sizeof(float), 2 * sizeof(float));
 
-	mesh.buffer_data(0, sizeof(QUAD), QUAD);
-	mesh.draw_num = 6;
-
-	mat.load_file("res/shader/gridfont.vert", "res/shader/gridfont.frag");
-
-	Tga_File tga;
-	tga.load("res/ui/font.tga");
-	tga.flip_vertical();
+	mat = Resource::load_material("res/shader/gridfont.vert", "res/shader/gridfont.frag");
+	texture = Resource::load_texture("res/ui/font.tga");
 
 	this->glyph_w = glyph_w;
 	this->glyph_h = glyph_h;
 
-	glyph_u = (float)glyph_w / tga.width;
-	glyph_v = (float)glyph_h / tga.height;
-	stride_u = (float)(glyph_w + 1) / tga.width;
-	stride_v = (float)(glyph_h + 1) / tga.height;
+	glyph_u = (float)glyph_w / texture->width;
+	glyph_v = (float)glyph_h / texture->height;
+	stride_u = (float)(glyph_w + 1) / texture->width;
+	stride_v = (float)(glyph_h + 1) / texture->height;
 
-	row_count = tga.width / (glyph_w + 1);
-
-	texture.init();
-	texture.load_data(tga.data, tga.width, tga.height, tga.channels);
+	row_count = texture->width / (glyph_w + 1);
 }
 
 void Grid_Font::render_text(const String& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info)
@@ -57,12 +39,12 @@ void Grid_Font::render_text(const String& str, Vec2 position, const Grid_Font_In
 	mesh.buffer_data(0, glyphs.count() * sizeof(Glyph), glyphs.data());
 	mesh.draw_num = glyphs.count() * 6;
 
-	mat.use();
-	mat.set("u_ViewProjection", render_info.ui_canvas);
-	mat.set("u_Foreground", font_info.foreground);
-	mat.set("u_Background", font_info.background);
+	mat->use();
+	mat->set("u_ViewProjection", render_info.ui_canvas);
+	mat->set("u_Foreground", font_info.foreground);
+	mat->set("u_Background", font_info.background);
 
-	texture.bind();
+	texture->bind();
 	mesh.draw();
 }
 

@@ -4,7 +4,7 @@
 #include "gfx/gridfont.h"
 #include "game/game.h"
 
-Debug debug;
+Debug* debug;
 
 namespace
 {
