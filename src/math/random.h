@@ -12,5 +12,6 @@ public:
 
 	static Vec3 point_on_sphere(float radius);
 	static Vec3 point_on_cone(const Vec3& cone_direction, float cone_angle);
+	static Vec3 point_on_circle(const Vec3& circle_normal);
 	static Color color();
 };

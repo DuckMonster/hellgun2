@@ -1,23 +1,16 @@
 #pragma once
 #include "gfx/renderinfo.h"
+#include "particlesystem.h"
 #include "emitter.h"
 
-struct Test_Particle
-{
-	Vec3 velocity;
-	void update(Particle_Vertex& vertex)
-	{
-		vertex.position += velocity * time_delta();
-	}
-};
-
-class Test_System
+class Test_System : public Particle_System
 {
 public:
-	Emitter<Test_Particle> emitter;
-	float spawn_timer = 0.f;
+	Simple_Emitter* tri_emitter;
+	Simple_Emitter* star_emitter;
+
+	float next_spawn_time = 0.f;
 
 	void init();
-	void update();
-	void render(const Render_Info& render_info);
+	void system_update() override;
 };

@@ -8,6 +8,8 @@ struct Sweep_Info
 {
 	Entity* source_entity = NULL;
 	bool ignore_self = false;
+
+	Collider_Object_Type object_mask = COBJ_All;
 };
 
 struct Scene

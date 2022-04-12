@@ -11,5 +11,6 @@ class Resource
 
 public:
 	static Material* load_material(const char* vert_path, const char* frag_path);
+	static Material* load_material(const char* vert_path, const char* geom_path, const char* frag_path);
 	static Texture* load_texture(const char* path);
 };

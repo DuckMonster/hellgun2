@@ -1,33 +1,45 @@
 #include "testsystem.h"
 #include "math/random.h"
+#include "resource/resource.h"
+#include "debug/debug.h"
 
 void Test_System::init()
 {
-	emitter.init();
+	tri_emitter = add_emitter<Simple_Emitter>(Resource::load_material(
+		"res/shader/fx/particle.vert",
+		"res/shader/fx/particle_triangle.geom",
+		"res/shader/fx/particle.frag"
+	));
+
+	star_emitter = add_emitter<Simple_Emitter>(Resource::load_material(
+		"res/shader/fx/particle.vert",
+		"res/shader/fx/particle_star.geom",
+		"res/shader/fx/particle.frag"
+	));
 }
 
-void Test_System::update()
+void Test_System::system_update()
 {
-	emitter.update();
-
-	spawn_timer -= time_delta();
-	if (spawn_timer <= 0.f)
+	if (time_has_reached(next_spawn_time))
 	{
-		for(int i = 0; i < 1; ++i)
-		{
-			emitter.emit_particle(
-				Vec3::zero,
-				Random::color(),
-				Random::range(0.5f, 1.5f),
-				{ Random::point_on_cone(Vec3::up, 90.f) * 10.f }
-			);
-		}
+		tri_emitter->emit_particle(
+			position,
+			Random::color(),
+			1.f,
+			Random::range(0.5f, 1.5f),
+			{ Random::point_on_sphere(10.f), Vec3::up * 50.f }
+		);
+		star_emitter->emit_particle(
+			position,
+			Random::color(),
+			1.f,
+			Random::range(2.5f, 4.8f),
+			{ Random::point_on_sphere(10.f), Vec3::up * 20.f }
+		);
 
-		spawn_timer = 1.f;
+		next_spawn_time = time_elapsed() + 0.1f;
 	}
-}
 
-void Test_System::render(const Render_Info& render_info)
-{
-	emitter.render(render_info);
+	if (get_age() > 3.f)
+		finish_system();
 }

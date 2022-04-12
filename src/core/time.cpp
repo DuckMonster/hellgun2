@@ -27,6 +27,8 @@ void time_init()
 	QueryPerformanceFrequency((LARGE_INTEGER*)&clk_freq);
 	QueryPerformanceCounter((LARGE_INTEGER*)&clk_begin);
 	QueryPerformanceCounter((LARGE_INTEGER*)&clk_prev);
+
+	frame_delta = frame_elapsed = 0.f;
 }
 
 void time_update()
@@ -35,7 +37,7 @@ void time_update()
 	QueryPerformanceCounter((LARGE_INTEGER*)&clk_now);
 
 	frame_delta = calc_delta_between(clk_prev, clk_now);
-	frame_elapsed = calc_delta_between(clk_begin, clk_now);
+	frame_elapsed += frame_delta * time_dilation;
 
 	clk_prev = clk_now;
 
@@ -55,10 +57,18 @@ float time_elapsed()
 {
 	return frame_elapsed;
 }
+float time_elapsed_raw()
+{
+	return calc_delta_between(clk_begin, clk_prev);
+}
 
 float time_since(float time_point)
 {
 	return time_elapsed() - time_point;
+}
+bool time_has_reached(float time_point)
+{
+	return time_elapsed() >= time_point;
 }
 
 void time_dilate(float value)

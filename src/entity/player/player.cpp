@@ -8,6 +8,10 @@
 #include "math/plane.h"
 #include "ammodrop.h"
 #include "resource/resource.h"
+#include "fx/fx.h"
+#include "fx/weapon/muzzleflashsystem.h"
+#include "fx/surfaceimpactsystem.h"
+
 #include <stdio.h>
 
 void Player::init()
@@ -28,12 +32,14 @@ void Player::update()
 		Vec3 direction = normalize(aim_position - position);
 
 		Bullet* bullet = scene->spawn_entity<Bullet>(position);
-		bullet->velocity = direction * 120.f;
+		bullet->velocity = direction * 400.f;
 
 		velocity += -direction * 20.f;
 		ammo--;
 
 		debug->print("POW!", 2.f);
+
+		fx->spawn_system<Muzzle_Flash_System>(position, direction);
 	}
 
 	update_movement();
@@ -53,8 +59,7 @@ void Player::update_movement()
 	// Update grounded
 	if (is_grounded)
 	{
-		AABB box = AABB::from_center_size(position, Vec3(1.f));
-		Hit_Result hit = scene->sweep_aabb(box, Vec3(0.f, -0.1f, 0.f));
+		Hit_Result hit = sweep(Vec3(0.f, -0.1f, 0.f));
 
 		// No ground under us, we're airborne!
 		if (!hit.has_hit)
@@ -65,8 +70,7 @@ void Player::update_movement()
 		// Only re-ground ourselves if we're actully moving downwards
 		if (velocity.y < 1.2f)
 		{
-			AABB box = AABB::from_center_size(position, Vec3(1.f));
-			Hit_Result hit = scene->sweep_aabb(box, Vec3(0.f, -0.1f, 0.f));
+			Hit_Result hit = sweep(Vec3(0.f, -0.1f, 0.f));
 
 			if (hit.has_hit)
 			{
@@ -89,6 +93,15 @@ void Player::update_movement()
 	{
 		velocity = Vec3(1.f, 0.f, 0.f) * get_movement_input() * PLAYER_GROUND_DASH_IMPULSE;
 		friction_scale = 0.f;
+
+		// Spawn jump FX
+		fx->spawn_system<Surface_Impact_System>(
+			position + Vec3(0.f, -0.5f, 0.f),
+			normalize(velocity),
+			Vec3::zero,
+			-normalize(velocity),
+			0.5f
+		);
 	}
 }
 
@@ -103,7 +116,18 @@ void Player::update_grounded()
 	// Jumping
 	air_jumps = 1;
 	if (key_pressed(Key::Spacebar))
+	{
 		velocity.y = PLAYER_JMP_IMPULSE;
+
+		// Spawn jump FX
+		fx->spawn_system<Surface_Impact_System>(
+			position + Vec3(0.f, -0.5f, 0.f),
+			Vec3::up,
+			Vec3::zero,
+			normalize(velocity),
+			0.5f
+		);
+	}
 }
 
 void Player::update_airborne()
@@ -122,6 +146,15 @@ void Player::update_airborne()
 	{
 		velocity.y = PLAYER_AIR_JMP_IMPULSE;
 		air_jumps--;
+
+		// Spawn jump FX
+		fx->spawn_system<Surface_Impact_System>(
+			position + Vec3(0.f, -0.5f, 0.f),
+			normalize(velocity),
+			Vec3::zero,
+			-normalize(velocity),
+			0.5f
+		);
 	}
 }
 
@@ -130,9 +163,7 @@ void Player::move(Vec3 delta)
 	int it = 0;
 	while(!is_nearly_zero(delta) && ++it < 10)
 	{
-		AABB box = AABB::from_center_size(position, Vec3::one);
-		Hit_Result hit = scene->sweep_aabb(box, delta);
-
+		Hit_Result hit = sweep(delta);
 		if (hit.is_penetrating)
 		{
 			position += hit.normal * hit.penetration_depth;
@@ -152,6 +183,17 @@ void Player::move(Vec3 delta)
 		position += delta;
 		return;
 	}
+}
+
+Hit_Result Player::sweep(const Vec3& delta)
+{
+	AABB box = AABB::from_center_size(position, Vec3::one);
+	Sweep_Info info;
+	info.source_entity = this;
+	info.ignore_self = true;
+	info.object_mask = COBJ_World;
+
+	return scene->sweep_aabb(box, delta, info);
 }
 
 void Player::render(const Render_Info& info)

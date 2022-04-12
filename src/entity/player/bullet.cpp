@@ -2,6 +2,26 @@
 #include "resource/resourcecommon.h"
 #include "game/scene.h"
 #include "ammodrop.h"
+#include "fx/fx.h"
+#include "fx/trailsystem.h"
+#include "fx/surfaceimpactsystem.h"
+
+void Bullet::init()
+{
+	Trail_Params params;
+	params.size = 0.4f;
+	params.frequency = 100.f;
+	params.color = Color::white;
+
+	trail = fx->spawn_system<Trail_System>(position, params);
+	trail->attach_to(this);
+}
+
+void Bullet::on_destroyed()
+{
+	trail->detach();
+	trail->finish_system();
+}
 
 void Bullet::update()
 {
@@ -14,9 +34,13 @@ void Bullet::update()
 
 		// Spawn ammo drop
 		Vec3 drop_velocity = velocity - constrain_to_direction(velocity, hit.normal) * 1.5f;
+		drop_velocity *= 0.5f;
 
 		Ammo_Drop* drop = scene->spawn_entity<Ammo_Drop>(hit.position + hit.normal * 0.5f);
 		drop->velocity = drop_velocity;
+
+		// Spawn FX
+		fx->spawn_system<Surface_Impact_System>(hit.position, hit.normal, normalize(velocity), normalize(drop_velocity));
 	}
 	else
 	{

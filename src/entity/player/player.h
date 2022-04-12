@@ -2,6 +2,7 @@
 #include "gfx/mesh.h"
 #include "gfx/material.h"
 #include "entity/entity.h"
+#include "collision/collision.h"
 
 #define PLAYER_SPD (25.f)
 
@@ -46,6 +47,7 @@ public:
 	void update_airborne();
 
 	void move(Vec3 delta);
+	Hit_Result sweep(const Vec3& delta);
 
 	bool is_grounded = false;
 	int air_jumps = 0;

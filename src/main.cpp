@@ -3,6 +3,7 @@
 #include "core/input.h"
 #include "game/game.h"
 #include "game/scene.h"
+#include "fx/fx.h"
 #include "debug/debug.h"
 #include "resource/resourcecommon.h"
 #include "test.h"
@@ -21,6 +22,7 @@ int main()
 
 	game = new Game();
 	scene = new Scene();
+	fx = new Fx();
 
 	game->init();
 

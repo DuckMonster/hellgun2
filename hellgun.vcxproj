@@ -12,10 +12,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <VCProjectVersion>16.0</VCProjectVersion>
-    <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{157fd51b-bc5c-497a-ba9a-c3c11e2301c8}</ProjectGuid>
-    <RootNamespace>FutureGamesSDL</RootNamespace>
+    <ProjectGuid>{157FD51B-BC5C-497A-BA9A-C3C11E2301C8}</ProjectGuid>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">

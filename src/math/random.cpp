@@ -46,6 +46,15 @@ Vec3 Random::point_on_cone(const Vec3& cone_direction, float cone_angle)
 	return roll_q * offset_q * cone_direction;
 }
 
+Vec3 Random::point_on_circle(const Vec3& circle_normal)
+{
+	float angle = Random::range(0.f, TAU);
+	Vec3 perp_a = normalize(arbitrary_perpendicular(circle_normal));
+	Vec3 perp_b = cross(circle_normal, perp_a);
+
+	return perp_a * Math::sin(angle) + perp_b * Math::cos(angle);
+}
+
 Color Random::color()
 {
 	return Color(

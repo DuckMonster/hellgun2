@@ -212,7 +212,6 @@ private:
 		}
 
 		_data = new_data;
-		printf("array grow: %u\n", _capacity);
 	}
 
 	T* _data = nullptr;

@@ -3,6 +3,15 @@
 #include "collision.h"
 class Entity;
 
+enum Collider_Object_Type
+{
+	COBJ_Player = 1 << 0,
+	COBJ_Enemy = 1 << 1,
+	COBJ_World = 1 << 2,
+
+	COBJ_All = 0xF
+};
+
 enum class Shape_Type
 {
 	Invalid,
@@ -14,6 +23,8 @@ class Collider
 public:
 	Entity* owner = nullptr;
 	Vec3 position;
+
+	Collider_Object_Type object_type;
 
 	Shape_Type shape = Shape_Type::Invalid;
 	Vec3 size;

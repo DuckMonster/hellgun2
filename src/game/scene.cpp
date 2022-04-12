@@ -59,6 +59,10 @@ Hit_Result Scene::sweep_aabb(const AABB& src, const Vec3& delta, Sweep_Info info
 
 	for(auto* collider : colliders)
 	{
+		// Collider not covered by the object mask
+		if ((collider->object_type & info.object_mask) == 0)
+			continue;
+
 		// Ignore self
 		if (info.ignore_self && info.source_entity == collider->owner)
 			continue;
