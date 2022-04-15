@@ -1,0 +1,6 @@
+test: "yo"
+test_obj:
+{
+	inner_test: 255
+	some_str: "Hello, World!"
+}

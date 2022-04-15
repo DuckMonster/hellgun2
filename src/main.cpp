@@ -7,9 +7,19 @@
 #include "debug/debug.h"
 #include "resource/resourcecommon.h"
 #include "test.h"
+#include "import/dat.h"
 
 int main()
 {
+	Dat_File dat;
+	dat.load_file("res/test.dat");
+
+	u32 test = dat.read_u32("test");
+	u32 test2 = dat.read_u32("test_obj.inner_test");
+	String str = dat.read_str("test_obj.some_str");
+	printf("test = %u, test2 = %u, str = %s\n", test, test2, str.data());
+	return 0;
+
 	context.open("Hellgun", 800, 600);
 
 	load_gl_extensions();
