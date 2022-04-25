@@ -104,6 +104,16 @@ struct String
 		_length = new_size;
 	}
 
+	// Find functions etc.
+	bool ends_with(const String& substr) const
+	{
+		// Well the substr is longer than ours so...
+		if (_length < substr._length)
+			return false;
+
+		return strncmp(_data + (_length - substr._length), substr._data, substr._length) == 0;
+	}
+
 	// Addition/etc
 	String operator+(const String& other) const
 	{

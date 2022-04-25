@@ -9,6 +9,7 @@ struct Texture
 	u32 height;
 
 	void init();
-	void bind();
+	void free();
 	void load_data(void* data, u32 width, u32 height, u8 channels);
+	void bind();
 };

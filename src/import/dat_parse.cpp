@@ -53,11 +53,12 @@ bool Dat_Parse::read_token(Dat_Token* token)
 	skip_whitespace();
 
 	token->ptr = ptr;
-	token->length = 1;
+	token->length = 0;
 
 	if (eof())
 	{
 		token->type = TOKEN_Eof;
+		token->length = 1;
 		return false;
 	}
 
@@ -73,7 +74,6 @@ bool Dat_Parse::read_token(Dat_Token* token)
 	if (alpha(*ptr))
 	{
 		token->type = TOKEN_Keyword;
-		token->length = 0;
 		while(alpha(*ptr) || digit(*ptr))
 		{
 			token->length++;
@@ -85,9 +85,17 @@ bool Dat_Parse::read_token(Dat_Token* token)
 
 	if (digit(*ptr))
 	{
+		bool has_dot = false;
+
 		token->type = TOKEN_Number;
-		while(digit(*++ptr))
+		while(digit(*ptr) || (!has_dot && *ptr == '.'))
+		{
+			if (*ptr == '.')
+				has_dot = true;
+
 			token->length++;
+			ptr++;
+		}
 
 		return true;
 	}
@@ -97,7 +105,6 @@ bool Dat_Parse::read_token(Dat_Token* token)
 		ptr++;
 
 		token->type = TOKEN_String;
-		token->length = 0;
 		token->ptr = ptr;
 
 		while(*ptr++ != '"')
@@ -123,6 +130,7 @@ bool Dat_Parse::read_token(Dat_Token* token)
 	}
 
 	throw_unexpected(ptr, String::printf("Unexpected token '%c'", *ptr));
+	token->length = 1;
 	return false;
 }
 bool Dat_Parse::peek_token(Dat_Token* token)
@@ -140,13 +148,7 @@ bool Dat_Parse::token_expect(Dat_Token* token, Dat_Token_Type type)
 	if (token == nullptr)
 		token = &temp_token;
 
-	if (!read_token(token))
-	{
-		throw_unexpected(token->ptr, String::printf("Failed to read token, expected '%s'", dat_token_type_str(type)));
-		return false;
-	}
-
-	if (token->type != type)
+	if (!read_token(token) || token->type != type)
 	{
 		throw_unexpected(token->ptr, String::printf("Unexpected token '%s', expected '%s'", dat_token_type_str(token->type), dat_token_type_str(type)));
 		return false;
@@ -178,7 +180,7 @@ Dat_Node* Dat_Parse::read_node()
 		}
 
 		default:
-			throw_unexpected(token.ptr, String::printf("Unexpected token '%.*s'", token.length, token.ptr));
+			throw_unexpected(token.ptr, String::printf("Unexpected token '%s'", dat_token_type_str(token.type)));
 			return nullptr;
 	}
 

@@ -1,9 +1,9 @@
 #pragma once
 #include "entity/entity.h"
 
-struct Ammo_Drop : public Entity
+struct Pistol_Ammo_Drop : public Entity
 {
-	ENTITY_CLASS(Ammo_Drop)
+	ENTITY_CLASS(Pistol_Ammo_Drop)
 
 public:
 	Vec3 velocity;

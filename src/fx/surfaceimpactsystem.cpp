@@ -5,11 +5,7 @@
 
 void Surface_Impact_System::init(const Vec3& normal, const Vec3& enter_direction, const Vec3& exit_direction, float scale)
 {
-	Simple_Emitter* emitter = add_emitter<Simple_Emitter>(Resource::load_material(
-		"res/shader/fx/particle.vert",
-		"res/shader/fx/particle_point.geom",
-		"res/shader/fx/particle.frag"
-	));
+	Simple_Emitter* emitter = add_emitter<Simple_Emitter>(Resource::load_material("material/fx/particle_point.mat"));
 
 	for(int i = 0; i < (int)(40 * scale); ++i)
 	{

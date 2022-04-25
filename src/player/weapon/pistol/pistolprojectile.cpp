@@ -1,12 +1,13 @@
-#include "bullet.h"
+#include "pistolprojectile.h"
+#include "resource/resource.h"
 #include "resource/resourcecommon.h"
 #include "game/scene.h"
-#include "ammodrop.h"
 #include "fx/fx.h"
 #include "fx/trailsystem.h"
 #include "fx/surfaceimpactsystem.h"
+#include "pistolammodrop.h"
 
-void Bullet::init()
+void Pistol_Projectile::init()
 {
 	Trail_Params params;
 	params.size = 0.4f;
@@ -17,13 +18,13 @@ void Bullet::init()
 	trail->attach_to(this);
 }
 
-void Bullet::on_destroyed()
+void Pistol_Projectile::on_destroyed()
 {
 	trail->detach();
 	trail->finish_system();
 }
 
-void Bullet::update()
+void Pistol_Projectile::update()
 {
 	Hit_Result hit = scene->sweep_aabb(AABB::from_center_size(position, Vec3(0.5f)), velocity * time_delta());
 	if (hit.has_hit)
@@ -36,7 +37,7 @@ void Bullet::update()
 		Vec3 drop_velocity = velocity - constrain_to_direction(velocity, hit.normal) * 1.5f;
 		drop_velocity *= 0.5f;
 
-		Ammo_Drop* drop = scene->spawn_entity<Ammo_Drop>(hit.position + hit.normal * 0.5f);
+		Pistol_Ammo_Drop* drop = scene->spawn_entity<Pistol_Ammo_Drop>(hit.position + hit.normal * 0.5f);
 		drop->velocity = drop_velocity;
 
 		// Spawn FX
@@ -51,11 +52,13 @@ void Bullet::update()
 	}
 }
 
-void Bullet::render(const Render_Info& info)
+void Pistol_Projectile::render(const Render_Info& info)
 {
-	Common_Mat::test.use();
-	Common_Mat::test.set("u_ViewProjection", info.view_projection);
-	Common_Mat::test.set("u_Model", mat_translation(position) * mat_scale(0.5f));
+	Material* mat = Resource::load_material("material/test.mat");
+
+	mat->use();
+	mat->set("u_ViewProjection", info.view_projection);
+	mat->set("u_Model", mat_translation(position) * mat_scale(0.5f));
 
 	Common_Mesh::rect.draw();
 }

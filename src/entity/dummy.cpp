@@ -1,5 +1,6 @@
 #include "dummy.h"
 #include "resource/resourcecommon.h"
+#include "resource/resource.h"
 #include "game/scene.h"
 
 void Dummy::init()
@@ -33,9 +34,11 @@ void Dummy::update()
 
 void Dummy::render(const Render_Info& info)
 {
-	Common_Mat::test.use();
-	Common_Mat::test.set("u_ViewProjection", info.view_projection);
-	Common_Mat::test.set("u_Model", mat_translation(position) * mat_scale(3.f));
+	Material* mat = Resource::load_material("material/test.mat");
+
+	mat->use();
+	mat->set("u_ViewProjection", info.view_projection);
+	mat->set("u_Model", mat_translation(position) * mat_scale(3.f));
 
 	Common_Mesh::rect.draw();
 }

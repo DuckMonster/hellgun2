@@ -31,6 +31,7 @@ class Dat_Node
 {
 public:
 	Dat_Node_Type type;
+
 	Dat_Node(Dat_Node_Type type) : type(type) {}
 };
 
@@ -42,10 +43,16 @@ public:
 		Dat_Token key;
 		Dat_Node* value;
 	};
+	Array<Key_Value> children;
 
 	Dat_Object() : Dat_Node(NODE_Object) {}
+	~Dat_Object() 
+	{
+		for(const auto& child : children)
+			delete child.value;
 
-	Array<Key_Value> children;
+		children.reset();
+	}
 	void add_child(const Dat_Token& key, Dat_Node* value)
 	{
 		Key_Value child;
@@ -79,11 +86,27 @@ public:
 
 struct Dat_File
 {
-	void load_file(const char* path);
+	~Dat_File() { free(); }
+	void load_file(const String& path);
+	void free();
 
 	// Fetching
 	Dat_Value* find_value(Dat_Object* obj, const char* path);
-	u32 read_u32(const char* path);
+	void read_data(const char* path, void* data, const char* specifier);
+	template<typename T>
+	T read_simple(const char* path, const char* specifier)
+	{
+		T result;
+		read_data(path, &result, specifier);
+
+		return result;
+	}
+
+	bool contains_value(const char* path) { return find_value(root, path) != nullptr; }
+	u32 read_u32(const char* path) { return read_simple<u32>(path, "%u"); }
+	i32 read_i32(const char* path) { return read_simple<i32>(path, "%d"); }
+	float read_f32(const char* path) { return read_simple<float>(path, "%f"); }
+
 	String read_str(const char* path);
 
 	Dat_Object* root = nullptr;

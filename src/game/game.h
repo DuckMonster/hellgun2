@@ -19,6 +19,7 @@ struct Game
 	void render();
 
 	Ray get_mouse_world_ray();
+	Vec3 get_mouse_game_position();
 
 	// EDITOR STUFF
 	bool editor_mode = false;

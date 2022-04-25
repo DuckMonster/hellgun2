@@ -1,6 +1,7 @@
 #include "enemy.h"
 #include "resource/resourcecommon.h"
-#include "entity/player/player.h"
+#include "resource/resource.h"
+#include "player/player.h"
 #include "game/game.h"
 #include "game/scene.h"
 #include "fx/fx.h"
@@ -65,9 +66,11 @@ void Enemy::update()
 
 void Enemy::render(const Render_Info& info)
 {
-	Common_Mat::test.use();
-	Common_Mat::test.set("u_ViewProjection", info.view_projection);
-	Common_Mat::test.set("u_Model", mat_translation(position) * mat_scale(3.f));
+	Material* mat = Resource::load_material("material/test.mat");
+
+	mat->use();
+	mat->set("u_ViewProjection", info.view_projection);
+	mat->set("u_Model", mat_translation(position) * mat_scale(3.f));
 
 	Common_Mesh::rect.draw();
 }

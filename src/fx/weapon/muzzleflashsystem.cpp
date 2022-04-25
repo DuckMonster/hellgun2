@@ -5,11 +5,7 @@
 
 void Muzzle_Flash_System::init(const Vec3& direction)
 {
-	auto* point_emitter = add_emitter<Simple_Emitter>(Resource::load_material(
-		"res/shader/fx/particle.vert",
-		"res/shader/fx/particle_point.geom",
-		"res/shader/fx/particle.frag"
-	));
+	auto* point_emitter = add_emitter<Simple_Emitter>(Resource::load_material("material/fx/particle_point.mat"));
 
 	for(int i = 0; i < 40; ++i)
 	{

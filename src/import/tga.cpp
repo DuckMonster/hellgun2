@@ -46,16 +46,16 @@ struct Tga_Image_Spec
 
 #pragma pack(pop)
 
-void Tga_File::load(const char* path)
+void Tga_File::load(const String& path)
 {
 	// Make sure we're freed first
 	free();
 
 	FILE* file;
-	fopen_s(&file, path, "rb");
+	fopen_s(&file, path.data(), "rb");
 	if (file == nullptr)
 	{
-		printf("Failed to load TGA file '%s', file doesn't exist", path);
+		printf("Failed to load TGA file '%s', file doesn't exist", path.data());
 		return;
 	}
 

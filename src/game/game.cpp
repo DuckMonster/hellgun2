@@ -6,10 +6,11 @@
 #include "collision/collider.h"
 #include "scene.h"
 
-#include "entity/player/player.h"
+#include "player/player.h"
 #include "entity/enemy/enemy.h"
 
 #include "math/random.h"
+#include "math/plane.h"
 #include "fx/fx.h"
 
 #include <stdio.h>
@@ -219,6 +220,17 @@ Ray Game::get_mouse_world_ray()
 	Vec3 direction = normalize(Vec3(far.x, far.y, far.z) - origin);
 
 	return Ray(origin, direction);
+}
+
+Vec3 Game::get_mouse_game_position()
+{
+	Plane game_plane = Plane(Vec3::zero, Vec3(0.f, 0.f, 1.f));
+	Ray ray = get_mouse_world_ray();
+
+	Vec3 position;
+	ray.intersect(game_plane, &position);
+
+	return position;
 }
 
 void Game::change_time_dilation(i32 delta)

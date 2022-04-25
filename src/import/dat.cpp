@@ -2,16 +2,33 @@
 #include "dat_parse.h"
 #include "core/io.h"
 
-void Dat_File::load_file(const char* path)
+void Dat_File::free()
 {
+	if (root)
+	{
+		delete root;
+		root = nullptr;
+	}
+
+	if (buffer)
+	{
+		::free(buffer);
+		buffer = nullptr;
+	}
+}
+
+void Dat_File::load_file(const String& path)
+{
+	free();
+
 	u32 buffer_size;
-	load_whole_file(path, &buffer, (int*)&buffer_size);
+	load_whole_file(path.data(), &buffer, (int*)&buffer_size);
 
 	Dat_Parse parser;
 	root = parser.parse(buffer, buffer_size);
 
 	if (parser.has_error)
-		printf("Parsing dat file '%s' resulted in errors\n", path);
+		printf("Parsing dat file '%s' resulted in errors\n", path.data());
 }
 
 Dat_Value* Dat_File::find_value(Dat_Object* obj, const char* path)
@@ -46,20 +63,16 @@ Dat_Value* Dat_File::find_value(Dat_Object* obj, const char* path)
 	return (Dat_Value*)node;
 }
 
-u32 Dat_File::read_u32(const char* path)
+void Dat_File::read_data(const char* path, void* data, const char* specifier)
 {
-	u32 result = 0;
-
-	Dat_Value* node = find_value(root, path);
-	if (node == nullptr)
+	Dat_Value* value = find_value(root, path);
+	if (value == nullptr)
 	{
-		printf("Dat path '%s' was not valid\n", path);
-		return result;
+		printf("Dat path '%s' was invalid\n", path);
+		return;
 	}
 
-	sscanf_s(node->token.ptr, "%u", &result);
-
-	return result;
+	sscanf_s(value->token.ptr, specifier, data);
 }
 
 String Dat_File::read_str(const char* path)

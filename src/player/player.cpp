@@ -4,18 +4,18 @@
 #include "game/game.h"
 #include "game/scene.h"
 #include "resource/resourcecommon.h"
-#include "bullet.h"
 #include "math/plane.h"
-#include "ammodrop.h"
 #include "resource/resource.h"
 #include "fx/fx.h"
 #include "fx/weapon/muzzleflashsystem.h"
 #include "fx/surfaceimpactsystem.h"
+#include "weapon/pistol/pistol.h"
 
 #include <stdio.h>
 
 void Player::init()
 {
+	weapon = new Pistol();
 }
 
 void Player::update()
@@ -26,32 +26,10 @@ void Player::update()
 	if (key_down(Key::D))
 		input.x += 1.f;
 
-	if (mouse_pressed(Mouse_Btn::Left) && ammo > 0)
-	{
-		Vec3 aim_position = calculate_aim_position();
-		Vec3 direction = normalize(aim_position - position);
-
-		Bullet* bullet = scene->spawn_entity<Bullet>(position);
-		bullet->velocity = direction * 400.f;
-
-		velocity += -direction * 20.f;
-		ammo--;
-
-		debug->print("POW!", 2.f);
-
-		fx->spawn_system<Muzzle_Flash_System>(position, direction);
-	}
+	weapon->update();
 
 	update_movement();
 	move(velocity * time_delta());
-
-	// Check for ammo drops
-	Ammo_Drop* ammo = scene->sphere_find_entity<Ammo_Drop>(position, 1.f);
-	if (ammo)
-	{
-		gain_ammo();
-		scene->destroy_entity(ammo);
-	}
 }
 
 void Player::update_movement()
@@ -198,7 +176,7 @@ Hit_Result Player::sweep(const Vec3& delta)
 
 void Player::render(const Render_Info& info)
 {
-	Material* mat = Resource::load_material("res/shader/test.vert", "res/shader/test.frag");
+	Material* mat = Resource::load_material("material/test.mat");
 
 	mat->use();
 	mat->set("u_ViewProjection", info.view_projection);

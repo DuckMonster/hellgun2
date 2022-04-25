@@ -3,105 +3,57 @@
 #include <stdlib.h>
 #include "core/io.h"
 
-Shader Shader::load_file(GLenum type, const char* path)
+void Material::link_program(const Array<Shader*>& shaders)
 {
-	Shader shader;
-
-	// Read source file
-	char* src;
-	GLint src_len;
-	load_whole_file(path, &src, &src_len);
-
-	// Create and upload source
-	shader.path = path;
-	shader.type = type;
-	shader.handle = glCreateShader(type);
-
-	glShaderSource(shader.handle, 1, &src, &src_len);
-	glCompileShader(shader.handle);
-
-	// Compile result
-	int result;
-	glGetShaderiv(shader.handle, GL_COMPILE_STATUS, &result);
-	shader.compile_result = result;
-
-	if (!shader.compile_result)
-	{
-		static char BUFFER[1024];
-		glGetShaderInfoLog(shader.handle, 1024, NULL, BUFFER);
-
-		error("Shader '%s' compile error:\n%s\n", path, BUFFER);
-	}
-
-	::free(src);
-	return shader;
-}
-
-void Shader::free()
-{
-	glDeleteShader(handle);
-	*this = Shader();
-}
-
-void Material::load_file(const char* vertex_path, const char* fragment_path)
-{
-	Array<Shader> shaders;
-	shaders.add(Shader::load_file(GL_VERTEX_SHADER, vertex_path));
-	shaders.add(Shader::load_file(GL_FRAGMENT_SHADER, fragment_path));
-
-	link_program(shaders);
-
-	// After link, we can free all the shaders
-	for(auto& shader : shaders)
-		shader.free();
-}
-
-void Material::load_file(const char* vertex_path, const char* geometry_path, const char* fragment_path)
-{
-	Array<Shader> shaders;
-	shaders.add(Shader::load_file(GL_VERTEX_SHADER, vertex_path));
-	shaders.add(Shader::load_file(GL_GEOMETRY_SHADER, geometry_path));
-	shaders.add(Shader::load_file(GL_FRAGMENT_SHADER, fragment_path));
-
-	link_program(shaders);
-
-	// After link, we can free all the shaders
-	for(auto& shader : shaders)
-		shader.free();
-}
-
-void Material::link_program(const Array<Shader>& shaders)
-{
+	free();
 	program = glCreateProgram();
+	link_result = false;
 
 	// First, check that all the shaders actually compiled correctly
-	for(const auto& shader : shaders)
+	for(const auto* shader : shaders)
 	{
-		if (!shader.compile_result)
+		if (!shader->compile_result)
+		{
+			error = "Shaders had compile errors";
 			return;
+		}
 	}
 
 	// Attach shaders
-	for(const auto& shader : shaders)
-		glAttachShader(program, shader.handle);
+	for(const auto* shader : shaders)
+		glAttachShader(program, shader->handle);
 
 	glLinkProgram(program);
 
 	// Link result
-	GLint result;
-	glGetProgramiv(program, GL_LINK_STATUS, &result);
+	GLint _result;
+	glGetProgramiv(program, GL_LINK_STATUS, &_result);
 
-	if (!result)
+	link_result = _result;
+
+	if (!link_result)
 	{
-		static char BUFFER[1024];
-		glGetProgramInfoLog(program, 1024, NULL, BUFFER);
+		// Fetch length first
+		GLsizei error_length;
+		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &error_length);
 
-		error("Program link error:\n%s\n", BUFFER);
+		// Then fetch error
+		error.resize(error_length);
+		glGetProgramInfoLog(program, error_length, nullptr, error.data());
 	}
 
 	// Detach shaders
-	for(const auto& shader : shaders)
-		glDetachShader(program, shader.handle);
+	for(const auto* shader : shaders)
+		glDetachShader(program, shader->handle);
+}
+
+void Material::free()
+{
+	if (program == GL_INVALID_INDEX)
+		return;
+
+	glDeleteProgram(program);
+	program = GL_INVALID_INDEX;
 }
 
 void Material::use()

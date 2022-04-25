@@ -13,6 +13,11 @@ void Texture::init()
 	width = height = 0;
 }
 
+void Texture::free()
+{
+	glDeleteTextures(1, &handle);
+}
+
 void Texture::bind()
 {
 	glBindTexture(GL_TEXTURE_2D, handle);

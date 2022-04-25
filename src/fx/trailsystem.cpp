@@ -5,11 +5,7 @@
 void Trail_System::init(const Trail_Params& params)
 {
 	this->params = params;
-	emitter = add_emitter<Emitter<Trail_Particle>>(Resource::load_material(
-		"res/shader/fx/particle.vert",
-		"res/shader/fx/particle_trail.geom",
-		"res/shader/fx/particle.frag"
-	));
+	emitter = add_emitter<Emitter<Trail_Particle>>(Resource::load_material("material/fx/particle_trail.mat"));
 	emitter->preserve_order = true;
 	emitter->set_draw_mode(GL_LINE_STRIP);
 

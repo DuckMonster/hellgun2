@@ -5,17 +5,8 @@
 
 void Test_System::init()
 {
-	tri_emitter = add_emitter<Simple_Emitter>(Resource::load_material(
-		"res/shader/fx/particle.vert",
-		"res/shader/fx/particle_triangle.geom",
-		"res/shader/fx/particle.frag"
-	));
-
-	star_emitter = add_emitter<Simple_Emitter>(Resource::load_material(
-		"res/shader/fx/particle.vert",
-		"res/shader/fx/particle_star.geom",
-		"res/shader/fx/particle.frag"
-	));
+	tri_emitter = add_emitter<Simple_Emitter>(Resource::load_material("material/fx/particle_triangle.mat"));
+	star_emitter = add_emitter<Simple_Emitter>(Resource::load_material("material/fx/particle_star.mat"));
 }
 
 void Test_System::system_update()

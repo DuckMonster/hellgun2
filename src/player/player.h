@@ -24,6 +24,8 @@
 // DASHING
 #define PLAYER_GROUND_DASH_IMPULSE (50.f)
 
+class Weapon;
+
 class Player : public Entity
 {
 	ENTITY_CLASS(Player)
@@ -31,15 +33,15 @@ class Player : public Entity
 public:
 	Vec3 velocity;
 
-	int ammo = 6;
-	void gain_ammo() { ammo++; }
-
 	void init() override;
 	void update() override;
 	void render(const Render_Info& info) override;
 
 	Vec3 calculate_aim_position();
 	float get_movement_input();
+
+	// Weapon stuff
+	Weapon* weapon = nullptr;
 
 	// Movement stuff
 	void update_movement();

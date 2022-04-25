@@ -4,10 +4,6 @@ namespace Common_Mesh
 {
 	Mesh rect;
 }
-namespace Common_Mat
-{
-	Material test;
-}
 
 static const Vec2 RECT_DATA[] = {
 	{ -0.5f, -0.5f },
@@ -22,7 +18,6 @@ static const Vec2 RECT_DATA[] = {
 void load_common_resources()
 {
 	using namespace Common_Mesh;
-	using namespace Common_Mat;
 
 	// Common_Mesh::rect
 	rect.init();
@@ -32,7 +27,4 @@ void load_common_resources()
 
 	rect.draw_mode = GL_TRIANGLES;
 	rect.draw_num = 6;
-
-	// Common_Mat::test
-	test.load_file("res/shader/test.vert", "res/shader/test.frag");
 }

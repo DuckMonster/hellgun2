@@ -75,3 +75,25 @@ void time_dilate(float value)
 {
 	time_dilation = value;
 }
+
+Stop_Watch::Stop_Watch()
+{
+	QueryPerformanceCounter((LARGE_INTEGER*)&start_time);
+}
+
+float Stop_Watch::duration()
+{
+	u64 now;
+	QueryPerformanceCounter((LARGE_INTEGER*)&now);
+
+	return calc_delta_between(now, start_time);
+}
+
+u64 Stop_Watch::duration_ms()
+{
+	u64 now;
+	QueryPerformanceCounter((LARGE_INTEGER*)&now);
+
+	u64 delta = now - start_time;
+	return (delta * 1000) / clk_freq;
+}

@@ -1,8 +1,9 @@
-#include "ammodrop.h"
+#include "pistolammodrop.h"
 #include "game/scene.h"
 #include "resource/resourcecommon.h"
+#include "resource/resource.h"
 
-void Ammo_Drop::update()
+void Pistol_Ammo_Drop::update()
 {
 	velocity += -Vec3::up * 40.f * time_delta();
 
@@ -24,11 +25,13 @@ void Ammo_Drop::update()
 	}
 }
 
-void Ammo_Drop::render(const Render_Info& info)
+void Pistol_Ammo_Drop::render(const Render_Info& info)
 {
-	Common_Mat::test.use();
-	Common_Mat::test.set("u_ViewProjection", info.view_projection);
-	Common_Mat::test.set("u_Model", mat_translation(position) * mat_scale(1.f));
+	Material* mat = Resource::load_material("material/test.mat");
+
+	mat->use();
+	mat->set("u_ViewProjection", info.view_projection);
+	mat->set("u_Model", mat_translation(position));
 
 	Common_Mesh::rect.draw();
 }

@@ -3,9 +3,9 @@
 
 class Trail_System;
 
-class Bullet : public Entity
+class Pistol_Projectile : public Entity
 {
-	ENTITY_CLASS(Bullet)
+	ENTITY_CLASS(Pistol_Projectile)
 
 public:
 	Vec3 velocity;

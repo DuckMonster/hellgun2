@@ -42,6 +42,7 @@ void load_gl_extensions()
 	LOAD_GL(glGetShaderInfoLog);
 
 	LOAD_GL(glCreateProgram);
+	LOAD_GL(glDeleteProgram);
 	LOAD_GL(glAttachShader);
 	LOAD_GL(glDetachShader);
 	LOAD_GL(glLinkProgram);

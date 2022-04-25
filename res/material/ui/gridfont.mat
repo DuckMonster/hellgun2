@@ -1,0 +1,2 @@
+vertex: "shader/ui/gridfont.vert"
+fragment: "shader/ui/gridfont.frag"

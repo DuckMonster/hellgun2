@@ -3,12 +3,13 @@
 #include "gfx/material.h"
 #include "gfx/gridfont.h"
 #include "game/game.h"
+#include "resource/resource.h"
 
 Debug* debug;
 
 namespace
 {
-	Material debug_mat;
+	Material* debug_mat;
 	Mesh line_mesh;
 	Mesh point_mesh;
 	Mesh box_mesh;
@@ -18,7 +19,7 @@ namespace
 void Debug::init()
 {
 	// Load material
-	debug_mat.load_file("res/shader/debug.vert", "res/shader/debug.frag");
+	debug_mat = Resource::load_material("material/debug.mat");
 
 	// Load line mesh
 	const float line_data[] = {
@@ -143,13 +144,13 @@ void Debug::print(const String& str, float duration)
 void Debug::render(const Render_Info& info)
 {
 	// Draw list
-	debug_mat.use();
-	debug_mat.set("u_ViewProjection", info.view_projection);
+	debug_mat->use();
+	debug_mat->set("u_ViewProjection", info.view_projection);
 
 	for(const auto& draw : draw_list)
 	{
-		debug_mat.set("u_Model", draw.transform);
-		debug_mat.set("u_Color", draw.color);
+		debug_mat->set("u_Model", draw.transform);
+		debug_mat->set("u_Color", draw.color);
 		glLineWidth(draw.thickness);
 		glPointSize(draw.thickness);
 

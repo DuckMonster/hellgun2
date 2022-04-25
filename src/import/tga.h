@@ -2,7 +2,7 @@
 
 struct Tga_File
 {
-	void load(const char* path);
+	void load(const String& path);
 	void flip_vertical();
 	void free();
 

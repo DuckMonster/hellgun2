@@ -1,60 +1,93 @@
 #include "resource.h"
 #include "gfx/material.h"
 #include "gfx/texture.h"
+#include "core/io.h"
 #include "import/tga.h"
+#include "datresource.h"
+#include "shaderresource.h"
+#include "materialresource.h"
+#include "textureresource.h"
 #include <stdio.h>
 
-Map<String, void*> Resource::resource_map;
+String Resource::resource_root = "res/";
+Map<String, void*> Resource::old_resource_map;
+Map<String, Resource*> Resource::resource_map;
+Array<Resource*> Resource::resources;
 
 void Resource::register_resource(const String& str, void* data)
 {
-	resource_map.add(str, data);
+	old_resource_map.add(str, data);
 	printf("Resource '%s' loaded\n", str.data());
 }
 
-Material* Resource::load_material(const char* vert_path, const char* frag_path)
+Material* Resource::load_material(const String& path)
 {
-	String resource_name = String::printf("%s : %s", vert_path, frag_path);
-	if (resource_map.contains(resource_name))
-		return (Material*)resource_map[resource_name];
-
-	Material* mat = new Material();
-	mat->load_file(vert_path, frag_path);
-
-	register_resource(resource_name, mat);
-	return mat;
+	return &find_or_load_resource<Material_Resource>(path)->material;
 }
 
-Material* Resource::load_material(const char* vert_path, const char* geom_path, const char* frag_path)
+Shader* Resource::load_shader(const String& path)
 {
-	String resource_name = String::printf("%s : %s : %s", vert_path, geom_path, frag_path);
-	if (resource_map.contains(resource_name))
-		return (Material*)resource_map[resource_name];
-
-	Material* mat = new Material();
-	mat->load_file(vert_path, geom_path, frag_path);
-
-	register_resource(resource_name, mat);
-	return mat;
+	Shader_Resource* res = find_or_load_resource<Shader_Resource>(path);
+	return &res->shader;
 }
 
-Texture* Resource::load_texture(const char* path)
+Texture* Resource::load_texture(const String& path)
 {
-	String resource_name = path;
-	if (resource_map.contains(resource_name))
-		return (Texture*)resource_map[resource_name];
+	return &find_or_load_resource<Texture_Resource>(path)->texture;
+}
 
-	// Load tga file
-	Tga_File tga;
-	tga.load(path);
-	tga.flip_vertical();
+Dat_File* Resource::load_dat(const String& path)
+{
+	Dat_Resource* res = find_or_load_resource<Dat_Resource>(path);
+	return &res->dat;
+}
 
-	// Upload to texture
-	Texture* tex = new Texture();
-	tex->init();
-	tex->load_data(tga.data, tga.width, tga.height, tga.channels);
+void Resource::update_hotreload()
+{
+	bool had_hotreload = false;
+	Stop_Watch watch;
 
-	tga.free();
-	register_resource(resource_name, tex);
-	return tex;
+	Array<Resource*> resources_copy = resources;
+	for(auto* resource : resources_copy)
+	{
+		u64 new_time = get_file_modify_time(resource->path.data());
+		if (new_time != resource->file_time)
+		{
+			hotreload_resource(resource);
+			had_hotreload = true;
+		}
+	}
+
+	if (had_hotreload)
+		printf("Hot-reloading finished (%llu ms)\n", watch.duration_ms());
+}
+
+void Resource::hotreload_resource(Resource* resource)
+{
+	printf("Hot-reloading '%s'\n", resource->path.data());
+	resource->reload();
+	resource->update_file_time();
+
+	Array<Resource*> children_copy = resource->child_list;
+	for(Resource* child : children_copy)
+		hotreload_resource(child);
+}
+
+void Resource::add_dependency(Resource* resource)
+{
+	depend_list.add(resource);
+	resource->child_list.add(this);
+}
+
+void Resource::clear_dependencies()
+{
+	for(Resource* res : depend_list)
+		res->child_list.remove(this);
+
+	depend_list.empty();
+}
+
+void Resource::update_file_time()
+{
+	file_time = get_file_modify_time(path.data());
 }

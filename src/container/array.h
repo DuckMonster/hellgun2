@@ -45,7 +45,7 @@ public:
 		_count = other._count;
 		_capacity = other._capacity;
 
-		for(int i = 0; i < _count; ++i)
+		for(u32 i = 0; i < _count; ++i)
 			new(_data + i) T(other[i]);
 	}
 	Array(Array&& other)
@@ -124,6 +124,26 @@ public:
 		_count++;
 
 		return _data[_count - 1];
+	}
+
+	bool remove(const T& item)
+	{
+		u32 index = find(item);
+		if (index == INDEX_NONE)
+			return false;
+
+		remove_at(index);
+		return true;
+	}
+
+	bool remove_swap(const T& item)
+	{
+		u32 index = find(item);
+		if (index == INDEX_NONE)
+			return false;
+
+		remove_at_swap(index);
+		return true;
 	}
 
 	void remove_at(u32 index)

@@ -2,28 +2,16 @@
 #include "opengl.h"
 #include "math/matrix.h"
 #include "container/array.h"
-
-struct Shader
-{
-	static Shader load_file(GLenum type, const char* path);
-
-	const char* path = nullptr;
-	GLenum type;
-	GLuint handle;
-
-	bool compile_result = false;
-
-	void free();
-};
+#include "shader.h"
 
 struct Material
 {
-	GLuint program;
+	GLuint program = GL_INVALID_INDEX;
+	bool link_result = false;
+	String error;
 
-	void load_file(const char* vertex_path, const char* fragment_path);
-	void load_file(const char* vertex_path, const char* geometry_path, const char* fragment_path);
-
-	void link_program(const Array<Shader>& shaders);
+	void link_program(const Array<Shader*>& shaders);
+	void free();
 
 	void use();
 
