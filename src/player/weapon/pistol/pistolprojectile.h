@@ -2,12 +2,14 @@
 #include "entity/entity.h"
 
 class Trail_System;
+class Pistol;
 
 class Pistol_Projectile : public Entity
 {
 	ENTITY_CLASS(Pistol_Projectile)
 
 public:
+	Pistol* host;
 	Vec3 velocity;
 	Trail_System* trail;
 

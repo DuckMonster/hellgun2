@@ -3,6 +3,22 @@
 void Mesh::init()
 {
 	glGenVertexArrays(1, &vao);
+	for(GLuint& buffer : buffers)
+		buffer = GL_INVALID_INDEX;
+}
+
+void Mesh::free()
+{
+	glDeleteVertexArrays(1, &vao);
+	for(GLuint& buffer : buffers)
+	{
+		if (buffer == GL_INVALID_INDEX)
+			continue;
+
+		glDeleteBuffers(1, &buffer);
+		buffer = GL_INVALID_INDEX;
+	}
+
 }
 
 void Mesh::add_buffer(u32 idx)

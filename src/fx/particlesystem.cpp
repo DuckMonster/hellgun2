@@ -32,4 +32,6 @@ void Particle_System::render(const Render_Info& info)
 {
 	for(auto* emitter : emitters)
 		emitter->render(info);
+
+	system_render(info);
 }

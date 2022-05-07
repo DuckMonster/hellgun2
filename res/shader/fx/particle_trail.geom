@@ -37,16 +37,16 @@ void main()
 	vec2 pos = gl_in[0].gl_Position.xy;
 	out_data.color = in_data[0].color;
 
-	emit(pos + perpendicular * size);
 	emit(pos - perpendicular * size);
+	emit(pos + perpendicular * size);
 
 	// Other vertex
 	size = pow(1.f - in_data[1].normalized_age, 2.f) * in_data[1].scale;
 	pos = gl_in[1].gl_Position.xy;
 	out_data.color = in_data[1].color;
 
-	emit(pos + perpendicular * size);
 	emit(pos - perpendicular * size);
+	emit(pos + perpendicular * size);
 
 	EndPrimitive();
 }

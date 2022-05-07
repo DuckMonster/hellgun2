@@ -57,18 +57,18 @@ void Grid_Font::push_glyph(char chr, const Vec2& position)
 
 	Vec2 uv_base = Vec2(stride_u * x, 1.f - stride_v * y);
 	Vec2 u = Vec2(glyph_u, 0.f);
-	Vec2 v = Vec2(0.f, glyph_v);
+	Vec2 v = Vec2(0.f, -glyph_v);
 
 	Vec2 w = Vec2(glyph_w, 0.f);
 	Vec2 h = Vec2(0.f, glyph_h);
 
 	glyph.vertices[0] = { position, uv_base };
-	glyph.vertices[1] = { position + w, uv_base + u };
-	glyph.vertices[2] = { position + w + h, uv_base + u - v };
+	glyph.vertices[1] = { position + h, uv_base + v };
+	glyph.vertices[2] = { position + h + w, uv_base + v + u };
 
 	glyph.vertices[3] = { position, uv_base };
-	glyph.vertices[4] = { position + w + h, uv_base + u - v };
-	glyph.vertices[5] = { position + h, uv_base - v };
+	glyph.vertices[4] = { position + h + w, uv_base + v + u };
+	glyph.vertices[5] = { position + w, uv_base + u };
 
 	glyphs.add(glyph);
 }

@@ -1,7 +1,10 @@
 #include "pistolammodrop.h"
+#include "game/game.h"
 #include "game/scene.h"
 #include "resource/resourcecommon.h"
 #include "resource/resource.h"
+#include "player/player.h"
+#include "pistol.h"
 
 void Pistol_Ammo_Drop::update()
 {
@@ -22,6 +25,14 @@ void Pistol_Ammo_Drop::update()
 	else
 	{
 		position += velocity * time_delta();
+	}
+
+	// Check distance to player
+	if (distance_sqrd(position, game->player->position) < Math::square(PISTOL_AMMO_PICKUP_RANGE))
+	{
+		// Pick up!
+		host->ammo++;
+		scene->destroy_entity(this);
 	}
 }
 

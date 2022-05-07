@@ -2,9 +2,6 @@
 #include "camera.h"
 #include "math/ray.h"
 
-#define EDITOR_CAM_SPD (15.f)
-#define EDITOR_CAM_SENS (0.001f)
-
 class Player;
 struct Game
 {
@@ -20,14 +17,6 @@ struct Game
 
 	Ray get_mouse_world_ray();
 	Vec3 get_mouse_game_position();
-
-	// EDITOR STUFF
-	bool editor_mode = false;
-	i32 time_dilation_exp = 0;
-
-private:
-	void editor_update();
-	void change_time_dilation(i32 delta);
 };
 
 extern Game* game;

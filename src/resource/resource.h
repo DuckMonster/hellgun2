@@ -2,6 +2,7 @@
 #include "container/map.h"
 #include "container/array.h"
 
+struct Mesh;
 struct Material;
 struct Texture;
 struct Shader;
@@ -38,6 +39,7 @@ protected:
 	}
 
 public:
+	static Mesh* load_mesh(const String& path);
 	static Material* load_material(const String& path);
 	static Shader* load_shader(const String& path);
 	static Texture* load_texture(const String& path);

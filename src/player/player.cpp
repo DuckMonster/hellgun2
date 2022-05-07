@@ -176,15 +176,13 @@ Hit_Result Player::sweep(const Vec3& delta)
 
 void Player::render(const Render_Info& info)
 {
-	Material* mat = Resource::load_material("material/test.mat");
-
+	Material* mat = Resource::load_material("material/default.mat");
 	mat->use();
 	mat->set("u_ViewProjection", info.view_projection);
 	mat->set("u_Model", mat_translation(position));
 
-	auto& mesh = Common_Mesh::rect;
-	mesh.bind();
-	mesh.draw();
+	Mesh* mesh = Resource::load_mesh("mesh/sphere.obj");
+	mesh->draw();
 }
 
 Vec3 Player::calculate_aim_position()

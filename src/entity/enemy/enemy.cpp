@@ -6,6 +6,7 @@
 #include "game/scene.h"
 #include "fx/fx.h"
 #include "fx/trailsystem.h"
+#include "fx/enemy/enemydamagesystem.h"
 #include "math/random.h"
 
 void Enemy::init()
@@ -29,6 +30,7 @@ void Enemy::init()
 
 void Enemy::on_destroyed()
 {
+	fx->spawn_system<Enemy_Damage_System>(position, &Common_Mesh::rect, mat_translation(position) * mat_scale(3.f));
 	scene->destroy_collider(collider);
 
 	trail->finish_system();

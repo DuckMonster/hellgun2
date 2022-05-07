@@ -3,12 +3,15 @@
 #include "core/input.h"
 #include "game/game.h"
 #include "game/scene.h"
+#include "game/editor.h"
 #include "fx/fx.h"
 #include "debug/debug.h"
 #include "resource/resource.h"
 #include "resource/resourcecommon.h"
 #include "test.h"
 #include "import/dat.h"
+#include "import/obj.h"
+#include <stdlib.h>
 
 int main()
 {
@@ -25,13 +28,17 @@ int main()
 
 	game = new Game();
 	scene = new Scene();
+	editor = new Editor();
 	fx = new Fx();
 
 	game->init();
+	editor->init();
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
 
 	bool is_open = true;
+	bool editor_mode = false;
 	float next_hotreload_time = 0.f;
 
 	while(context.is_open())
@@ -42,6 +49,21 @@ int main()
 		if (key_pressed(Key::Escape))
 			context.close();
 
+		// Toggle editor
+		if (key_pressed(Key::Tab))
+		{
+			if (!editor_mode)
+			{
+				editor_mode = true;
+				editor->enter_editor();
+			}
+			else
+			{
+				editor_mode = false;
+				editor->exit_editor();
+			}
+		}
+
 		if (next_hotreload_time < time_elapsed_raw())
 		{
 			Resource::update_hotreload();
@@ -51,8 +73,22 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		game->update();
-		game->render();
+		// Debug text
+		debug->text(String::printf("%.02f ms", time_delta_raw() * 1000.f), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+		debug->text(String::printf("Entity count: %d", scene->entities.count()), Vec2(context.width, 12.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+
+		debug->text(String::printf("Num systems: %u", fx->systems.count()), Vec2(context.width, 24.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+
+		if (editor_mode)
+		{
+			editor->update();
+			editor->render();
+		}
+		else
+		{
+			game->update();
+			game->render();
+		}
 	}
 
 	delete game;

@@ -16,8 +16,6 @@ void Fx::update()
 			i--;
 		}
 	}
-
-	debug->print(String::printf("Num systems: %u", systems.count()));
 }
 
 void Fx::render(const Render_Info& info)

@@ -48,6 +48,8 @@ public:
 	void box(const Mat4& transform, const Color& color = Color::red, float thickness = 2.f);
 	void box(const Vec3& position, const Vec3& scale = Vec3(1.f), const Quat& rotation = Quat::identity, const Color& color = Color::red, float thickness = 2.f);
 
+	void sphere(const Vec3& position, float radius, const Color& color = Color::red, float thickness = 2.f);
+
 	void hit_result(const Hit_Result& hit);
 
 	void text(const String& str, const Vec2& position, const Color& foreground = Color::white, const Color& background = Color::black, const Vec2& alignment = Vec2::zero);

@@ -1,0 +1,23 @@
+{
+	"folders":
+	[
+		{
+			"name": "Root",
+			"path": ".",
+			"folder_exclude_patterns": ["*"],
+			"file_include_patterns": ["*.vcxproj", "*.sublime-project", "*.bat"],
+		},
+		{
+			"name": "Source",
+			"path": "src",
+		},
+		{
+			"name": "Include",
+			"path": "include",
+		},
+		{
+			"name": "Resources",
+			"path": "res",
+		}
+	],
+}

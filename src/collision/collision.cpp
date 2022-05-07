@@ -7,6 +7,50 @@ Hit_Result Collision::select_first_hit(const Hit_Result& a, const Hit_Result& b)
 	return a.time < b.time ? a : b;
 }
 
+Hit_Result Collision::line_trace(const Line& src, const Sphere& tar)
+{
+	// First, check for penetration
+	if (distance_sqrd(src.from, tar.origin) < Math::square(tar.radius))
+	{
+		// Calculate depth
+		float dist_to_sphere = distance(tar.origin, src.from);
+		Vec3 normal = direction_to(tar.origin, src.from);
+
+		float depth = tar.radius - dist_to_sphere;
+
+		return Hit_Result::make_penetrating(src.from, normal * depth);
+	}
+
+	// Find the closest point to sphere on the line
+	Vec3 line_delta = src.to - src.from;
+	Vec3 line_direction = direction_to(src.from, src.to);
+	Vec3 offset = tar.origin - src.from;
+
+	float closest_time = dot(line_direction, offset);
+
+	// Uh oh, the closest point is behind us
+	if (closest_time < 0.f)
+		return Hit_Result::make_no_hit(src.to);
+
+	Vec3 closest_point = src.from + line_direction * closest_time;
+
+	// Is the closest point within the circle?
+	if (distance_sqrd(closest_point, tar.origin) > Math::square(tar.radius))
+		return Hit_Result::make_no_hit(src.to);
+
+	// Okay, time to get the depth of the closest point and move back to when we acturally _entered_ the sphere
+	float closest_origin_dist_sqrd = distance_sqrd(closest_point, tar.origin);
+	float radius_sqrd = Math::square(tar.radius);
+
+	float closest_depth = Math::sqrt(radius_sqrd - closest_origin_dist_sqrd);
+	float enter_distance = closest_time - closest_depth;
+
+	Vec3 enter_point = src.from + line_direction * enter_distance;
+	Vec3 enter_normal = direction_to(tar.origin, enter_point);
+
+	return Hit_Result::make_hit(enter_point, enter_normal, enter_distance);
+}
+
 Hit_Result Collision::intersect_aabb(const AABB& src, const AABB& tar)
 {
 	struct Axis_Result
@@ -128,4 +172,25 @@ Hit_Result Collision::sweep_aabb(const AABB& src, const Vec3& delta, const AABB&
 	// Get the last entry, that will be our hit
 	Axis_Result last_enter_axis = select_last_enter(x_axis, y_axis, z_axis);
 	return Hit_Result::make_hit(src.center() + delta * last_enter_axis.enter_time, last_enter_axis.axis, last_enter_axis.enter_time);
+}
+
+Hit_Result Collision::intersect_sphere(const Sphere& src, const Sphere& tar)
+{
+	Vec3 difference = src.origin - tar.origin;
+
+	// Not intersecting
+	if (length_sqrd(difference) > Math::square(src.radius + tar.radius))
+		return Hit_Result::make_no_hit(src.origin);
+
+	float depth = (src.radius + tar.radius) - length(difference);
+	Vec3 normal = normalize(difference);
+
+	return Hit_Result::make_penetrating(src.origin, normal * depth);
+}
+
+Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const Sphere& tar)
+{
+	// Sphere sweeping is equal to a linetrace with a sphere thats inflated to the sum of both spheres
+	Sphere inflated_target = Sphere(tar.origin, tar.radius + src.radius);
+	return line_trace(Line::from_origin_delta(src.origin, delta), inflated_target);
 }

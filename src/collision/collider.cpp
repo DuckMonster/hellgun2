@@ -20,11 +20,15 @@ Hit_Result Collider::sweep_to(const Vec3& delta, const Collider* target) const
 
 Hit_Result Collider::sweep_test(const AABB& src, const Vec3& delta) const
 {
-	AABB tar = as_aabb();
+	Hit_Result hit;
+	switch(shape)
+	{
+		case Shape_Type::AABB:
+			hit = Collision::sweep_aabb(src, delta, as_aabb());
+			break;
+	}
 
-	Hit_Result hit = Collision::sweep_aabb(src, delta, tar);
 	hit.collider = this;
-
 	return hit;
 }
 
@@ -33,12 +37,11 @@ void Collider::debug_draw(const Color& clr, float thickness) const
 	switch(shape)
 	{
 		case Shape_Type::AABB:
-		{
 			debug->box(position, size, Quat::identity, clr, thickness);
 			return;
-		}
 
-		default:
+		case Shape_Type::Sphere:
+			debug->sphere(position, size.x, clr, thickness);
 			return;
 	}
 }

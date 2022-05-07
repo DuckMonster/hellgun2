@@ -4,6 +4,7 @@
 #include "core/io.h"
 #include "import/tga.h"
 #include "datresource.h"
+#include "meshresource.h"
 #include "shaderresource.h"
 #include "materialresource.h"
 #include "textureresource.h"
@@ -18,6 +19,11 @@ void Resource::register_resource(const String& str, void* data)
 {
 	old_resource_map.add(str, data);
 	printf("Resource '%s' loaded\n", str.data());
+}
+
+Mesh* Resource::load_mesh(const String& path)
+{
+	return &find_or_load_resource<Mesh_Resource>(path)->mesh;
 }
 
 Material* Resource::load_material(const String& path)

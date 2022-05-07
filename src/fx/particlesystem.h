@@ -38,6 +38,7 @@ public:
 	virtual void system_update() { }
 
 	void render(const Render_Info& info);
+	virtual void system_render(const Render_Info& info) {}
 
 	void finish_system() { finished = true; }
 	bool is_finished() { return finished; }

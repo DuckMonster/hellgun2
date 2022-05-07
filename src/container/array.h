@@ -102,6 +102,11 @@ public:
 		other._capacity = 0;
 	}
 
+	void reserve(u32 num)
+	{
+		ensure_capacity(num);
+	}
+
 	void add(const T& item)
 	{
 		ensure_capacity(_count + 1);
@@ -121,6 +126,13 @@ public:
 	{
 		ensure_capacity(_count + 1);
 		new(_data + _count) T();
+		_count++;
+
+		return _data[_count - 1];
+	}
+	T& add_uninitialized()
+	{
+		ensure_capacity(_count + 1);
 		_count++;
 
 		return _data[_count - 1];

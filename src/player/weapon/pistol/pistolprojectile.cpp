@@ -1,6 +1,7 @@
 #include "pistolprojectile.h"
 #include "resource/resource.h"
 #include "resource/resourcecommon.h"
+#include "math/random.h"
 #include "game/scene.h"
 #include "fx/fx.h"
 #include "fx/trailsystem.h"
@@ -34,11 +35,12 @@ void Pistol_Projectile::update()
 			scene->destroy_entity(hit.collider->owner);
 
 		// Spawn ammo drop
-		Vec3 drop_velocity = velocity - constrain_to_direction(velocity, hit.normal) * 1.5f;
-		drop_velocity *= 0.5f;
+		Vec3 drop_velocity = normalize(velocity - constrain_to_direction(velocity, hit.normal) * 1.5f);
+		drop_velocity *= Random::range(50.f, 100.f);
 
 		Pistol_Ammo_Drop* drop = scene->spawn_entity<Pistol_Ammo_Drop>(hit.position + hit.normal * 0.5f);
 		drop->velocity = drop_velocity;
+		drop->host = host;
 
 		// Spawn FX
 		fx->spawn_system<Surface_Impact_System>(hit.position, hit.normal, normalize(velocity), normalize(drop_velocity));

@@ -19,6 +19,7 @@ public:
 	static inline float degrees(float radians) { return (radians / PI) * 180.f; }
 
 	static inline float square(float a) { return a * a; }
+	static inline float sqrt(float a) { return ::sqrt(a); }
 
 	static inline float sin(float rad) { return sinf(rad); }
 	static inline float cos(float rad) { return cosf(rad); }

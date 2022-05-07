@@ -31,6 +31,15 @@ struct String
 		_data = (char*)malloc(len + 1);
 		memcpy(_data, c_str, len + 1);
 	}
+	String(const char* c_str, u32 length)
+	{
+		_capacity = length + 1;
+		_length = length;
+
+		_data = (char*)malloc(length + 1);
+		memcpy(_data, c_str, length);
+		_data[length] = 0;
+	}
 	String(const String& other)
 	{
 		_capacity = other._capacity;
@@ -54,6 +63,9 @@ struct String
 		if (_data)
 			free(_data);
 	}
+
+	bool is_empty() const { return _length == 0; }
+	bool is_null() const { return _data == nullptr; }
 
 	u32 length() const { return _length; }
 	u32 capacity() const { return _capacity; }

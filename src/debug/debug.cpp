@@ -13,6 +13,7 @@ namespace
 	Mesh line_mesh;
 	Mesh point_mesh;
 	Mesh box_mesh;
+	Mesh sphere_mesh;
 	Grid_Font debug_font;
 }
 
@@ -79,6 +80,40 @@ void Debug::init()
 	box_mesh.draw_mode = GL_LINES;
 	box_mesh.draw_num = 4 * 2 * 3;
 
+	// Load sphere mesh
+	Array<Vec3> sphere_data;
+	auto push_circle = [&sphere_data](const Vec3& normal) {
+		Vec3 a = arbitrary_perpendicular(normal);
+		a = normalize(a);
+		Vec3 b = cross(a, normal);
+
+		constexpr u32 resolution = 32; 
+		constexpr float angle_step = TAU / resolution;
+
+		for(u32 i = 0; i <= resolution; ++i)
+		{
+			float s_1 = Math::sin(angle_step * i);
+			float s_2 = Math::sin(angle_step * (i + 1));
+			float c_1 = Math::cos(angle_step * i);
+			float c_2 = Math::cos(angle_step * (i + 1));
+
+			sphere_data.emplace(a * s_1 + b * c_1);
+			sphere_data.emplace(a * s_2 + b * c_2);
+		}
+	};
+
+	push_circle(Vec3::forward);
+	push_circle(Vec3::up);
+	push_circle(Vec3::right);
+
+	sphere_mesh.init();
+	sphere_mesh.add_buffer(0);
+	sphere_mesh.bind_attribute(0, 0, 3);
+	sphere_mesh.buffer_data(0, sphere_data.count() * sizeof(Vec3), sphere_data.data());
+
+	sphere_mesh.draw_mode = GL_LINES;
+	sphere_mesh.draw_num = 33 * 2 * 3; // 33 * 2 lines for each circle, with 3 circles
+
 	// Load font
 	debug_font.load_file("res/font.tga", 6, 9);
 }
@@ -123,6 +158,15 @@ void Debug::box(const Vec3& position, const Vec3& scale, const Quat& rotation, c
 	box(mat_translation(position) * rotation.matrix() * mat_scale(scale), color, thickness);
 }
 
+void Debug::sphere(const Vec3& position, float radius, const Color& color, float thickness)
+{
+	Draw_Info& info = draw_list.add_default();
+	info.mesh = &sphere_mesh;
+	info.transform = mat_translation(position) * mat_scale(radius);
+	info.color = color;
+	info.thickness = thickness;
+}
+
 void Debug::text(const String& str, const Vec2& position, const Color& foreground, const Color& background, const Vec2& alignment)
 {
 	Text_Info& info = text_list.add_default();
@@ -159,6 +203,8 @@ void Debug::render(const Render_Info& info)
 
 	draw_list.empty();
 
+	glDisable(GL_DEPTH_TEST);
+
 	// Text list
 	for(const auto& text : text_list)
 	{
@@ -186,4 +232,6 @@ void Debug::render(const Render_Info& info)
 			i--;
 		}
 	}
+
+	glEnable(GL_DEPTH_TEST);
 }

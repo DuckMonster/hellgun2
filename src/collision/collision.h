@@ -1,5 +1,7 @@
 #pragma once
 #include "aabb.h"
+#include "sphere.h"
+#include "line.h"
 
 class Collider;
 struct Hit_Result
@@ -60,6 +62,11 @@ namespace Collision
 {
 	Hit_Result select_first_hit(const Hit_Result& a, const Hit_Result& b);
 
+	Hit_Result line_trace(const Line& src, const Sphere& tar);
+
 	Hit_Result intersect_aabb(const AABB& src, const AABB& tar);
 	Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar);
+
+	Hit_Result intersect_sphere(const Sphere& src, const Sphere& tar);
+	Hit_Result sweep_sphere(const Sphere& src, const Vec3& delta, const Sphere& tar);
 }

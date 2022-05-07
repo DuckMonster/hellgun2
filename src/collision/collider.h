@@ -16,6 +16,7 @@ enum class Shape_Type
 {
 	Invalid,
 	AABB,
+	Sphere,
 };
 
 class Collider
@@ -37,6 +38,15 @@ public:
 	AABB as_aabb() const
 	{
 		return AABB::from_center_size(position, size);
+	}
+	void set_sphere(float radius)
+	{
+		shape = Shape_Type::Sphere;
+		size.x = radius;
+	}
+	Sphere as_sphere() const
+	{
+		return Sphere(position, size.x);
 	}
 
 	Hit_Result intersect(const Collider* other) const;
