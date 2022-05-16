@@ -14,6 +14,13 @@ inline bool is_nearly_zero(const Vec3& vec, float check = SMALL_NUMBER)
 		Math::is_nearly_zero(vec.y, check) &&
 		Math::is_nearly_zero(vec.z, check);
 }
+inline bool is_nearly_equal(const Vec3& a, const Vec3& b, float check = SMALL_NUMBER)
+{
+	return
+		Math::is_nearly_zero(b.x - a.x, check) && 
+		Math::is_nearly_zero(b.y - a.y, check) &&
+		Math::is_nearly_zero(b.z - a.z, check);
+}
 
 inline float length(const Vec2& vec)
 {
@@ -81,4 +88,13 @@ inline Vec3 arbitrary_perpendicular(const Vec3& vec)
 {
 	const Vec3 ARBITRARY = Vec3(125.2451f, -53.542148f, 854.25799856f);
 	return normalize(cross(vec, ARBITRARY));
+}
+
+inline Vec3 component_clamp(const Vec3& v, const Vec3& min, const Vec3& max)
+{
+	return Vec3(
+		Math::clamp(v.x, min.x, max.x),
+		Math::clamp(v.y, min.y, max.y),
+		Math::clamp(v.z, min.z, max.z)
+	);
 }

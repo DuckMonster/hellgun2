@@ -21,8 +21,12 @@ float mouse_x();
 float mouse_y();
 float mouse_delta_x();
 float mouse_delta_y();
+i32 mouse_wheel_delta();
 
 void set_mouse_state(Mouse_Btn btn, bool state);
 void set_mouse_x(float x);
 void set_mouse_y(float y);
 void reset_mouse_delta();
+
+void add_mouse_wheel(i32 delta);
+void reset_mouse_wheel_delta();

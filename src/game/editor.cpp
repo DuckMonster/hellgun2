@@ -67,37 +67,25 @@ void Editor::update()
 		has_sweep = true;
 		sweep_origin = camera.position + camera.right();
 		sweep_direction = camera.forward();
+
+		sweep_length += mouse_wheel_delta() * 1.f;
 	}
 
 	if (has_sweep)
 	{
 		// TESTING
 		Sphere a = Sphere(sweep_origin, 1.5f);
-		Sphere b = Sphere(Vec3::zero, 3.f);
-		Vec3 delta = sweep_direction * 50.f;
+		Hit_Result hit = Collision::sweep_sphere(a, sweep_direction * sweep_length, Vec3::zero, Vec3::right, Vec3(5.f, 5.f, 0.f));
 
-		Hit_Result hit = Collision::sweep_sphere(a, delta, b);
-
-		Color clr = Color::blue;
-		if (hit.has_hit)
-		{
-			clr = Color::yellow;
-			debug->vector(hit.position, hit.normal, Color::blue);
-		}
-
-		if (hit.is_penetrating)
-		{
-			clr = Color::red;
-			debug->vector(hit.position, hit.normal * hit.penetration_depth, Color::blue);
-			debug->sphere(hit.position + hit.normal * hit.penetration_depth, a.radius, Color::blue);
-		}
-
+		Color clr = hit.has_hit ? Color::red : Color::blue;
 
 		debug->sphere(a.origin, a.radius, clr);
-		debug->sphere(hit.position, a.radius, clr);
 		debug->line(a.origin, hit.position, clr);
+		debug->sphere(hit.position, a.radius, clr);
 
-		debug->sphere(b.origin, b.radius, clr);
+		debug->rect(Vec3::zero, Vec3::right, Vec3::up, Vec2(5.f, 5.f));
+
+		debug->print(String::printf("Time: %f", hit.time), 0.f);
 
 		/*
 		AABB test_aabb = AABB::from_center_size(editor_camera.position + editor_camera.right(), Vec3::one);

@@ -245,19 +245,39 @@
 	},
 	"file_history":
 	[
-		"/D/Prog/hellgun/src/game/scene.h",
+		"/D/Prog/hellgun/src/core/context.cpp",
 		"/D/Prog/hellgun/src/collision/collision.cpp",
-		"/D/Prog/hellgun/src/collision/collider.cpp",
-		"/D/Prog/hellgun/src/game/game.cpp",
+		"/D/Prog/hellgun/src/core/input.h",
+		"/D/Prog/hellgun/src/core/input.cpp",
+		"/D/Prog/hellgun/include/GLFW/glfw3.h",
+		"/D/Prog/hellgun/src/game/editor.cpp",
+		"/D/Prog/hellgun/src/math/vecmath.h",
+		"/D/Prog/hellgun/src/game/editor.h",
+		"/D/Prog/hellgun/src/math/quat.h",
+		"/D/Prog/hellgun/src/math/matrix.h",
+		"/D/Prog/hellgun/src/debug/debug.h",
 		"/D/Prog/hellgun/src/collision/collision.h",
+		"/D/Prog/hellgun/src/math/vec.cpp",
+		"/D/Prog/hellgun/src/math/matrixmath.h",
+		"/D/Prog/hellgun/src/debug/debug.cpp",
+		"/D/Prog/hellgun/include/GL/glext.h",
+		"/D/Prog/hellgun/src/math/mymath.h",
+		"/D/Prog/hellgun/src/gfx/gridfont.h",
+		"/D/Prog/hellgun/src/gfx/gridfont.cpp",
+		"/D/Prog/hellgun/src/game/game.cpp",
+		"/D/Prog/hellgun/src/fx/fx.cpp",
+		"/D/Prog/hellgun/src/math/color.h",
+		"/D/Prog/hellgun/src/main.cpp",
+		"/D/Prog/hellgun/res/shader/ui/gridfont.frag",
+		"/D/Prog/hellgun/src/game/game.h",
+		"/D/Prog/hellgun/src/collision/aabb.h",
+		"/D/Prog/hellgun/src/collision/line.h",
+		"/D/Prog/hellgun/src/game/scene.h",
+		"/D/Prog/hellgun/src/collision/collider.cpp",
 		"/D/Prog/hellgun/src/player/player.cpp",
 		"/D/Prog/hellgun/src/collision/collider.h",
 		"/D/Prog/hellgun/src/collision/sphere.h",
-		"/D/Prog/hellgun/src/debug/debug.cpp",
 		"/D/Prog/hellgun/res/shader/fx/particle_trail.geom",
-		"/D/Prog/hellgun/src/debug/debug.h",
-		"/D/Prog/hellgun/src/math/vecmath.h",
-		"/D/Prog/hellgun/src/main.cpp",
 		"/D/Prog/hellgun/src/collision/aabb.cpp",
 		"/D/Prog/hellgun/res/mesh/sphere.obj",
 		"/D/Prog/hellgun/res/mesh/test.dae",
@@ -275,7 +295,6 @@
 		"/D/Prog/hellgun/src/gfx/opengl.h",
 		"/D/Prog/hellgun/src/gfx/opengl.cpp",
 		"/D/Prog/hellgun/hellgun.sublime-project",
-		"/D/Prog/hellgun/include/GL/glext.h",
 		"/D/Prog/hellgun/src/core/parse/filestream.h",
 		"/D/Prog/hellgun/src/import/dat.cpp",
 		"/D/Prog/hellgun/src/import/dat_parse.cpp",
@@ -284,7 +303,6 @@
 		"/D/Prog/hellgun/src/container/string.h",
 		"/D/Prog/hellgun/src/core/io.h",
 		"/D/Prog/hellgun/src/core/io.cpp",
-		"/D/Prog/hellgun/src/math/mymath.h",
 		"/D/Prog/hellgun/src/core/parse/filestream.cpp",
 		"/D/Prog/hellgun/res/shader/test.vert",
 		"/D/Prog/hellgun/src/import/obj.cpp",
@@ -316,7 +334,6 @@
 		"/D/Prog/hellgun/src/fx/enemy/enemydamagesystem.h",
 		"/D/Prog/hellgun/src/fx/enemy/enemydamagesystem.cpp",
 		"/D/Prog/hellgun/res/material/fx/enemy_damage.mat",
-		"/D/Prog/hellgun/src/game/game.h",
 		"/D/Prog/hellgun/src/math/ray.h",
 		"/D/Prog/hellgun/src/math/plane.h",
 		"/D/Prog/hellgun/src/entity/dummy.cpp",
@@ -346,7 +363,6 @@
 		"/D/Prog/hellgun/src/resource/shaderresource.cpp",
 		"/D/Prog/hellgun/res/material/ui/gridfont.mat",
 		"/D/Prog/hellgun/src/fx/trailsystem.cpp",
-		"/D/Prog/hellgun/src/gfx/gridfont.cpp",
 		"/D/Prog/hellgun/src/fx/testsystem.cpp",
 		"/D/Prog/hellgun/res/shader/gridfont.vert",
 		"/D/Prog/hellgun/src/gfx/texture.h",
@@ -356,23 +372,7 @@
 		"/D/Prog/hellgun/src/gfx/shader.cpp",
 		"/D/Prog/hellgun/res/material/particle_triangle.mat",
 		"/D/Prog/hellgun/res/material/particle_star.mat",
-		"/D/Prog/hellgun/src/resource/textureresource.h",
-		"/D/Prog/hellgun/res/shader/test.mat",
-		"/D/Prog/hellgun/src/resource/datresource.cpp",
-		"/D/Prog/hellgun/src/resource/datresource.h",
-		"/D/Prog/hellgun/src/gfx/shader.h",
-		"/D/Prog/hellgun/src/gfx/material.h",
-		"/D/Prog/hellgun/src/gfx/material.cpp",
-		"/D/Prog/hellgun/res/shader/debug.frag",
-		"/D/Prog/hellgun/src/resource/shaderresource.h",
-		"/D/Prog/hellgun/src/core/time.cpp",
-		"/D/Prog/hellgun/src/import/datresource.h",
-		"/C/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/sys/stat.h",
-		"/D/Prog/hellgun/src/import/datresource.cpp",
-		"/C/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/ucrt/corecrt.h",
-		"/D/Prog/hellgun/res/test.dat",
-		"/D/Prog/hellgun/src/container/map.h",
-		"/D/Prog/hellgun/src/import/dat_parse.h"
+		"/D/Prog/hellgun/src/resource/textureresource.h"
 	],
 	"find":
 	{
@@ -390,6 +390,7 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"editor_camera",
 			"undefined"
 		],
 		"highlight": true,
@@ -398,6 +399,7 @@
 		"regex": false,
 		"replace_history":
 		[
+			"camera",
 			"uninitialized"
 		],
 		"reverse": false,
@@ -424,7 +426,7 @@
 	"pinned_build_system": "",
 	"replace":
 	{
-		"height": 62.0
+		"height": 96.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -433,6 +435,130 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"collision.cp",
+				"Source\\collision\\collision.cpp"
+			],
+			[
+				"vecmath",
+				"Source\\math\\vecmath.h"
+			],
+			[
+				"vecmat",
+				"Source\\math\\vecmath.h"
+			],
+			[
+				"input.h",
+				"Source\\core\\input.h"
+			],
+			[
+				"editor.cp",
+				"Source\\game\\editor.cpp"
+			],
+			[
+				"context.cp",
+				"Source\\core\\context.cpp"
+			],
+			[
+				"collisionc.p",
+				"Source\\collision\\collision.cpp"
+			],
+			[
+				"editor.cpp",
+				"Source\\game\\editor.cpp"
+			],
+			[
+				"collisio",
+				"Source\\collision\\collision.h"
+			],
+			[
+				"vec.cp",
+				"Source\\math\\vec.cpp"
+			],
+			[
+				"collision.h",
+				"Source\\collision\\collision.h"
+			],
+			[
+				"debug.h",
+				"Source\\debug\\debug.h"
+			],
+			[
+				"qua",
+				"Source\\math\\quat.h"
+			],
+			[
+				"matrixma",
+				"Source\\math\\matrixmath.h"
+			],
+			[
+				"matrix.h",
+				"Source\\math\\matrix.h"
+			],
+			[
+				"vecma",
+				"Source\\math\\vecmath.h"
+			],
+			[
+				"quat",
+				"Source\\math\\quat.h"
+			],
+			[
+				"quat.h",
+				"Source\\math\\quat.h"
+			],
+			[
+				"mymath",
+				"Source\\math\\mymath.h"
+			],
+			[
+				"fx.cp",
+				"Source\\fx\\fx.cpp"
+			],
+			[
+				"game.cpp",
+				"Source\\game\\game.cpp"
+			],
+			[
+				"main",
+				"Source\\main.cpp"
+			],
+			[
+				"game.cp",
+				"Source\\game\\game.cpp"
+			],
+			[
+				"debug.cp",
+				"Source\\debug\\debug.cpp"
+			],
+			[
+				"editor.h",
+				"Source\\game\\editor.h"
+			],
+			[
+				"main.cp",
+				"Source\\main.cpp"
+			],
+			[
+				"",
+				"Source\\gfx\\gridfont.h"
+			],
+			[
+				"debug.cpp",
+				"Source\\debug\\debug.cpp"
+			],
+			[
+				"gridfont.fra",
+				"Resources\\shader\\ui\\gridfont.frag"
+			],
+			[
+				"game.h",
+				"Source\\game\\game.h"
+			],
+			[
+				"aabb.h",
+				"Source\\collision\\aabb.h"
+			],
 			[
 				"default.ver",
 				"Resources\\shader\\default.vert"
@@ -450,24 +576,12 @@
 				"Source\\player\\player.cpp"
 			],
 			[
-				"collision.h",
-				"Source\\collision\\collision.h"
-			],
-			[
-				"game.cpp",
-				"Source\\game\\game.cpp"
-			],
-			[
 				"scene.h",
 				"Source\\game\\scene.h"
 			],
 			[
 				"collider.cpp",
 				"Source\\collision\\collider.cpp"
-			],
-			[
-				"game.cp",
-				"Source\\game\\game.cpp"
 			],
 			[
 				"trail",
@@ -480,10 +594,6 @@
 			[
 				"math.h",
 				"Source\\math\\vecmath.h"
-			],
-			[
-				"debug.cp",
-				"Source\\debug\\debug.cpp"
 			],
 			[
 				"collider.h",
@@ -500,10 +610,6 @@
 			[
 				"playe.rcp",
 				"Source\\player\\player.cpp"
-			],
-			[
-				"main.cp",
-				"Source\\main.cpp"
 			],
 			[
 				"mesh.h",
@@ -528,10 +634,6 @@
 			[
 				"utils",
 				"Source\\core\\utils.h"
-			],
-			[
-				"main",
-				"Source\\main.cpp"
 			],
 			[
 				"sublime",
@@ -826,10 +928,6 @@
 				"hellgun\\res\\material\\debug.mat"
 			],
 			[
-				"debug.cpp",
-				"hellgun\\src\\debug\\debug.cpp"
-			],
-			[
 				"muzzleflashst",
 				"hellgun\\src\\fx\\weapon\\muzzleflashsystem.cpp"
 			],
@@ -848,102 +946,6 @@
 			[
 				"trailsyst",
 				"hellgun\\src\\fx\\trailsystem.cpp"
-			],
-			[
-				"particle_sta",
-				"hellgun\\res\\material\\fx\\particle_star.mat"
-			],
-			[
-				"surfaceimpact",
-				"hellgun\\src\\fx\\surfaceimpactsystem.cpp"
-			],
-			[
-				"testsystem.cpp",
-				"hellgun\\src\\fx\\testsystem.cpp"
-			],
-			[
-				"testsyst",
-				"hellgun\\src\\fx\\testsystem.cpp"
-			],
-			[
-				"article_triang",
-				"hellgun\\res\\material\\fx\\particle_triangle.mat"
-			],
-			[
-				"particle_star",
-				"hellgun\\res\\material\\fx\\particle_star.mat"
-			],
-			[
-				"texture.h",
-				"hellgun\\src\\gfx\\texture.h"
-			],
-			[
-				"textureres",
-				"hellgun\\src\\resource\\textureresource.h"
-			],
-			[
-				"mateiralresou",
-				"hellgun\\src\\resource\\materialresource.cpp"
-			],
-			[
-				"resource.cpp",
-				"hellgun\\src\\resource\\resource.cpp"
-			],
-			[
-				"materialresou",
-				"hellgun\\src\\resource\\materialresource.cpp"
-			],
-			[
-				"shader.cpp",
-				"hellgun\\src\\gfx\\shader.cpp"
-			],
-			[
-				".mat",
-				"hellgun\\res\\shader\\test.mat"
-			],
-			[
-				"materia.h",
-				"hellgun\\src\\gfx\\material.h"
-			],
-			[
-				"shader.h",
-				"hellgun\\src\\gfx\\shader.h"
-			],
-			[
-				"material.h",
-				"hellgun\\src\\gfx\\material.h"
-			],
-			[
-				"datresour",
-				"hellgun\\src\\resource\\datresource.cpp"
-			],
-			[
-				"material",
-				"hellgun\\src\\resource\\materialresource.h"
-			],
-			[
-				"dat.h",
-				"hellgun\\src\\import\\dat.h"
-			],
-			[
-				"shaderresou",
-				"hellgun\\src\\resource\\shaderresource.cpp"
-			],
-			[
-				"mateiral.cpp",
-				"hellgun\\src\\gfx\\material.cpp"
-			],
-			[
-				"debug.fra",
-				"hellgun\\res\\shader\\debug.frag"
-			],
-			[
-				"shaderresour",
-				"hellgun\\src\\resource\\shaderresource.cpp"
-			],
-			[
-				"resource",
-				"hellgun\\src\\resource\\resource.h"
 			]
 		],
 		"width": 0.0
@@ -959,10 +961,42 @@
 	},
 	"select_symbol":
 	{
-		"height": 121.0,
-		"last_filter": "make_no_",
+		"height": 500.0,
+		"last_filter": "point",
 		"selected_items":
 		[
+			[
+				"point",
+				"point"
+			],
+			[
+				"is_nearly_zero",
+				"is_nearly_zero"
+			],
+			[
+				"glfwSetCursorP",
+				"glfwSetCursorPos"
+			],
+			[
+				"mat4",
+				"Mat4"
+			],
+			[
+				"GL_LINES",
+				"GL_LINES_ADJACENCY"
+			],
+			[
+				"Color",
+				"Color"
+			],
+			[
+				"make_pene",
+				"make_penetrating"
+			],
+			[
+				"Hit_Re",
+				"Hit_Result"
+			],
 			[
 				"make_no_",
 				"make_no_hit"
@@ -1368,10 +1402,6 @@
 				"glGenVertexArrays"
 			],
 			[
-				"Color",
-				"Color"
-			],
-			[
 				"lookAt",
 				"lookAt"
 			],
@@ -1446,34 +1476,6 @@
 			[
 				"Mathf",
 				"Mathf"
-			],
-			[
-				"Debug",
-				"Debug"
-			],
-			[
-				"FontStyle",
-				"FontStyle"
-			],
-			[
-				"Text",
-				"Text"
-			],
-			[
-				"TileCoor",
-				"TileCoordinate"
-			],
-			[
-				"Coordinate",
-				"CoordinateTester"
-			],
-			[
-				"Min",
-				"Min"
-			],
-			[
-				"Sign",
-				"Sign"
 			]
 		],
 		"width": 580.0
@@ -1484,21 +1486,65 @@
 		{
 			":command:":
 			[
-				"<:visual:>",
-				"x"
+				"a",
+				"<:history:>",
+				"<Esc>"
 			],
 			":history:":
 			[
+				[
+					"insert",
+					{
+						"characters": " -"
+					}
+				],
+				[
+					"insert",
+					{
+						"characters": " r"
+					}
+				],
+				[
+					"insert",
+					{
+						"characters": "ect_normal"
+					}
+				],
+				[
+					"insert",
+					{
+						"characters": " *"
+					}
+				],
+				[
+					"insert",
+					{
+						"characters": " src.s"
+					}
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"insert",
+					{
+						"characters": "radius"
+					}
+				]
 			],
-			"alternate_view": 30,
+			"alternate_view": 273,
 			"last_command_line": null,
-			"last_search_pattern": null
+			"last_search_pattern":
+			[
+				"wheel"
+			]
 		}
 	},
 	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 277.0,
 	"status_bar_visible": true,
 	"template_settings":

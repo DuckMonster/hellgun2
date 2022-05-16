@@ -7,6 +7,7 @@ static float _mouse_x;
 static float _mouse_y;
 static float _mouse_delta_x;
 static float _mouse_delta_y;
+static i32 _mouse_wheel_delta = 0;
 
 bool key_down(Key key)
 {
@@ -44,6 +45,8 @@ float mouse_x() { return _mouse_x; }
 float mouse_y() { return _mouse_y; }
 float mouse_delta_x() { return _mouse_delta_x; }
 float mouse_delta_y() { return _mouse_delta_y; }
+i32 mouse_wheel_delta() { return _mouse_wheel_delta; }
+
 void set_mouse_state(Mouse_Btn btn, bool state)
 {
 	mouse[(u32)btn].state = state;
@@ -64,4 +67,14 @@ void set_mouse_y(float y)
 void reset_mouse_delta()
 {
 	_mouse_delta_x = _mouse_delta_y = 0.f;
+}
+
+void add_mouse_wheel(i32 delta)
+{
+	_mouse_wheel_delta += delta;
+}
+
+void reset_mouse_wheel_delta()
+{
+	_mouse_wheel_delta = 0;
 }

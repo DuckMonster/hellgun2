@@ -1,4 +1,5 @@
 #include "collision.h"
+#include "debug/debug.h"
 
 Hit_Result Collision::select_first_hit(const Hit_Result& a, const Hit_Result& b)
 {
@@ -193,4 +194,47 @@ Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const S
 	// Sphere sweeping is equal to a linetrace with a sphere thats inflated to the sum of both spheres
 	Sphere inflated_target = Sphere(tar.origin, tar.radius + src.radius);
 	return line_trace(Line::from_origin_delta(src.origin, delta), inflated_target);
+}
+
+Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const AABB& tar)
+{
+	return Hit_Result::make_no_hit(src.origin + delta);
+}
+
+Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const Vec3& rect_center, const Vec3& rect_normal, const Vec3& rect_size)
+{
+	// Ray-plane intersection, offset by sphere radius
+	Vec3 offset = src.origin - rect_center;
+
+	float height = dot(offset, rect_normal);
+	float slope = -dot(delta, rect_normal);
+
+	// Trivial case - if the sphere hit the infinite plane, would that be inside this rect?
+	{
+		Vec3 trivial_point = src.origin + delta * ((height - src.radius) / slope);
+		Vec3 trivial_point_constrained = rect_center + component_clamp(trivial_point - rect_center, -rect_size * 0.5f, rect_size * 0.5f);
+
+		debug->point(trivial_point - rect_normal * src.radius, Color::yellow);
+		debug->sphere(trivial_point, src.radius, Color::yellow);
+
+		if (is_nearly_zero(constrain_to_plane(trivial_point - trivial_point_constrained, rect_normal)))
+			return Hit_Result::make_hit(trivial_point, rect_normal, (height - src.radius) / slope);
+	}
+
+	// Facing perpendicular to normal, no hit
+	if (Math::is_nearly_zero(slope))
+		return Hit_Result::make_no_hit(src.origin + delta);
+
+	float time = height / slope;
+	if (time < 0.f || time > 1.f)
+		return Hit_Result::make_no_hit(src.origin + delta);
+
+	Vec3 projected_origin = src.origin + delta * time;
+	Vec3 rect_nearest = rect_center + component_clamp(projected_origin - rect_center, -rect_size * 0.5f, rect_size * 0.5f);
+	debug->point(rect_nearest);
+
+	if (distance_sqrd(rect_nearest, projected_origin) > Math::square(src.radius))
+		return Hit_Result::make_no_hit(src.origin + delta);
+
+	return Hit_Result::make_hit(src.origin + delta * time, rect_normal, time);
 }

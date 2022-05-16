@@ -16,6 +16,7 @@ public:
 	bool has_sweep = false;
 	Vec3 sweep_origin;
 	Vec3 sweep_direction;
+	float sweep_length = 50.f;
 
 	void init();
 	void update();

@@ -13,6 +13,7 @@ namespace
 	Mesh line_mesh;
 	Mesh point_mesh;
 	Mesh box_mesh;
+	Mesh quad_mesh;
 	Mesh sphere_mesh;
 	Grid_Font debug_font;
 }
@@ -79,6 +80,21 @@ void Debug::init()
 
 	box_mesh.draw_mode = GL_LINES;
 	box_mesh.draw_num = 4 * 2 * 3;
+
+	// Load quad mesh
+	const float quad_data[] = {
+		0.f, -0.5f, -0.5f,
+		0.f, 0.5f, -0.5f,
+		0.f, 0.5f, 0.5f,
+		0.f, -0.5f, 0.5f,
+	};
+
+	quad_mesh.init();
+	quad_mesh.add_buffer(0);
+	quad_mesh.bind_attribute(0, 0, 3);
+	quad_mesh.buffer_data(0, sizeof(quad_data), quad_data);
+	quad_mesh.draw_mode = GL_LINE_LOOP;
+	quad_mesh.draw_num = 4;
 
 	// Load sphere mesh
 	Array<Vec3> sphere_data;
@@ -156,6 +172,22 @@ void Debug::box(const Mat4& transform, const Color& color, float thickness)
 void Debug::box(const Vec3& position, const Vec3& scale, const Quat& rotation, const Color& color, float thickness)
 {
 	box(mat_translation(position) * rotation.matrix() * mat_scale(scale), color, thickness);
+}
+
+void Debug::rect(const Vec3& center, Vec3 normal, Vec3 up, const Vec2& size, const Color& color, float thickness)
+{
+	// Construct proper matrix axes
+	Vec3 right = normalize(cross(normal, up)) * size.x;
+	up = normalize(cross(right, normal)) * size.y;
+	normal = normalize(normal);
+
+	const Mat4& mat = Mat4(normal, up, right, center);
+
+	Draw_Info& info = draw_list.add_default();
+	info.mesh = &quad_mesh;
+	info.transform = mat;
+	info.color = color;
+	info.thickness = thickness;
 }
 
 void Debug::sphere(const Vec3& position, float radius, const Color& color, float thickness)

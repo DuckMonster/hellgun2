@@ -39,6 +39,11 @@ void handle_mouse_move_event(GLFWwindow* window, double xpos, double ypos)
 	set_mouse_y((float)ypos);
 }
 
+void handle_mouse_scroll_event(GLFWwindow* window, double xscroll, double yscroll)
+{
+	add_mouse_wheel((i32)yscroll);
+}
+
 void Context::open(const char* title, u32 in_width, u32 in_height)
 {
 	glfwInit();
@@ -55,6 +60,7 @@ void Context::open(const char* title, u32 in_width, u32 in_height)
 	glfwSetKeyCallback(window, handle_key_event);
 	glfwSetMouseButtonCallback(window, handle_mouse_btn_event);
 	glfwSetCursorPosCallback(window, handle_mouse_move_event);
+	glfwSetScrollCallback(window, handle_mouse_scroll_event);
 }
 
 bool Context::is_open()
@@ -73,6 +79,7 @@ void Context::update()
 
 	frame_num++;
 	reset_mouse_delta();
+	reset_mouse_wheel_delta();
 	glfwPollEvents();
 }
 
