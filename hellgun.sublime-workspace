@@ -121,6 +121,10 @@
 		"selected_items":
 		[
 			[
+				"rename",
+				"Rename File"
+			],
+			[
 				"prefere",
 				"Preferences: Settings"
 			],
@@ -139,10 +143,6 @@
 			[
 				"install",
 				"Package Control: Install Package"
-			],
-			[
-				"rename",
-				"Rename File"
 			],
 			[
 				"glsl",
@@ -245,23 +245,30 @@
 	},
 	"file_history":
 	[
-		"/D/Prog/hellgun/src/core/context.cpp",
+		"/D/Prog/hellgun/src/math/vecmath.h",
+		"/D/Prog/hellgun/src/debug/debug.h",
 		"/D/Prog/hellgun/src/collision/collision.cpp",
+		"/D/Prog/hellgun/src/collision/aabb.h",
+		"/D/Prog/hellgun/src/collision/collision.h",
+		"/D/Prog/hellgun/src/game/editor.h",
+		"/D/Prog/hellgun/src/math/mymath.h",
+		"/D/Prog/hellgun/src/core/template.h",
+		"/D/Prog/hellgun/src/game/editor.cpp",
+		"/D/Prog/hellgun/src/math/vec.h",
+		"/D/Prog/hellgun/src/collision/circle.h",
+		"/D/Prog/hellgun/src/collision/line.h",
+		"/D/Prog/hellgun/src/entity/entity.h",
+		"/D/Prog/hellgun/src/collision/collider.h",
+		"/D/Prog/hellgun/src/math/vec.cpp",
+		"/D/Prog/hellgun/src/core/context.cpp",
 		"/D/Prog/hellgun/src/core/input.h",
 		"/D/Prog/hellgun/src/core/input.cpp",
 		"/D/Prog/hellgun/include/GLFW/glfw3.h",
-		"/D/Prog/hellgun/src/game/editor.cpp",
-		"/D/Prog/hellgun/src/math/vecmath.h",
-		"/D/Prog/hellgun/src/game/editor.h",
 		"/D/Prog/hellgun/src/math/quat.h",
 		"/D/Prog/hellgun/src/math/matrix.h",
-		"/D/Prog/hellgun/src/debug/debug.h",
-		"/D/Prog/hellgun/src/collision/collision.h",
-		"/D/Prog/hellgun/src/math/vec.cpp",
 		"/D/Prog/hellgun/src/math/matrixmath.h",
 		"/D/Prog/hellgun/src/debug/debug.cpp",
 		"/D/Prog/hellgun/include/GL/glext.h",
-		"/D/Prog/hellgun/src/math/mymath.h",
 		"/D/Prog/hellgun/src/gfx/gridfont.h",
 		"/D/Prog/hellgun/src/gfx/gridfont.cpp",
 		"/D/Prog/hellgun/src/game/game.cpp",
@@ -270,12 +277,9 @@
 		"/D/Prog/hellgun/src/main.cpp",
 		"/D/Prog/hellgun/res/shader/ui/gridfont.frag",
 		"/D/Prog/hellgun/src/game/game.h",
-		"/D/Prog/hellgun/src/collision/aabb.h",
-		"/D/Prog/hellgun/src/collision/line.h",
 		"/D/Prog/hellgun/src/game/scene.h",
 		"/D/Prog/hellgun/src/collision/collider.cpp",
 		"/D/Prog/hellgun/src/player/player.cpp",
-		"/D/Prog/hellgun/src/collision/collider.h",
 		"/D/Prog/hellgun/src/collision/sphere.h",
 		"/D/Prog/hellgun/res/shader/fx/particle_trail.geom",
 		"/D/Prog/hellgun/src/collision/aabb.cpp",
@@ -368,11 +372,7 @@
 		"/D/Prog/hellgun/src/gfx/texture.h",
 		"/D/Prog/hellgun/src/gfx/texture.cpp",
 		"/D/Prog/hellgun/src/import/tga.cpp",
-		"/C/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/gl/GL.h",
-		"/D/Prog/hellgun/src/gfx/shader.cpp",
-		"/D/Prog/hellgun/res/material/particle_triangle.mat",
-		"/D/Prog/hellgun/res/material/particle_star.mat",
-		"/D/Prog/hellgun/src/resource/textureresource.h"
+		"/C/Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/gl/GL.h"
 	],
 	"find":
 	{
@@ -383,6 +383,7 @@
 		"height": 137.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -390,6 +391,10 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"Sphere",
+			"sphere",
+			"Sphere",
+			"Vec3",
 			"editor_camera",
 			"undefined"
 		],
@@ -399,6 +404,10 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Circle",
+			"circle",
+			"Circle",
+			"Vec2",
 			"camera",
 			"uninitialized"
 		],
@@ -426,7 +435,7 @@
 	"pinned_build_system": "",
 	"replace":
 	{
-		"height": 96.0
+		"height": 62.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -436,12 +445,112 @@
 		"selected_items":
 		[
 			[
+				"caps",
+				"Source\\collision\\capsule.h"
+			],
+			[
+				"collision.h",
+				"Source\\collision\\collision.h"
+			],
+			[
+				"aabb.h",
+				"Source\\collision\\aabb.h"
+			],
+			[
 				"collision.cp",
 				"Source\\collision\\collision.cpp"
 			],
 			[
+				"editor.cp",
+				"Source\\game\\editor.cpp"
+			],
+			[
+				"debug.h",
+				"Source\\debug\\debug.h"
+			],
+			[
+				"editor.cpp",
+				"Source\\game\\editor.cpp"
+			],
+			[
+				"colliion.cp",
+				"Source\\collision\\collision.cpp"
+			],
+			[
+				"editor.h",
+				"Source\\game\\editor.h"
+			],
+			[
+				"vec.h",
+				"Source\\math\\vec.h"
+			],
+			[
+				"aabb",
+				"Source\\collision\\aabb.h"
+			],
+			[
+				"math.h",
+				"Source\\math\\mymath.h"
+			],
+			[
+				"edtior.cp",
+				"Source\\game\\editor.cpp"
+			],
+			[
+				"aabb.",
+				"Source\\collision\\aabb.h"
+			],
+			[
+				"collision.cpp",
+				"Source\\collision\\collision.cpp"
+			],
+			[
+				"pistolprojectile.cp",
+				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
+			],
+			[
+				"scene.h",
+				"Source\\game\\scene.h"
+			],
+			[
+				"pistolprojec",
+				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
+			],
+			[
 				"vecmath",
 				"Source\\math\\vecmath.h"
+			],
+			[
+				"player.cpp",
+				"Source\\player\\player.cpp"
+			],
+			[
+				"collider.h",
+				"Source\\collision\\collider.h"
+			],
+			[
+				"line.h",
+				"Source\\collision\\line.h"
+			],
+			[
+				"sphere",
+				"Source\\collision\\sphere.h"
+			],
+			[
+				"entity.h",
+				"Source\\entity\\entity.h"
+			],
+			[
+				"enemy.cpp",
+				"Source\\entity\\enemy\\enemy.cpp"
+			],
+			[
+				"player.cp",
+				"Source\\player\\player.cpp"
+			],
+			[
+				"player.h",
+				"Source\\player\\player.h"
 			],
 			[
 				"vecmat",
@@ -452,10 +561,6 @@
 				"Source\\core\\input.h"
 			],
 			[
-				"editor.cp",
-				"Source\\game\\editor.cpp"
-			],
-			[
 				"context.cp",
 				"Source\\core\\context.cpp"
 			],
@@ -464,24 +569,12 @@
 				"Source\\collision\\collision.cpp"
 			],
 			[
-				"editor.cpp",
-				"Source\\game\\editor.cpp"
-			],
-			[
 				"collisio",
 				"Source\\collision\\collision.h"
 			],
 			[
 				"vec.cp",
 				"Source\\math\\vec.cpp"
-			],
-			[
-				"collision.h",
-				"Source\\collision\\collision.h"
-			],
-			[
-				"debug.h",
-				"Source\\debug\\debug.h"
 			],
 			[
 				"qua",
@@ -532,10 +625,6 @@
 				"Source\\debug\\debug.cpp"
 			],
 			[
-				"editor.h",
-				"Source\\game\\editor.h"
-			],
-			[
 				"main.cp",
 				"Source\\main.cpp"
 			],
@@ -556,28 +645,12 @@
 				"Source\\game\\game.h"
 			],
 			[
-				"aabb.h",
-				"Source\\collision\\aabb.h"
-			],
-			[
 				"default.ver",
 				"Resources\\shader\\default.vert"
 			],
 			[
 				"default.fra",
 				"Resources\\shader\\default.frag"
-			],
-			[
-				"collision.cpp",
-				"Source\\collision\\collision.cpp"
-			],
-			[
-				"player.cp",
-				"Source\\player\\player.cpp"
-			],
-			[
-				"scene.h",
-				"Source\\game\\scene.h"
 			],
 			[
 				"collider.cpp",
@@ -592,20 +665,8 @@
 				"Source\\main.cpp"
 			],
 			[
-				"math.h",
-				"Source\\math\\vecmath.h"
-			],
-			[
-				"collider.h",
-				"Source\\collision\\collider.h"
-			],
-			[
 				"collision",
 				"Source\\collision\\collision.h"
-			],
-			[
-				"aabb",
-				"Source\\collision\\aabb.cpp"
 			],
 			[
 				"playe.rcp",
@@ -772,16 +833,8 @@
 				"hellgun\\res\\material\\fx\\particle_point.mat"
 			],
 			[
-				"player.cpp",
-				"hellgun\\src\\player\\player.cpp"
-			],
-			[
 				"particlesyst",
 				"hellgun\\src\\fx\\particlesystem.cpp"
-			],
-			[
-				"enemy.cpp",
-				"hellgun\\src\\entity\\enemy\\enemy.cpp"
 			],
 			[
 				"particlesys",
@@ -902,50 +955,6 @@
 			[
 				"materialresour",
 				"hellgun\\src\\resource\\materialresource.cpp"
-			],
-			[
-				"materialresro",
-				"hellgun\\src\\resource\\materialresource.cpp"
-			],
-			[
-				"shaderres",
-				"hellgun\\src\\resource\\shaderresource.cpp"
-			],
-			[
-				"particle_poin",
-				"hellgun\\res\\material\\fx\\particle_point.mat"
-			],
-			[
-				"tga",
-				"hellgun\\src\\import\\tga.h"
-			],
-			[
-				"textureresou",
-				"hellgun\\src\\resource\\textureresource.cpp"
-			],
-			[
-				"debug.mat",
-				"hellgun\\res\\material\\debug.mat"
-			],
-			[
-				"muzzleflashst",
-				"hellgun\\src\\fx\\weapon\\muzzleflashsystem.cpp"
-			],
-			[
-				"gridfont.ver",
-				"hellgun\\res\\shader\\gridfont.vert"
-			],
-			[
-				"gridfont.ma",
-				"hellgun\\res\\material\\ui\\gridfont.mat"
-			],
-			[
-				"gridfont.cp",
-				"hellgun\\src\\gfx\\gridfont.cpp"
-			],
-			[
-				"trailsyst",
-				"hellgun\\src\\fx\\trailsystem.cpp"
 			]
 		],
 		"width": 0.0
@@ -961,10 +970,30 @@
 	},
 	"select_symbol":
 	{
-		"height": 500.0,
-		"last_filter": "point",
+		"height": 481.0,
+		"last_filter": "arbitrar",
 		"selected_items":
 		[
+			[
+				"arbitrar",
+				"arbitrary_perpendicular"
+			],
+			[
+				"swap",
+				"swap"
+			],
+			[
+				"sweep_aabb",
+				"sweep_aabb"
+			],
+			[
+				"Vec3",
+				"Vec3"
+			],
+			[
+				"length_sqr",
+				"length_sqrd"
+			],
 			[
 				"point",
 				"point"
@@ -1078,10 +1107,6 @@
 				"Hit_Result"
 			],
 			[
-				"Vec3",
-				"Vec3"
-			],
-			[
 				"Sweep_In",
 				"Sweep_Info"
 			],
@@ -1180,10 +1205,6 @@
 			[
 				"vec3",
 				"Vec3"
-			],
-			[
-				"sweep_aabb",
-				"sweep_aabb"
 			],
 			[
 				"is_nearly",
@@ -1464,18 +1485,6 @@
 			[
 				"SV_POSITION",
 				"SV_POSITION"
-			],
-			[
-				"lights",
-				"lights"
-			],
-			[
-				"UNITY_MATRIX_M",
-				"UNITY_MATRIX_M"
-			],
-			[
-				"Mathf",
-				"Mathf"
 			]
 		],
 		"width": 580.0
@@ -1495,50 +1504,51 @@
 				[
 					"insert",
 					{
-						"characters": " -"
+						"characters": " /"
 					}
 				],
 				[
 					"insert",
 					{
-						"characters": " r"
+						"characters": " "
 					}
 				],
 				[
 					"insert",
 					{
-						"characters": "ect_normal"
+						"characters": "length"
+					}
+				],
+				[
+					"insert_snippet",
+					{
+						"contents": "($0)"
 					}
 				],
 				[
 					"insert",
 					{
-						"characters": " *"
+						"characters": "line_delta"
 					}
 				],
 				[
-					"insert",
+					"move",
 					{
-						"characters": " src.s"
+						"by": "characters",
+						"forward": true
 					}
 				],
 				[
-					"left_delete",
-					null
-				],
-				[
-					"insert",
+					"move",
 					{
-						"characters": "radius"
+						"by": "characters",
+						"forward": true
 					}
 				]
 			],
-			"alternate_view": 273,
+			"alternate_view": null,
 			"last_command_line": null,
-			"last_search_pattern":
-			[
-				"wheel"
-			]
+			"last_search_pattern": null
 		}
 	},
 	"show_minimap": false,

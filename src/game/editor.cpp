@@ -74,18 +74,52 @@ void Editor::update()
 	if (has_sweep)
 	{
 		// TESTING
+		Capsule cap = Capsule(Vec3(5.f, 0.f, 0.f), Vec3(-5.f, 0.f, 0.f), 1.8f);
+		Hit_Result hit = Collision::line_trace(sweep_origin, sweep_origin + sweep_direction * sweep_length, cap);
+
+		Color clr = hit.has_hit ? Color::red : Color::green;
+		debug->capsule(cap.a, cap.b, cap.radius, clr);
+		debug->line(sweep_origin, hit.position, clr);
+		debug->point(hit.position, clr);
+
+		/*
+		AABB box = AABB::from_center_size(Vec3::zero, Vec3(5.f));
+		Hit_Result hit = Collision::line_trace(sweep_origin, sweep_origin + sweep_direction * sweep_length, box);
+
+		Color clr = hit.has_hit ? Color::red : Color::green;
+		if (hit.is_penetrating)
+			clr = Color::yellow;
+
+		debug->box(box.center(), box.size(), Quat::identity, clr);
+		debug->line(sweep_origin, hit.position, clr);
+		debug->point(hit.position, clr);
+
+		if (hit.is_penetrating)
+			debug->vector(hit.position, hit.normal * hit.penetration_depth, clr);
+		else
+			debug->vector(hit.position, hit.normal, clr);
+			*/
+
+/*
 		Sphere a = Sphere(sweep_origin, 1.5f);
-		Hit_Result hit = Collision::sweep_sphere(a, sweep_direction * sweep_length, Vec3::zero, Vec3::right, Vec3(5.f, 5.f, 0.f));
+		AABB b = AABB::from_center_size(Vec3::zero, Vec3(5.f));
+		Hit_Result hit = Collision::sweep_sphere(a, sweep_direction * sweep_length, b);
 
 		Color clr = hit.has_hit ? Color::red : Color::blue;
 
 		debug->sphere(a.origin, a.radius, clr);
 		debug->line(a.origin, hit.position, clr);
-		debug->sphere(hit.position, a.radius, clr);
 
-		debug->rect(Vec3::zero, Vec3::right, Vec3::up, Vec2(5.f, 5.f));
+		debug->sphere(hit.position, a.radius, clr);
+		debug->box(b.center(), b.size(), Quat::identity, clr);
 
 		debug->print(String::printf("Time: %f", hit.time), 0.f);
+
+		if (hit.has_hit)
+			debug->vector(hit.position, hit.normal, clr);
+
+		debug->capsule(Vec3(-5.f, -2.f, 0.f), Vec3(-5.f, 2.f, 0.f), 1.f);
+		*/
 
 		/*
 		AABB test_aabb = AABB::from_center_size(editor_camera.position + editor_camera.right(), Vec3::one);

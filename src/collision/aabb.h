@@ -14,6 +14,7 @@ struct AABB
 	AABB(const Vec3& min, const Vec3& max) : min(min), max(max) {}
 
 	AABB move(const Vec3& delta) const { return AABB(min + delta, max + delta); }
+	AABB inflate(float amount) const { return AABB(min - amount, max + amount); }
 	Vec3 center() const { return (min + max) * 0.5f; }
 	Vec3 size() const { return max - min; }
 };

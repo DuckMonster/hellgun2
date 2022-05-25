@@ -199,6 +199,22 @@ void Debug::sphere(const Vec3& position, float radius, const Color& color, float
 	info.thickness = thickness;
 }
 
+void Debug::capsule(const Vec3& a, const Vec3& b, float radius, const Color& color, float thickness)
+{
+	sphere(a, radius, color, thickness);
+	sphere(b, radius, color, thickness);
+
+	// Draw lines connecting the two spheres
+	Vec3 direction = direction_to(a, b);
+	Vec3 perp_a = arbitrary_perpendicular(direction) * radius;
+	Vec3 perp_b = cross(direction, perp_a);
+
+	line(a + perp_a, b + perp_a, color, thickness);
+	line(a + perp_b, b + perp_b, color, thickness);
+	line(a - perp_a, b - perp_a, color, thickness);
+	line(a - perp_b, b - perp_b, color, thickness);
+}
+
 void Debug::text(const String& str, const Vec2& position, const Color& foreground, const Color& background, const Vec2& alignment)
 {
 	Text_Info& info = text_list.add_default();

@@ -52,6 +52,8 @@ public:
 
 	void sphere(const Vec3& position, float radius, const Color& color = Color::red, float thickness = 2.f);
 
+	void capsule(const Vec3& a, const Vec3& b, float radius, const Color& color = Color::red, float thickness = 2.f);
+
 	void hit_result(const Hit_Result& hit);
 
 	void text(const String& str, const Vec2& position, const Color& foreground = Color::white, const Color& background = Color::black, const Vec2& alignment = Vec2::zero);
