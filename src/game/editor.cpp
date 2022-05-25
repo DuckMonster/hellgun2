@@ -74,6 +74,7 @@ void Editor::update()
 	if (has_sweep)
 	{
 		// TESTING
+		/*
 		Capsule cap = Capsule(Vec3(5.f, 0.f, 0.f), Vec3(-5.f, 0.f, 0.f), 1.8f);
 		Hit_Result hit = Collision::line_trace(sweep_origin, sweep_origin + sweep_direction * sweep_length, cap);
 
@@ -81,8 +82,10 @@ void Editor::update()
 		debug->capsule(cap.a, cap.b, cap.radius, clr);
 		debug->line(sweep_origin, hit.position, clr);
 		debug->point(hit.position, clr);
+		debug->vector(hit.position, hit.normal, clr);
+		*/
 
-		/*
+/*
 		AABB box = AABB::from_center_size(Vec3::zero, Vec3(5.f));
 		Hit_Result hit = Collision::line_trace(sweep_origin, sweep_origin + sweep_direction * sweep_length, box);
 
@@ -100,7 +103,7 @@ void Editor::update()
 			debug->vector(hit.position, hit.normal, clr);
 			*/
 
-/*
+		/*
 		Sphere a = Sphere(sweep_origin, 1.5f);
 		AABB b = AABB::from_center_size(Vec3::zero, Vec3(5.f));
 		Hit_Result hit = Collision::sweep_sphere(a, sweep_direction * sweep_length, b);

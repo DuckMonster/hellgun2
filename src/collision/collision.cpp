@@ -185,6 +185,18 @@ Hit_Result Collision::line_trace(const Vec3& start, const Vec3& end, const Capsu
 
 		hit_time = parallel_hit.time;
 	}
+
+	// Okay, so
+	// Now that we know where on the infinite cylinder,
+	//	we can find the sphere inside that cylinder that is clamped inside the capsule
+	Vec3 hit_location = start + (end - start) * hit_time;
+	float hit_height = dot(hit_location - tar.a, parallel);
+	float capsule_height = distance(tar.a, tar.b);
+
+	hit_height = Math::clamp(hit_height, 0.f, capsule_height);
+	Vec3 sphere_pos = tar.a + parallel * hit_height;
+
+	return line_trace(start, end, Sphere(sphere_pos, tar.radius));
 }
 
 Hit_Result Collision::intersect_aabb(const AABB& src, const AABB& tar)
@@ -343,6 +355,7 @@ Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const A
 	// We need to determine if we hit a face, an edge or a vertex
 	Vec3 hit_pos = inflated_hit.position;
 	Vec3 corner_vertex;
+	Vec3 far_vertex;
 	Vec3 edge_vertex;
 	u32 outside_edges = 0;
 
@@ -351,18 +364,21 @@ Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const A
 		if (hit_pos[axis] < tar.min[axis])
 		{
 			corner_vertex[axis] = tar.min[axis];
+			far_vertex[axis] = tar.max[axis];
 			edge_vertex[axis] = tar.min[axis];
 			outside_edges++;
 		}
 		else if (hit_pos[axis] > tar.max[axis])
 		{
 			corner_vertex[axis] = tar.max[axis];
+			far_vertex[axis] = tar.min[axis];
 			edge_vertex[axis] = tar.max[axis];
 			outside_edges++;
 		}
 		else
 		{
 			corner_vertex[axis] = tar.min[axis];
+			far_vertex[axis] = tar.max[axis];
 			edge_vertex[axis] = tar.max[axis];
 		}
 	}
@@ -374,35 +390,31 @@ Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const A
 	// Being ouside of 2 axes means we hit an edge
 	if (outside_edges == 2)
 	{
-		debug->capsule(corner_vertex, edge_vertex, src.radius, Color::yellow);
-
-		// Compress the problem to 2D, essentially tracing a line with a circle.
-		// This will act like an infinite cylinder along the edge of the cube, but that should be fine!
-		// There should be no way to hit the cylinder in an invalid spot (hopefully)
-
-		Vec3 plane = normalize(edge_vertex - corner_vertex);
-		Vec3 circle_point = constrain_to_plane(edge_vertex, plane);
-		Vec3 start_point = constrain_to_plane(src.origin, plane);
-		Vec3 end_point = constrain_to_plane(src.origin + delta, plane);
-
-		// We use the hit here just for 
-		// 1. Checking if there's a hit at all
-		// 2. Getting the time of the hit
-		Hit_Result edge_hit = line_trace(start_point, end_point, Sphere(circle_point, src.radius));
-		if (!edge_hit.has_hit)
-			return Hit_Result::make_no_hit(src.origin + delta);
-
-		return Hit_Result::make_hit(src.origin + delta * edge_hit.time, edge_hit.normal, edge_hit.time);
+		// Line trace against a capsule covering this edge
+		return line_trace(src.origin, src.origin + delta, Capsule(corner_vertex, edge_vertex, src.radius));
 	}
 
 	// Being outside all axes means we hit a corner!
 	if (outside_edges == 3)
 	{
-		debug->sphere(corner_vertex, src.radius, Color::yellow);
-		// Alright so we hit a corner, lets do a linetrace with a sphere at that particular corner
-		return line_trace(src.origin, src.origin + delta, Sphere(corner_vertex, src.radius));
+		Hit_Result result_hit = Hit_Result::make_no_hit(src.origin + delta);
+
+		// For corners, we need to line trace against all 3 edges (as capsules) connected to this corner
+		for(u32 edge_idx = 0; edge_idx < 3; ++edge_idx)
+		{
+			// Construct capsule based on each axis edge
+			Vec3 other_vertex = corner_vertex;
+			other_vertex[edge_idx] = far_vertex[edge_idx];
+
+			Capsule edge_capsule = Capsule(corner_vertex, other_vertex, src.radius);
+			Hit_Result edge_hit = line_trace(src.origin, src.origin + delta, edge_capsule);
+
+			result_hit = select_first_hit(result_hit, edge_hit);
+		}
+
+		return result_hit;
 	}
 
-	debug->print(String::printf("Outside edges: %d", outside_edges));
-	return inflated_hit;
+	// Should never get here...
+	return Hit_Result::make_no_hit(src.origin + delta);
 }

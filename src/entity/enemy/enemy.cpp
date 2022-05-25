@@ -16,7 +16,7 @@ void Enemy::init()
 
 	collider = scene->add_collider();
 	collider->object_type = COBJ_Enemy;
-	collider->set_aabb(Vec3(3.f));
+	collider->set_sphere(1.5f);
 	collider->owner = this;
 	collider->position = position;
 
