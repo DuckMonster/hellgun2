@@ -12,6 +12,7 @@
 #include "math/random.h"
 #include "math/plane.h"
 #include "fx/fx.h"
+#include "ui/ui.h"
 
 Game* game;
 
@@ -103,6 +104,7 @@ void Game::render()
 
 	fx->render(info);
 	debug->render(info);
+	ui->render(info);
 }
 
 Ray Game::get_mouse_world_ray()

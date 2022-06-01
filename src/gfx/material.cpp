@@ -96,3 +96,15 @@ void Material::set(const char* name, const Color& clr)
 
 	glUniform4fv(uniform, 1, (float*)&clr);
 }
+
+void Material::set(const char* name, const Vec2& vec)
+{
+	GLint uniform = glGetUniformLocation(program, name);
+	if (uniform == -1)
+	{
+		//printf("Uniform '%s' not found\n", name);
+		return;
+	}
+
+	glUniform2fv(uniform, 1, (float*)&vec);
+}

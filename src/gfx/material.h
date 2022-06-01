@@ -18,4 +18,5 @@ struct Material
 	void set(const char* name, const float& value);
 	void set(const char* name, const Mat4& mat);
 	void set(const char* name, const Color& clr);
+	void set(const char* name, const Vec2& vec);
 };

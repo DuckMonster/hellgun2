@@ -56,6 +56,7 @@ void load_gl_extensions()
 	LOAD_GL(glGetUniformLocation);
 
 	LOAD_GL(glUniform1f);
+	LOAD_GL(glUniform2fv);
 	LOAD_GL(glUniform4fv);
 	LOAD_GL(glUniformMatrix4fv);
 

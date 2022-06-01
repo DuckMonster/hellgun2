@@ -11,6 +11,8 @@
 #include "test.h"
 #include "import/dat.h"
 #include "import/obj.h"
+#include "ui/ui.h"
+#include "ui/ui_debug.h"
 #include <stdlib.h>
 
 int main()
@@ -30,6 +32,10 @@ int main()
 	scene = new Scene();
 	editor = new Editor();
 	fx = new Fx();
+
+	ui = new UI();
+	ui_debug = new UI_Debug();
+	ui_debug->init();
 
 	game->init();
 	editor->init();
