@@ -12,6 +12,7 @@ struct Hit_Result
 	{
 		Hit_Result result;
 		result.position = position;
+		result.time = 1.f;
 
 		return result;
 	}
@@ -57,6 +58,15 @@ struct Hit_Result
 		return Math::is_nan(time) || Math::is_nan(penetration_depth) ||
 			::contains_nan(position) || ::contains_nan(normal);
 	}
+
+	Hit_Result invert(const Vec3& new_origin, const Vec3& new_delta)
+	{
+		Hit_Result new_hit = *this;
+		new_hit.position = new_origin + new_delta * time;
+		new_hit.normal = -normal;
+
+		return new_hit;
+	}
 };
 
 namespace Collision
@@ -73,10 +83,13 @@ namespace Collision
 
 	// AABB stuff
 	Hit_Result intersect_aabb(const AABB& src, const AABB& tar);
+	Hit_Result intersect_aabb(const AABB& src, const Sphere& tar);
 	Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar);
+	Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, const Sphere& tar);
 
 	// Sphere stuff
 	Hit_Result intersect_sphere(const Sphere& src, const Sphere& tar);
+	Hit_Result intersect_sphere(const Sphere& src, const AABB& tar);
 	Hit_Result sweep_sphere(const Sphere& src, const Vec3& delta, const Sphere& tar);
 	Hit_Result sweep_sphere(const Sphere& src, const Vec3& delta, const AABB& tar);
 }

@@ -48,14 +48,12 @@ void Scene::destroy_collider(Collider* collider)
 	}
 }
 
-Hit_Result Scene::sweep_aabb(const AABB& src, const Vec3& delta, Sweep_Info info)
+Hit_Result Scene::sweep(const Shape& shape, const Vec3& delta, Sweep_Info info)
 {
 	if (info.source_entity == NULL)
 		info.ignore_self = false;
 
-	static bool retry = false;
-
-	Hit_Result hit = Hit_Result::make_no_hit(src.center() + delta);
+	Hit_Result result = Hit_Result::make_no_hit(shape.position + delta);
 
 	for(auto* collider : colliders)
 	{
@@ -67,17 +65,30 @@ Hit_Result Scene::sweep_aabb(const AABB& src, const Vec3& delta, Sweep_Info info
 		if (info.ignore_self && info.source_entity == collider->owner)
 			continue;
 
-		hit = Collision::select_first_hit(hit, collider->sweep_test(src, delta));
+		Hit_Result hit = collider->receive_sweep(shape, delta);
+		result = Collision::select_first_hit(result, hit);
 	}
 
-	if (hit.contains_nan() && !retry)
+	return result;
+}
+
+Hit_Result Scene::sweep_collider(const Collider* collider, const Vec3& delta, Sweep_Info info)
+{
+	Hit_Result result = Hit_Result::make_no_hit(collider->position + delta);
+
+	for(auto* other_collider : colliders)
 	{
-		printf("sweep resulted in NaN\n");
+		// Collider not covered by the object mask
+		if ((other_collider->object_type & info.object_mask) == 0)
+			continue;
 
-		retry = true;
-		sweep_aabb(src, delta);
-		retry = false;
+		// Ignore self
+		if (other_collider == collider)
+			continue;
+
+		Hit_Result hit = collider->sweep(delta, other_collider);
+		result = Collision::select_first_hit(result, hit);
 	}
 
-	return hit;
+	return result;
 }

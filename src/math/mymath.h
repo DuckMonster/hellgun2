@@ -25,6 +25,8 @@ public:
 	static inline float cos(float rad) { return cosf(rad); }
 	static inline float tan(float rad) { return tanf(rad); }
 
+	static inline float atan2(float y, float x) { return atan2f(y, x); }
+
 	static u32 ceil_po2(u32 val)
 	{
 		// Edge case - 0 given

@@ -1,47 +1,53 @@
 #include "collider.h"
 #include "debug/debug.h"
 
-Hit_Result Collider::intersect(const Collider* other) const
+Shape Collider::get_transformed_shape(u32 index) const
 {
-	AABB src = as_aabb();
-	AABB tar = other->as_aabb();
-
-	Hit_Result hit = Collision::intersect_aabb(src, tar);
-	hit.collider = other;
-
-	return hit;
-}
-
-Hit_Result Collider::sweep_to(const Vec3& delta, const Collider* target) const
-{
-	AABB src = as_aabb();
-	return target->sweep_test(src, delta);
-}
-
-Hit_Result Collider::sweep_test(const AABB& src, const Vec3& delta) const
-{
-	Hit_Result hit;
-	switch(shape)
+	if (index > shapes.count())
 	{
-		case Shape_Type::AABB:
-			hit = Collision::sweep_aabb(src, delta, as_aabb());
-			break;
+		error("get_transformed_shape out of range (%d / %d)", index, shapes.count());
+		return Shape();
 	}
 
-	hit.collider = this;
-	return hit;
+	Shape shape = shapes[index];
+	shape.position += position; // :^) no matrices here
+
+	return shape;
+}
+
+Hit_Result Collider::sweep(const Vec3& delta, const Collider* other) const
+{
+	Hit_Result result = Hit_Result::make_no_hit(position + delta);
+
+	for(u32 i = 0; i < num_shapes(); ++i)
+	{
+		Shape my_shape = get_transformed_shape(i);
+		Hit_Result hit = other->receive_sweep(my_shape, delta);
+
+		result = Collision::select_first_hit(result, hit);
+	}
+
+	return result;
+}
+
+Hit_Result Collider::receive_sweep(const Shape& shape, const Vec3& delta) const
+{
+	Hit_Result result = Hit_Result::make_no_hit(shape.position + delta);
+
+	for(u32 i = 0; i < num_shapes(); ++i)
+	{
+		Shape my_shape = get_transformed_shape(i);
+		Hit_Result hit = shape.sweep(delta, my_shape);
+
+		result = Collision::select_first_hit(result, hit);
+	}
+
+	result.collider = this;
+	return result;
 }
 
 void Collider::debug_draw(const Color& clr, float thickness) const
 {
-	switch(shape)
-	{
-		case Shape_Type::AABB:
-			debug->box(position, size, Quat::identity, clr, thickness);
-			return;
-
-		case Shape_Type::Sphere:
-			debug->sphere(position, size.x, clr, thickness);
-			return;
-	}
+	for(u32 i = 0; i < num_shapes(); ++i)
+		get_transformed_shape(i).debug_draw(clr);
 }

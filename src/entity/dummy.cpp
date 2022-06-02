@@ -6,7 +6,7 @@
 void Dummy::init()
 {
 	collider = scene->add_collider();
-	collider->set_aabb(Vec3(3.f));
+	collider->attach_shape(Shape::aabb(Vec3::zero, Vec3(3.f)));
 	collider->owner = this;
 	collider->position = position;
 }
@@ -20,13 +20,13 @@ void Dummy::update()
 {
 	velocity += -Vec3::up * 5.f * time_delta();
 
-	AABB aabb = AABB::from_center_size(position, Vec3(3.f));
+	Shape shape = Shape::aabb(position, Vec3(3.f));
 
 	Sweep_Info sweep_info;
 	sweep_info.source_entity = this;
 	sweep_info.ignore_self = true;
 
-	Hit_Result hit = scene->sweep_aabb(aabb, velocity * time_delta(), sweep_info);
+	Hit_Result hit = scene->sweep(shape, velocity * time_delta(), sweep_info);
 
 	position = hit.position;
 	collider->position = position;

@@ -5,6 +5,9 @@
 #include "collision/collision.h"
 #include "collision/collider.h"
 #include "scene.h"
+#include "level.h"
+
+#include "resource/resource.h"
 
 #include "player/player.h"
 #include "entity/enemy/enemy.h"
@@ -32,35 +35,12 @@ void Game::init()
 	// Spawn player
 	player = scene->spawn_entity<Player>(Vec3::zero);
 
-	// Create "map"
-	Collider* collider;
-
-	// Bottom wall
-	collider = scene->add_collider();
-	collider->object_type = COBJ_World;
-	collider->position = Vec3(0.f, -25.f, 0.f);
-	collider->set_aabb(Vec3(200.f, 1.f, 10.f));
-
-	// Top wall
-	collider = scene->add_collider();
-	collider->object_type = COBJ_World;
-	collider->position = Vec3(0.f, 25.f, 0.f);
-	collider->set_aabb(Vec3(200.f, 1.f, 10.f));
-
-	// Left wall
-	collider = scene->add_collider();
-	collider->object_type = COBJ_World;
-	collider->position = Vec3(-100.f, 0.f, 0.f);
-	collider->set_aabb(Vec3(1.f, 50.f, 10.f));
-
-	// Right wall
-	collider = scene->add_collider();
-	collider->object_type = COBJ_World;
-	collider->position = Vec3(100.f, 0.f, 0.f);
-	collider->set_aabb(Vec3(1.f, 50.f, 10.f));
-
 	// Enemy spawning stuff
 	enemy_spawn_time = 2.f;
+
+	// Load level
+	level = Resource::load_level("level/test.lvl");
+	level->open();
 }
 
 void Game::update()
@@ -99,10 +79,10 @@ void Game::render()
 
 	for(auto* entity : scene->entities)
 		entity->render(info);
-	for(auto* collider : scene->colliders)
-		collider->debug_draw(Color::blue);
 
 	fx->render(info);
+	level->render(info);
+
 	debug->render(info);
 	ui->render(info);
 }

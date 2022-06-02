@@ -6,7 +6,6 @@
 #define ENEMY_FRICTION (0.5f)
 
 class Collider;
-class Trail_System;
 
 class Enemy : public Entity
 {
@@ -21,7 +20,8 @@ public:
 	float offset_timer = 0.f;
 
 	Collider* collider = nullptr;
-	Trail_System* trail = nullptr;
+
+	Vec3 jaw_location = Vec3::zero;
 
 	void init() override;
 	void on_destroyed() override;

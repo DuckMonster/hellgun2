@@ -165,13 +165,14 @@ void Player::move(Vec3 delta)
 
 Hit_Result Player::sweep(const Vec3& delta)
 {
-	AABB box = AABB::from_center_size(position, Vec3::one);
+	Shape shape = Shape::aabb(position, Vec3::one);
+
 	Sweep_Info info;
 	info.source_entity = this;
 	info.ignore_self = true;
 	info.object_mask = COBJ_World;
 
-	return scene->sweep_aabb(box, delta, info);
+	return scene->sweep(shape, delta, info);
 }
 
 void Player::render(const Render_Info& info)
@@ -181,7 +182,7 @@ void Player::render(const Render_Info& info)
 	mat->set("u_ViewProjection", info.view_projection);
 	mat->set("u_Model", mat_translation(position));
 
-	Mesh* mesh = Resource::load_mesh("mesh/sphere.obj");
+	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
 	mesh->draw();
 }
 

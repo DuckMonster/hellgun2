@@ -3,7 +3,7 @@
 
 void Shader_Resource::load()
 {
-	String source = load_whole_file(path.data());
+	String source = load_whole_file(get_absolute_path().data());
 	if (source.length() == 0)
 		return;
 

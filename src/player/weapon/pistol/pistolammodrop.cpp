@@ -8,15 +8,16 @@
 
 void Pistol_Ammo_Drop::update()
 {
-	velocity += -Vec3::up * 40.f * time_delta();
+	velocity += -Vec3::up * 80.f * time_delta();
 
 	// Calculate friction based on X-velocity
-	float friction = 0.7f;
-	friction += Math::abs(velocity.x) * 0.05f;
-
+	float friction = 2.8f;
 	velocity -= velocity * friction * time_delta();
 
-	Hit_Result hit = scene->sweep_aabb(AABB::from_center_size(position, Vec3(1.f)), velocity * time_delta());
+	Sweep_Info info;
+	info.object_mask = COBJ_World;
+
+	Hit_Result hit = scene->sweep(Shape::aabb(position, Vec3(1.f)), velocity * time_delta(), info);
 	if (hit.has_hit)
 	{
 		position = hit.position;

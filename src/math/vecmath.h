@@ -98,3 +98,25 @@ inline Vec3 component_clamp(const Vec3& v, const Vec3& min, const Vec3& max)
 		Math::clamp(v.z, min.z, max.z)
 	);
 }
+
+inline Vec3 component_min(const Vec3& a, const Vec3& b)
+{
+	return Vec3(
+		Math::min(a.x, b.x),
+		Math::min(a.y, b.y),
+		Math::min(a.z, b.z)
+	);
+}
+inline Vec3 component_max(const Vec3& a, const Vec3& b)
+{
+	return Vec3(
+		Math::max(a.x, b.x),
+		Math::max(a.y, b.y),
+		Math::max(a.z, b.z)
+	);
+}
+
+inline float vec_to_angle(const Vec2& a)
+{
+	return Math::atan2(a.y, a.x);
+}

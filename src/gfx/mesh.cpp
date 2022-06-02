@@ -57,12 +57,12 @@ void Mesh::element_data(u64 size, const void* data)
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, data, GL_STATIC_DRAW);
 }
 
-void Mesh::bind()
+void Mesh::bind() const
 {
 	glBindVertexArray(vao);
 }
 
-void Mesh::draw()
+void Mesh::draw() const
 {
 	glBindVertexArray(vao);
 

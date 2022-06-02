@@ -1,0 +1,2 @@
+vertex: "shader/prop.vert"
+fragment: "shader/prop.frag"

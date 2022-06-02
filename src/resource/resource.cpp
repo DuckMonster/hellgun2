@@ -8,6 +8,7 @@
 #include "shaderresource.h"
 #include "materialresource.h"
 #include "textureresource.h"
+#include "levelresource.h"
 #include <stdio.h>
 
 String Resource::resource_root = "res/";
@@ -42,6 +43,11 @@ Texture* Resource::load_texture(const String& path)
 	return &find_or_load_resource<Texture_Resource>(path)->texture;
 }
 
+Level* Resource::load_level(const String& path)
+{
+	return &find_or_load_resource<Level_Resource>(path)->level;
+}
+
 Dat_File* Resource::load_dat(const String& path)
 {
 	Dat_Resource* res = find_or_load_resource<Dat_Resource>(path);
@@ -56,7 +62,7 @@ void Resource::update_hotreload()
 	Array<Resource*> resources_copy = resources;
 	for(auto* resource : resources_copy)
 	{
-		u64 new_time = get_file_modify_time(resource->path.data());
+		u64 new_time = get_file_modify_time(resource->get_absolute_path().data());
 		if (new_time != resource->file_time)
 		{
 			hotreload_resource(resource);
@@ -95,5 +101,10 @@ void Resource::clear_dependencies()
 
 void Resource::update_file_time()
 {
-	file_time = get_file_modify_time(path.data());
+	file_time = get_file_modify_time(get_absolute_path().data());
+}
+
+String Resource::get_absolute_path()
+{
+	return Resource::resource_root + path;
 }

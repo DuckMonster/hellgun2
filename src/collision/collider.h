@@ -1,6 +1,8 @@
 #pragma once
 #include "aabb.h"
 #include "collision.h"
+#include "shape.h"
+#include "container/array.h"
 class Entity;
 
 enum Collider_Object_Type
@@ -12,46 +14,21 @@ enum Collider_Object_Type
 	COBJ_All = 0xF
 };
 
-enum class Shape_Type
-{
-	Invalid,
-	AABB,
-	Sphere,
-};
-
 class Collider
 {
 public:
 	Entity* owner = nullptr;
+	Collider_Object_Type object_type = COBJ_All;
+
 	Vec3 position;
 
-	Collider_Object_Type object_type;
+	Array<Shape> shapes;
+	void attach_shape(const Shape& shape) { shapes.add(shape); }
+	u32 num_shapes() const { return shapes.count(); }
+	Shape get_transformed_shape(u32 index) const;
 
-	Shape_Type shape = Shape_Type::Invalid;
-	Vec3 size;
-
-	void set_aabb(const Vec3& box_size)
-	{
-		shape = Shape_Type::AABB;
-		size = box_size;
-	}
-	AABB as_aabb() const
-	{
-		return AABB::from_center_size(position, size);
-	}
-	void set_sphere(float radius)
-	{
-		shape = Shape_Type::Sphere;
-		size.x = radius;
-	}
-	Sphere as_sphere() const
-	{
-		return Sphere(position, size.x);
-	}
-
-	Hit_Result intersect(const Collider* other) const;
-	Hit_Result sweep_to(const Vec3& delta, const Collider* target) const;
-	Hit_Result sweep_test(const AABB& src, const Vec3& delta) const;
+	Hit_Result sweep(const Vec3& delta, const Collider* other) const;
+	Hit_Result receive_sweep(const Shape& shape, const Vec3& delta) const;
 
 	void debug_draw(const Color& clr, float thickness = 2.f) const;
 };

@@ -1,5 +1,6 @@
 #include "meshresource.h"
 #include "import/obj.h"
+#include "import/msh.h"
 
 void Mesh_Resource::init()
 {
@@ -14,14 +15,9 @@ void Mesh_Resource::init()
 
 void Mesh_Resource::load()
 {
-	Obj_File obj;
-	obj.load(path);
-
-	mesh.buffer_data(0, obj.vertices.count() * sizeof(Obj_File::Vertex), obj.vertices.data());
-
-	mesh.draw_mode = GL_TRIANGLES;
-	mesh.draw_offset = 0;
-	mesh.draw_num = obj.vertices.count();
+	Msh_File msh;
+	msh.load(get_absolute_path());
+	msh.upload_to_mesh(&mesh, true);
 }
 
 void Mesh_Resource::free()

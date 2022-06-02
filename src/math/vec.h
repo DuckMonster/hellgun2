@@ -60,6 +60,8 @@ struct Vec3
 
 	float& operator[](u32 index) { return ((float*)this)[index]; }
 	float operator[](u32 index) const { return ((float*)this)[index]; }
+
+	operator Vec2() const { return Vec2(x, y); }
 };
 
 struct Vec4

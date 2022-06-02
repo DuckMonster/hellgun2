@@ -1,5 +1,6 @@
 #pragma once
 #include "camera.h"
+#include "collision/shape.h"
 
 #define EDITOR_CAM_SPD (15.f)
 #define EDITOR_CAM_SENS (0.001f)
@@ -17,6 +18,9 @@ public:
 	Vec3 sweep_origin;
 	Vec3 sweep_direction;
 	float sweep_length = 50.f;
+
+	Shape sweep_src;
+	Shape sweep_tar;
 
 	void init();
 	void update();

@@ -126,6 +126,21 @@ struct String
 		return strncmp(_data + (_length - substr._length), substr._data, substr._length) == 0;
 	}
 
+	// Various utility functions
+	String substr(u32 offset, u32 count) const
+	{
+		if (offset > _length)
+			offset = _length;
+		if (offset + count > _length)
+			count = _length - offset;
+
+		return String(_data + offset, count);
+	}
+	String right_chop(u32 count) const
+	{
+		return substr(0, _length - count);
+	}
+
 	// Addition/etc
 	String operator+(const String& other) const
 	{

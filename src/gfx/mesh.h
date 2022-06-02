@@ -24,6 +24,6 @@ struct Mesh
 	void add_element_buffer();
 	void element_data(u64 size, const void* data);
 
-	void bind();
-	void draw();
+	void bind() const;
+	void draw() const;
 };

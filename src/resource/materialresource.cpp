@@ -6,7 +6,7 @@ void Material_Resource::load()
 	clear_dependencies();
 
 	// Load DAT file describing the material
-	dat.load_file(path);
+	dat.load_file(get_absolute_path());
 
 	if (!dat.contains_value("vertex"))
 	{
@@ -39,6 +39,13 @@ void Material_Resource::load()
 
 		add_dependency(geometry);
 		shaders.add(&geometry->shader);
+	}
+
+	// Don't try to link if any of the shaders had compile failures
+	for(Shader* shader : shaders)
+	{
+		if (!shader->compile_result)
+			return;
 	}
 
 	material.link_program(shaders);

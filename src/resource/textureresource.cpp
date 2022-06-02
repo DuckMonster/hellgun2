@@ -9,7 +9,7 @@ void Texture_Resource::init()
 void Texture_Resource::load()
 {
 	Tga_File tga;
-	tga.load(path);
+	tga.load(get_absolute_path());
 	tga.flip_vertical();
 
 	if (tga.data == nullptr)

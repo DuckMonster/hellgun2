@@ -17,4 +17,6 @@ struct AABB
 	AABB inflate(float amount) const { return AABB(min - amount, max + amount); }
 	Vec3 center() const { return (min + max) * 0.5f; }
 	Vec3 size() const { return max - min; }
+
+	Vec3 constrain_point(const Vec3& point) const { return component_clamp(point, min, max); }
 };

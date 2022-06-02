@@ -4,6 +4,7 @@
 #include "game/game.h"
 #include "game/scene.h"
 #include "game/editor.h"
+#include "game/level.h"
 #include "fx/fx.h"
 #include "debug/debug.h"
 #include "resource/resource.h"
@@ -24,6 +25,8 @@ int main()
 	load_common_resources();
 
 	time_init();
+
+	Level* lvl = Resource::load_level("level/test.lvl");
 
 	debug = new Debug();
 	debug->init();

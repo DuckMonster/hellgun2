@@ -3,6 +3,7 @@
 #include "container/array.h"
 
 class Entity;
+struct Mesh;
 
 struct Sweep_Info
 {
@@ -54,6 +55,7 @@ public:
 	Collider* add_collider();
 	void destroy_collider(Collider* collider);
 
-	Hit_Result sweep_aabb(const AABB& src, const Vec3& delta, Sweep_Info info = Sweep_Info());
+	Hit_Result sweep(const Shape& shape, const Vec3& delta, Sweep_Info info = Sweep_Info());
+	Hit_Result sweep_collider(const Collider* collider, const Vec3& delta, Sweep_Info info = Sweep_Info());
 };
 extern Scene* scene;

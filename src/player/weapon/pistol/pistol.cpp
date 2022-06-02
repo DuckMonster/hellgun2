@@ -12,11 +12,13 @@ void Pistol::update()
 		// Fire projectile
 		Vec3 spawn_pos = game->player->position;
 		Vec3 target_pos = game->get_mouse_game_position();
+		Vec3 direction = direction_to(spawn_pos, target_pos);
+
+		spawn_pos += direction * 1.f;
 
 		Pistol_Projectile* projectile = scene->spawn_entity<Pistol_Projectile>(spawn_pos);
 		projectile->host = this;
 
-		Vec3 direction = direction_to(spawn_pos, target_pos);
 		projectile->velocity = direction * 800.f;
 
 		// Apply impulse to player

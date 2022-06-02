@@ -27,7 +27,7 @@ void Pistol_Projectile::on_destroyed()
 
 void Pistol_Projectile::update()
 {
-	Hit_Result hit = scene->sweep_aabb(AABB::from_center_size(position, Vec3(0.5f)), velocity * time_delta());
+	Hit_Result hit = scene->sweep(Shape::sphere(position, 0.5f), velocity * time_delta());
 	if (hit.has_hit)
 	{
 		scene->destroy_entity(this);

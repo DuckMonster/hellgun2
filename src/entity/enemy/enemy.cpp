@@ -4,9 +4,10 @@
 #include "player/player.h"
 #include "game/game.h"
 #include "game/scene.h"
+#include "debug/debug.h"
 #include "fx/fx.h"
-#include "fx/trailsystem.h"
 #include "fx/enemy/enemydamagesystem.h"
+#include "gfx/texture.h"
 #include "math/random.h"
 
 void Enemy::init()
@@ -16,25 +17,17 @@ void Enemy::init()
 
 	collider = scene->add_collider();
 	collider->object_type = COBJ_Enemy;
-	collider->set_sphere(1.5f);
+	collider->attach_shape(Shape::sphere(Vec3::zero, 1.5f));
 	collider->owner = this;
 	collider->position = position;
 
-	Trail_Params params;
-	params.color = Color::red;
-	params.duration = 2.f;
-
-	trail = fx->spawn_system<Trail_System>(position, params);
-	trail->attach_to(this);
+	jaw_location = position;
 }
 
 void Enemy::on_destroyed()
 {
 	fx->spawn_system<Enemy_Damage_System>(position, &Common_Mesh::rect, mat_translation(position) * mat_scale(3.f));
 	scene->destroy_collider(collider);
-
-	trail->finish_system();
-	trail->detach();
 }
 
 void Enemy::update() 
@@ -57,24 +50,48 @@ void Enemy::update()
 	info.ignore_self = true;
 	info.object_mask = COBJ_World;
 
-	Hit_Result hit = scene->sweep_aabb(AABB::from_center_size(position, Vec3(3.f)), velocity * time_delta(), info);
+	Hit_Result hit = scene->sweep(Shape::aabb(position, Vec3(3.f)), velocity * time_delta(), info);
 	if (hit.has_hit)
 		velocity -= constrain_to_direction(velocity, hit.normal) * 1.6f;
 
 	position += velocity * time_delta();
+
+
+	jaw_location = Math::lerp(jaw_location, position, 25.f * time_delta());
 
 	collider->position = position;
 }
 
 void Enemy::render(const Render_Info& info)
 {
-	Material* mat = Resource::load_material("material/test.mat");
+	Material* mat = Resource::load_material("material/sprite.mat");
+	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
+	Texture* skull = Resource::load_texture("texture/skull.tga");
+	Texture* jaw_front = Resource::load_texture("texture/skull_jawf.tga");
+	Texture* jaw_back = Resource::load_texture("texture/skull_jawb.tga");
+
+	float angle = vec_to_angle((Vec2)velocity);
 
 	mat->use();
 	mat->set("u_ViewProjection", info.view_projection);
-	mat->set("u_Model", mat_translation(position) * mat_scale(3.f));
+	mat->set("u_Model", mat_translation(position) * Quat(Vec3::right, angle).matrix() * mat_scale(3.f));
 
-	Common_Mesh::rect.draw();
+	// Draw front jaw
+	glEnable(GL_POLYGON_OFFSET_FILL);
+	glPolygonOffset(0.f, 0.f);
+	skull->bind();
+	mesh->draw();
+
+	mat->set("u_Model", mat_translation(jaw_location) * Quat(Vec3::right, angle).matrix() * mat_scale(3.f));
+	glPolygonOffset(0.f, -0.1f);
+	jaw_front->bind();
+	mesh->draw();
+
+	glPolygonOffset(0.f, 0.1f);
+	jaw_back->bind();
+	mesh->draw();
+
+	debug->print(String::printf("angle: %f", vec_to_angle((Vec2)velocity)));
 }
 
 void Enemy::select_new_target_offset()

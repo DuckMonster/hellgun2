@@ -1,0 +1,2 @@
+vertex: "shader/sprite.vert"
+fragment: "shader/sprite.frag"

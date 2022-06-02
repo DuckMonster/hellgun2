@@ -152,17 +152,23 @@ Hit_Result Collision::line_trace(const Vec3& start, const Vec3& end, const Spher
 	if (distance_sqrd(closest_point, tar.origin) > Math::square(tar.radius))
 		return Hit_Result::make_no_hit(end);
 
-	// Okay, time to get the depth of the closest point and move back to when we acturally _entered_ the sphere
+	// Okay, time to get the depth of the closest point and move back to when we actually _entered_ the sphere
 	float closest_origin_dist_sqrd = distance_sqrd(closest_point, tar.origin);
 	float radius_sqrd = Math::square(tar.radius);
 
 	float closest_depth = Math::sqrt(radius_sqrd - closest_origin_dist_sqrd);
 	float enter_distance = closest_time - closest_depth;
 
+	float enter_time = enter_distance / length(line_delta);
+
+	// We're entering after the end of the line trace
+	if (enter_time > 1.f)
+		return Hit_Result::make_no_hit(end);
+
 	Vec3 enter_point = start + line_direction * enter_distance;
 	Vec3 enter_normal = direction_to(tar.origin, enter_point);
 
-	return Hit_Result::make_hit(enter_point, enter_normal, enter_distance / length(line_delta));
+	return Hit_Result::make_hit(enter_point, enter_normal, enter_time);
 }
 
 Hit_Result Collision::line_trace(const Vec3& start, const Vec3& end, const Capsule& tar)
@@ -188,7 +194,7 @@ Hit_Result Collision::line_trace(const Vec3& start, const Vec3& end, const Capsu
 
 	// Okay, so
 	// Now that we know where on the infinite cylinder,
-	//	we can find the sphere inside that cylinder that is clamped inside the capsule
+	//	we can find the sphere inside that cylinder that is clamped within the capsule
 	Vec3 hit_location = start + (end - start) * hit_time;
 	float hit_height = dot(hit_location - tar.a, parallel);
 	float capsule_height = distance(tar.a, tar.b);
@@ -250,6 +256,18 @@ Hit_Result Collision::intersect_aabb(const AABB& src, const AABB& tar)
 		return Hit_Result::make_no_hit(src.center());
 
 	return Hit_Result::make_penetrating(src.center(), axis_result.axis * axis_result.depth);
+}
+
+Hit_Result Collision::intersect_aabb(const AABB& src, const Sphere& tar)
+{
+	Vec3 closest_point = src.constrain_point(tar.origin);
+
+	// Closest point is not within the sphere, no hit
+	if (distance_sqrd(closest_point, tar.origin) > Math::square(tar.radius))
+		return Hit_Result::make_no_hit(src.center());
+
+	// No depenetration yet... :(
+	return Hit_Result::make_penetrating(src.center(), Vec3::zero);
 }
 
 Hit_Result Collision::sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar)
@@ -320,6 +338,14 @@ Hit_Result Collision::sweep_aabb(const AABB& src, const Vec3& delta, const AABB&
 	// Get the last entry, that will be our hit
 	Axis_Result last_enter_axis = select_last_enter(x_axis, y_axis, z_axis);
 	return Hit_Result::make_hit(src.center() + delta * last_enter_axis.enter_time, last_enter_axis.axis, last_enter_axis.enter_time);
+}
+
+Hit_Result Collision::sweep_aabb(const AABB& src, const Vec3& delta, const Sphere& tar)
+{
+	// Do the inverse, sweep the sphere into the AABB
+	// Then invert the result
+	Hit_Result hit = sweep_sphere(tar, -delta, src);
+	return hit.invert(src.center(), delta);
 }
 
 Hit_Result Collision::intersect_sphere(const Sphere& src, const Sphere& tar)

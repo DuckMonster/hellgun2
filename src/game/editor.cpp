@@ -4,6 +4,7 @@
 #include "collision/collision.h"
 
 #include "scene.h"
+#include "level.h"
 #include "entity/entity.h"
 #include "fx/fx.h"
 
@@ -17,6 +18,9 @@ void Editor::init()
 	camera.fov = 90.f;
 	camera.near = 0.1f;
 	camera.far = 1000.f;
+
+	sweep_src = Shape::aabb(Vec3::zero, Vec3(1.2f));
+	sweep_tar = Shape::aabb(Vec3::zero, Vec3(2.5f));
 }
 
 void Editor::update()
@@ -71,70 +75,26 @@ void Editor::update()
 		sweep_length += mouse_wheel_delta() * 1.f;
 	}
 
+	if (key_pressed(Key::N))
+		sweep_src.type = (Shape::Type)(((u32)sweep_src.type + 1) % (u32)Shape::Type::MAX);
+	if (key_pressed(Key::M))
+		sweep_tar.type = (Shape::Type)(((u32)sweep_tar.type + 1) % (u32)Shape::Type::MAX);
+
 	if (has_sweep)
 	{
-		// TESTING
-		/*
-		Capsule cap = Capsule(Vec3(5.f, 0.f, 0.f), Vec3(-5.f, 0.f, 0.f), 1.8f);
-		Hit_Result hit = Collision::line_trace(sweep_origin, sweep_origin + sweep_direction * sweep_length, cap);
+		sweep_src.position = sweep_origin;
 
+		Hit_Result hit = sweep_src.sweep(sweep_direction * sweep_length, sweep_tar);
 		Color clr = hit.has_hit ? Color::red : Color::green;
-		debug->capsule(cap.a, cap.b, cap.radius, clr);
+
+		sweep_src.position = hit.position;
+
 		debug->line(sweep_origin, hit.position, clr);
-		debug->point(hit.position, clr);
+		debug->line(hit.position, sweep_origin + sweep_direction * sweep_length, Color::blue);
 		debug->vector(hit.position, hit.normal, clr);
-		*/
-
-/*
-		AABB box = AABB::from_center_size(Vec3::zero, Vec3(5.f));
-		Hit_Result hit = Collision::line_trace(sweep_origin, sweep_origin + sweep_direction * sweep_length, box);
-
-		Color clr = hit.has_hit ? Color::red : Color::green;
-		if (hit.is_penetrating)
-			clr = Color::yellow;
-
-		debug->box(box.center(), box.size(), Quat::identity, clr);
-		debug->line(sweep_origin, hit.position, clr);
-		debug->point(hit.position, clr);
-
-		if (hit.is_penetrating)
-			debug->vector(hit.position, hit.normal * hit.penetration_depth, clr);
-		else
-			debug->vector(hit.position, hit.normal, clr);
-			*/
-
-		/*
-		Sphere a = Sphere(sweep_origin, 1.5f);
-		AABB b = AABB::from_center_size(Vec3::zero, Vec3(5.f));
-		Hit_Result hit = Collision::sweep_sphere(a, sweep_direction * sweep_length, b);
-
-		Color clr = hit.has_hit ? Color::red : Color::blue;
-
-		debug->sphere(a.origin, a.radius, clr);
-		debug->line(a.origin, hit.position, clr);
-
-		debug->sphere(hit.position, a.radius, clr);
-		debug->box(b.center(), b.size(), Quat::identity, clr);
-
-		debug->print(String::printf("Time: %f", hit.time), 0.f);
-
-		if (hit.has_hit)
-			debug->vector(hit.position, hit.normal, clr);
-
-		debug->capsule(Vec3(-5.f, -2.f, 0.f), Vec3(-5.f, 2.f, 0.f), 1.f);
-		*/
-
-		/*
-		AABB test_aabb = AABB::from_center_size(editor_camera.position + editor_camera.right(), Vec3::one);
-		Hit_Result hit = scene->sweep_aabb(test_aabb, delta);
-
-		Color clr = hit.has_hit ? Color::red : Color::blue;
-		debug->vector(test_aabb.center(), delta, clr);
-		debug->box(hit.position, test_aabb.size(), Quat::identity);
-
-		if (hit.has_hit)
-			debug->vector(hit.position, hit.normal * 2.f, clr);
-			*/
+		debug->print(String::printf("Time: %f", hit.time));
+		sweep_src.debug_draw(clr);
+		sweep_tar.debug_draw(clr);
 	}
 }
 
@@ -153,6 +113,8 @@ void Editor::render()
 		collider->debug_draw(Color::blue);
 
 	fx->render(info);
+	level->render(info);
+
 	debug->render(info);
 }
 

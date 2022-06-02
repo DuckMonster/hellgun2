@@ -7,6 +7,7 @@ struct Material;
 struct Texture;
 struct Shader;
 struct Dat_File;
+struct Level;
 
 class Resource
 {
@@ -26,7 +27,7 @@ protected:
 
 		Stop_Watch watch;
 
-		auto* resource = new ResourceT(resource_root + path);
+		auto* resource = new ResourceT(path);
 		resources.add(resource);
 		resource_map.add(path, resource);
 
@@ -43,6 +44,7 @@ public:
 	static Material* load_material(const String& path);
 	static Shader* load_shader(const String& path);
 	static Texture* load_texture(const String& path);
+	static Level* load_level(const String& path);
 
 	static Dat_File* load_dat(const String& path);
 
@@ -60,6 +62,7 @@ public:
 	void clear_dependencies();
 
 	void update_file_time();
+	String get_absolute_path();
 
 	Array<Resource*> depend_list;
 	Array<Resource*> child_list;
