@@ -1,7 +1,7 @@
 #include "debug.h"
 #include "gfx/mesh.h"
 #include "gfx/material.h"
-#include "gfx/gridfont.h"
+#include "gfx/grid_font.h"
 #include "game/game.h"
 #include "resource/resource.h"
 

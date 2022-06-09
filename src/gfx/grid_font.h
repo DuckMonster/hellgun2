@@ -1,5 +1,5 @@
 #pragma once
-#include "renderinfo.h"
+#include "render_info.h"
 #include "mesh.h"
 #include "material.h"
 #include "texture.h"

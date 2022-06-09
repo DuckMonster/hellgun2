@@ -1,4 +1,4 @@
-#include "meshresource.h"
+#include "mesh_resource.h"
 #include "import/obj.h"
 #include "import/msh.h"
 

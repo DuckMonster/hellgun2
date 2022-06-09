@@ -3,7 +3,7 @@
 #include "game/scene.h"
 #include "game/game.h"
 #include "player/player.h"
-#include "pistolprojectile.h"
+#include "pistol_projectile.h"
 
 void Pistol::update()
 {

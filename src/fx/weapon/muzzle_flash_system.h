@@ -1,5 +1,5 @@
 #pragma once
-#include "fx/particlesystem.h"
+#include "fx/particle_system.h"
 
 class Muzzle_Flash_System : public Particle_System
 {

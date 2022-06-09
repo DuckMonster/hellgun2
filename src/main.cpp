@@ -8,7 +8,7 @@
 #include "fx/fx.h"
 #include "debug/debug.h"
 #include "resource/resource.h"
-#include "resource/resourcecommon.h"
+#include "resource/resource_common.h"
 #include "test.h"
 #include "import/dat.h"
 #include "import/obj.h"

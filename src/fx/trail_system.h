@@ -1,6 +1,6 @@
 #pragma once
 #include "emitter.h"
-#include "particlesystem.h"
+#include "particle_system.h"
 
 struct Trail_Params
 {

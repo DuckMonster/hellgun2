@@ -3,12 +3,12 @@
 #include "gfx/texture.h"
 #include "core/io.h"
 #include "import/tga.h"
-#include "datresource.h"
-#include "meshresource.h"
-#include "shaderresource.h"
-#include "materialresource.h"
-#include "textureresource.h"
-#include "levelresource.h"
+#include "dat_resource.h"
+#include "mesh_resource.h"
+#include "shader_resource.h"
+#include "material_resource.h"
+#include "texture_resource.h"
+#include "level_resource.h"
 #include <stdio.h>
 
 String Resource::resource_root = "res/";

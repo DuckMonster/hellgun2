@@ -1,5 +1,5 @@
-#include "materialresource.h"
-#include "shaderresource.h"
+#include "material_resource.h"
+#include "shader_resource.h"
 
 void Material_Resource::load()
 {

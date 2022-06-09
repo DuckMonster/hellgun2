@@ -1,4 +1,4 @@
-#include "trailsystem.h"
+#include "trail_system.h"
 #include "resource/resource.h"
 #include "math/random.h"
 

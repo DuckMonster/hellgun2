@@ -1,5 +1,5 @@
 #pragma once
-#include "particlesystem.h"
+#include "particle_system.h"
 
 class Surface_Impact_System : public Particle_System
 {

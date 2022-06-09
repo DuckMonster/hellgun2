@@ -1,4 +1,4 @@
-#include "impactspikesystem.h"
+#include "impact_spike_system.h"
 #include "gfx/mesh.h"
 #include "gfx/material.h"
 #include "resource/resource.h"

@@ -1,4 +1,4 @@
-#include "surfaceimpactsystem.h"
+#include "surface_impact_system.h"
 #include "emitter.h"
 #include "resource/resource.h"
 #include "math/random.h"

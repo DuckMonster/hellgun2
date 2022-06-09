@@ -3,12 +3,12 @@
 #include "debug/debug.h"
 #include "game/game.h"
 #include "game/scene.h"
-#include "resource/resourcecommon.h"
+#include "resource/resource_common.h"
 #include "math/plane.h"
 #include "resource/resource.h"
 #include "fx/fx.h"
-#include "fx/weapon/muzzleflashsystem.h"
-#include "fx/surfaceimpactsystem.h"
+#include "fx/weapon/muzzle_flash_system.h"
+#include "fx/surface_impact_system.h"
 #include "weapon/pistol/pistol.h"
 
 #include <stdio.h>

@@ -1,5 +1,5 @@
 #pragma once
-#include "gfx/renderinfo.h"
+#include "gfx/render_info.h"
 
 class UI
 {

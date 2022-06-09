@@ -1,4 +1,4 @@
-#include "particlesystem.h"
+#include "particle_system.h"
 #include "emitter.h"
 #include "entity/entity.h"
 

@@ -1,6 +1,6 @@
 #include "msh.h"
 #include "gfx/mesh.h"
-#include "core/parse/binarystream.h"
+#include "core/parse/binary_stream.h"
 
 void Msh_File::load(const String& path)
 {

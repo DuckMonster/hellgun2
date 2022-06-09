@@ -1,7 +1,7 @@
-#include "levelresource.h"
+#include "level_resource.h"
 #include "core/io.h"
 #include "import/msh.h"
-#include "core/parse/binarystream.h"
+#include "core/parse/binary_stream.h"
 
 void Level_Resource::init()
 {

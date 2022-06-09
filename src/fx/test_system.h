@@ -1,6 +1,6 @@
 #pragma once
-#include "gfx/renderinfo.h"
-#include "particlesystem.h"
+#include "gfx/render_info.h"
+#include "particle_system.h"
 #include "emitter.h"
 
 class Test_System : public Particle_System

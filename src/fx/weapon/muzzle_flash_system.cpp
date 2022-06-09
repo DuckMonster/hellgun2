@@ -1,4 +1,4 @@
-#include "muzzleflashsystem.h"
+#include "muzzle_flash_system.h"
 #include "fx/emitter.h"
 #include "resource/resource.h"
 #include "math/random.h"

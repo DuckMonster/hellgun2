@@ -1,5 +1,5 @@
 #pragma once
-#include "gfx/renderinfo.h"
+#include "gfx/render_info.h"
 #include "ui_rect.h"
 
 class UI_Debug

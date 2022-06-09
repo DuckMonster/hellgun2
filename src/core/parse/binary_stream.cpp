@@ -1,4 +1,4 @@
-#include "binarystream.h"
+#include "binary_stream.h"
 #include "core/io.h"
 
 Binary_Stream::~Binary_Stream()

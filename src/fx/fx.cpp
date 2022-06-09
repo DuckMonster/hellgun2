@@ -1,5 +1,5 @@
 #include "fx.h"
-#include "particlesystem.h"
+#include "particle_system.h"
 #include "debug/debug.h"
 
 Fx* fx;

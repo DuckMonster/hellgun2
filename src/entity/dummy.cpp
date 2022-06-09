@@ -1,5 +1,5 @@
 #include "dummy.h"
-#include "resource/resourcecommon.h"
+#include "resource/resource_common.h"
 #include "resource/resource.h"
 #include "game/scene.h"
 

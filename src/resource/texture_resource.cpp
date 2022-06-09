@@ -1,4 +1,4 @@
-#include "textureresource.h"
+#include "texture_resource.h"
 #include "import/tga.h"
 
 void Texture_Resource::init()

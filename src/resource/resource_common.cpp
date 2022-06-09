@@ -1,4 +1,4 @@
-#include "resourcecommon.h"
+#include "resource_common.h"
 
 namespace Common_Mesh
 {

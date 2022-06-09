@@ -1,4 +1,4 @@
-#include "shaderresource.h"
+#include "shader_resource.h"
 #include "core/io.h"
 
 void Shader_Resource::load()

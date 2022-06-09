@@ -1,7 +1,7 @@
 #pragma once
 #include "container/array.h"
 #include "debug/debug.h"
-#include "gfx/renderinfo.h"
+#include "gfx/render_info.h"
 #include "gfx/mesh.h"
 #include "gfx/material.h"
 

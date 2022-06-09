@@ -1,6 +1,6 @@
 #pragma once
 #include "container/array.h"
-#include "gfx/renderinfo.h"
+#include "gfx/render_info.h"
 
 class Emitter_Base;
 class Entity;

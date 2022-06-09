@@ -1,5 +1,5 @@
 #pragma once
-#include "fx/particlesystem.h"
+#include "fx/particle_system.h"
 
 class Impact_Spike_System : public Particle_System
 {

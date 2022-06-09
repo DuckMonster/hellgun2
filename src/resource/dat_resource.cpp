@@ -1,4 +1,4 @@
-#include "datresource.h"
+#include "dat_resource.h"
 
 void Dat_Resource::load()
 {
