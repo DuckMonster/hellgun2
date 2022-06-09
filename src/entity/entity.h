@@ -13,15 +13,15 @@ public:
 
 #define ENTITY_CLASS(ClassName)\
 public:\
-static Entity_Class* StaticClass()\
+static Entity_Class* static_class()\
 {\
 	static Entity_Class cls(#ClassName);\
 	return &cls;\
 }\
 \
-Entity_Class* GetClass() override\
+Entity_Class* get_class() override\
 {\
-	return ClassName::StaticClass();\
+	return ClassName::static_class();\
 }\
 \
 private:
@@ -42,11 +42,22 @@ public:
 	virtual void update() {}
 	virtual void render(const Render_Info& info) {}
 
-	virtual Entity_Class* GetClass() { return nullptr; };
+	virtual Entity_Class* get_class() { return nullptr; };
 
 	template<typename T>
-	bool IsA()
+	bool is_a()
 	{
-		return GetClass() == T::StaticClass();
+		return get_class() == T::static_class();
 	}
 };
+
+template<typename T>
+T* cast(Entity* entity)
+{
+	if (!entity)
+		return nullptr;
+	if (!entity->is_a<T>())
+		return nullptr;
+
+	return (T*)entity;
+}

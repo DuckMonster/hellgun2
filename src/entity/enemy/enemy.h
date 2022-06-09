@@ -21,7 +21,10 @@ public:
 
 	Collider* collider = nullptr;
 
-	Vec3 jaw_location = Vec3::zero;
+	float mouth_angle = 0;
+	float next_mouth_twitch_time = 0.f;
+
+	void hit();
 
 	void init() override;
 	void on_destroyed() override;

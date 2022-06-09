@@ -40,7 +40,7 @@ public:
 	{
 		for(auto* entity : entities)
 		{
-			if (!entity->IsA<T>())
+			if (!entity->is_a<T>())
 				continue;
 
 			float dist_sqrd = distance_sqrd(origin, entity->position);

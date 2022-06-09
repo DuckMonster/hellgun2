@@ -44,7 +44,7 @@ int main()
 	editor->init();
 
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
+	//glEnable(GL_CULL_FACE);
 
 	bool is_open = true;
 	bool editor_mode = false;

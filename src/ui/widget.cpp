@@ -6,7 +6,10 @@ void Widget::init()
 
 }
 
-UI_Rect calculate_size();
+UI_Rect Widget::calculate_size()
+{
+	return UI_Rect();
+}
 
 void Widget::render(const Render_Info& info)
 {

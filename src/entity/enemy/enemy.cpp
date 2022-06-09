@@ -20,18 +20,33 @@ void Enemy::init()
 	collider->attach_shape(Shape::sphere(Vec3::zero, 1.5f));
 	collider->owner = this;
 	collider->position = position;
+}
 
-	jaw_location = position;
+void Enemy::hit()
+{
+	Material* mat = Resource::load_material("material/sprite.mat");
+	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
+	Texture* skull = Resource::load_texture("texture/skull.tga");
+	Mat4 orient = mat_orient_x(normalize(velocity));
+
+	fx->spawn_system<Enemy_Damage_System>(position, mesh, skull, mat_translation(position) * orient * mat_scale(3.f));
+	//scene->destroy_collider(collider);
 }
 
 void Enemy::on_destroyed()
 {
-	fx->spawn_system<Enemy_Damage_System>(position, &Common_Mesh::rect, mat_translation(position) * mat_scale(3.f));
+	Material* mat = Resource::load_material("material/sprite.mat");
+	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
+	Texture* skull = Resource::load_texture("texture/skull.tga");
+	Mat4 orient = mat_orient_x(normalize(velocity));
+
+	fx->spawn_system<Enemy_Damage_System>(position, mesh, skull, mat_translation(position) * orient * mat_scale(3.f));
 	scene->destroy_collider(collider);
 }
 
 void Enemy::update() 
 {
+	// Randomize offset to follow, to give them more of a "swarm" behavior
 	offset_timer -= time_delta();
 	if (offset_timer <= 0.f)
 	{
@@ -39,12 +54,14 @@ void Enemy::update()
 		offset_timer = Random::range(1.f, 4.f);
 	}
 
+	// Acceleration
 	Vec3 target_point = game->player->position + target_offset;
 	Vec3 direction = direction_to(position, target_point);
 
 	velocity += direction * acceleration * time_delta();
 	velocity -= velocity * friction * time_delta();
 
+	// Sweeping against geometry
 	Sweep_Info info;
 	info.source_entity = this;
 	info.ignore_self = true;
@@ -54,12 +71,19 @@ void Enemy::update()
 	if (hit.has_hit)
 		velocity -= constrain_to_direction(velocity, hit.normal) * 1.6f;
 
+	// Move!
 	position += velocity * time_delta();
-
-
-	jaw_location = Math::lerp(jaw_location, position, 25.f * time_delta());
-
 	collider->position = position;
+
+	// Update face twitching
+	if (time_has_reached(next_mouth_twitch_time))
+	{
+		float openness = 1.f - (distance(position, game->player->position) / 20.f);
+		openness = Math::saturate(openness);
+
+		mouth_angle = Math::radians(Random::range(-5.f - 5.f * openness, 5.f + 5.f * openness) + 40.f * openness);
+		next_mouth_twitch_time = time_elapsed() + 0.015f;
+	}
 }
 
 void Enemy::render(const Render_Info& info)
@@ -70,28 +94,36 @@ void Enemy::render(const Render_Info& info)
 	Texture* jaw_front = Resource::load_texture("texture/skull_jawf.tga");
 	Texture* jaw_back = Resource::load_texture("texture/skull_jawb.tga");
 
-	float angle = vec_to_angle((Vec2)velocity);
+	// Main orientation of the skull
+	Mat4 orient = mat_orient_x(normalize(velocity));
 
 	mat->use();
 	mat->set("u_ViewProjection", info.view_projection);
-	mat->set("u_Model", mat_translation(position) * Quat(Vec3::right, angle).matrix() * mat_scale(3.f));
+	glEnable(GL_POLYGON_OFFSET_FILL); // Used to do depth offset
 
-	// Draw front jaw
-	glEnable(GL_POLYGON_OFFSET_FILL);
+	// Draw main skull, rotated counter-clockwise
 	glPolygonOffset(0.f, 0.f);
+	mat->set("u_Model", mat_translation(position) * orient * Quat(Vec3::right, mouth_angle).matrix() * mat_scale(3.f));
 	skull->bind();
 	mesh->draw();
 
-	mat->set("u_Model", mat_translation(jaw_location) * Quat(Vec3::right, angle).matrix() * mat_scale(3.f));
+	// Draw jaw, rotated clockwise
+	mat->set("u_Model",
+		mat_translation(position) *
+		orient *
+		Quat(Vec3::right, -mouth_angle).matrix() *
+		mat_scale(3.f)
+	);
+
+	// Front jaw, offset depth to further forward
 	glPolygonOffset(0.f, -0.1f);
 	jaw_front->bind();
 	mesh->draw();
 
+	// Back jaw, offset depth to further behind
 	glPolygonOffset(0.f, 0.1f);
 	jaw_back->bind();
 	mesh->draw();
-
-	debug->print(String::printf("angle: %f", vec_to_angle((Vec2)velocity)));
 }
 
 void Enemy::select_new_target_offset()

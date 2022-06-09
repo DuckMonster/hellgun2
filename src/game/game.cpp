@@ -80,8 +80,8 @@ void Game::render()
 	for(auto* entity : scene->entities)
 		entity->render(info);
 
-	fx->render(info);
 	level->render(info);
+	fx->render(info);
 
 	debug->render(info);
 	ui->render(info);

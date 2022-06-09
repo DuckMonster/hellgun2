@@ -69,6 +69,11 @@ public:
 
 		return value;
 	}
+	template<typename T>
+	static T saturate(T value)
+	{
+		return clamp(value, T(0), T(1));
+	}
 
 	static float pow(float base, float exponent)
 	{

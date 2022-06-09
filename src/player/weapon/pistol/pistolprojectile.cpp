@@ -6,7 +6,9 @@
 #include "fx/fx.h"
 #include "fx/trailsystem.h"
 #include "fx/surfaceimpactsystem.h"
+#include "fx/weapon/impactspikesystem.h"
 #include "pistolammodrop.h"
+#include "entity/enemy/enemy.h"
 
 void Pistol_Projectile::init()
 {
@@ -31,8 +33,18 @@ void Pistol_Projectile::update()
 	if (hit.has_hit)
 	{
 		scene->destroy_entity(this);
+		/*
 		if (hit.collider->owner)
 			scene->destroy_entity(hit.collider->owner);
+			*/
+		fx->spawn_system<Impact_Spike_System>(position, 4.f, 0.15f, normalize(velocity));
+
+		Enemy* as_enemy = cast<Enemy>(hit.collider->owner);
+		if (as_enemy)
+		{
+			as_enemy->hit();
+			as_enemy->velocity += normalize(velocity) * 15.f;
+		}
 
 		// Spawn ammo drop
 		Vec3 drop_velocity = normalize(velocity - constrain_to_direction(velocity, hit.normal) * 1.5f);

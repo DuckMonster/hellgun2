@@ -40,6 +40,15 @@ inline Mat4 mat_scale(float s)
 	);
 }
 
+inline Mat4 mat_orient_x(Vec3 v, Vec3 up = Vec3::up)
+{
+	v = normalize(v);
+	Vec3 right = normalize(cross(v, up));
+	up = cross(right, v);
+
+	return Mat4(v, up, right, Vec3::zero);
+}
+
 inline Mat4 inverse(const Mat4& m)
 {
 	float* src = (float*)&m;
