@@ -17,6 +17,7 @@ struct Game
 
 	Ray get_mouse_world_ray();
 	Vec3 get_mouse_game_position();
+	Vec2 world_to_canvas(const Vec3& world);
 };
 
 extern Game* game;

@@ -11,6 +11,10 @@ struct Grid_Font_Info
 	Color background = Color::black;
 
 	Vec2 alignment = Vec2::zero;
+
+	Grid_Font_Info() {}
+	Grid_Font_Info(const Color& foreground, const Color& background, const Vec2& alignment)
+		: foreground(foreground), background(background), alignment(alignment) {}
 };
 
 struct Grid_Font

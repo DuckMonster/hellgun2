@@ -55,6 +55,9 @@ inline Vec3 normalize(const Vec3& v)
 
 inline Vec3 direction_to(const Vec3& from, const Vec3& to)
 {
+	if (is_nearly_equal(from, to))
+		return Vec3::zero;
+
 	return normalize(to - from);
 }
 

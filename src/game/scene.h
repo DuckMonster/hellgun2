@@ -1,8 +1,10 @@
 #pragma once
 #include "collision/collider.h"
 #include "container/array.h"
+#include "entity/enemy/damage_number.h"
 
 class Entity;
+class Damage_Number;
 struct Mesh;
 
 struct Sweep_Info
@@ -16,6 +18,8 @@ struct Sweep_Info
 struct Scene
 {
 public:
+
+	// Entity
 	Array<Entity*> entities;
 	bool pending_destruction = false;
 
@@ -51,11 +55,17 @@ public:
 		return nullptr;
 	}
 
+	// Colliders
 	Array<Collider*> colliders;
 	Collider* add_collider();
 	void destroy_collider(Collider* collider);
 
 	Hit_Result sweep(const Shape& shape, const Vec3& delta, Sweep_Info info = Sweep_Info());
+	Array<Hit_Result> sweep_multi(const Shape& shape, const Vec3& delta, Sweep_Info info = Sweep_Info());
 	Hit_Result sweep_collider(const Collider* collider, const Vec3& delta, Sweep_Info info = Sweep_Info());
+
+	// Damage numbers
+	Array<Damage_Number> damage_numbers;
+	void add_damage_number(const Vec3& position, float damage, const Vec3& direction);
 };
 extern Scene* scene;

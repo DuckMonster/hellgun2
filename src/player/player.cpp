@@ -10,12 +10,14 @@
 #include "fx/weapon/muzzle_flash_system.h"
 #include "fx/surface_impact_system.h"
 #include "weapon/pistol/pistol.h"
+#include "weapon/cross/cross.h"
 
 #include <stdio.h>
 
 void Player::init()
 {
 	weapon = new Pistol();
+	//weapon = new Cross();
 }
 
 void Player::update()

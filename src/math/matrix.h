@@ -26,7 +26,7 @@ struct Mat4
 		m20(v2.x), m21(v2.y), m22(v2.z), m23(0.f),
 		m30(v3.x), m31(v3.y), m32(v3.z), m33(1.f) {}
 
-	Mat4 operator*(const Mat4& rhs)
+	Mat4 operator*(const Mat4& rhs) const
 	{
 		Mat4 result;
 
@@ -69,7 +69,7 @@ struct Mat4
 		return result;
 	}
 
-	Vec3 operator*(const Vec3& v)
+	Vec3 operator*(const Vec3& v) const
 	{
 		Vec3 x = Vec3(m00 * v.x, m01 * v.x, m02 * v.x);
 		Vec3 y = Vec3(m10 * v.y, m11 * v.y, m12 * v.y);
@@ -79,7 +79,7 @@ struct Mat4
 		return x + y + z + w;
 	}
 
-	Vec4 operator*(const Vec4& v)
+	Vec4 operator*(const Vec4& v) const
 	{
 		Vec4 x = Vec4(m00 * v.x, m01 * v.x, m02 * v.x, m03 * v.x);
 		Vec4 y = Vec4(m10 * v.y, m11 * v.y, m12 * v.y, m13 * v.y);

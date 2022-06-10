@@ -7,6 +7,7 @@
 #include "debug/debug.h"
 #include "fx/fx.h"
 #include "fx/enemy/enemy_damage_system.h"
+#include "fx/weapon/impact_spike_system.h"
 #include "gfx/texture.h"
 #include "math/random.h"
 
@@ -22,7 +23,7 @@ void Enemy::init()
 	collider->position = position;
 }
 
-void Enemy::hit()
+void Enemy::hit(const Damage_Data& data)
 {
 	Material* mat = Resource::load_material("material/sprite.mat");
 	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
@@ -30,7 +31,11 @@ void Enemy::hit()
 	Mat4 orient = mat_orient_x(normalize(velocity));
 
 	fx->spawn_system<Enemy_Damage_System>(position, mesh, skull, mat_translation(position) * orient * mat_scale(3.f));
-	//scene->destroy_collider(collider);
+	fx->spawn_system<Impact_Spike_System>(position, data.visual_scale, 0.15f, data.direction);
+
+	scene->add_damage_number(position, data.damage, data.direction);
+
+	velocity += data.impulse;
 }
 
 void Enemy::on_destroyed()
@@ -67,9 +72,14 @@ void Enemy::update()
 	info.ignore_self = true;
 	info.object_mask = COBJ_World;
 
-	Hit_Result hit = scene->sweep(Shape::aabb(position, Vec3(3.f)), velocity * time_delta(), info);
+	Hit_Result hit = scene->sweep(Shape::sphere(position, 1.5f), velocity * time_delta(), info);
 	if (hit.has_hit)
-		velocity -= constrain_to_direction(velocity, hit.normal) * 1.6f;
+	{
+		if (hit.is_penetrating)
+			position += hit.normal * hit.penetration_depth;
+		else
+			velocity -= constrain_to_direction(velocity, hit.normal) * 1.6f;
+	}
 
 	// Move!
 	position += velocity * time_delta();

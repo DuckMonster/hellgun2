@@ -3,4 +3,7 @@
 
 class Cross : public Weapon
 {
+public:
+	void update() override;
+	void render(const Render_Info& info) override;
 };

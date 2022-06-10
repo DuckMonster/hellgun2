@@ -19,7 +19,7 @@ void Editor::init()
 	camera.near = 0.1f;
 	camera.far = 1000.f;
 
-	sweep_src = Shape::aabb(Vec3::zero, Vec3(1.2f));
+	sweep_src = Shape::aabb(Vec3::zero, Vec3(3.5f));
 	sweep_tar = Shape::aabb(Vec3::zero, Vec3(2.5f));
 }
 
@@ -72,7 +72,10 @@ void Editor::update()
 		sweep_origin = camera.position + camera.right();
 		sweep_direction = camera.forward();
 
-		sweep_length += mouse_wheel_delta() * 1.f;
+		if (key_down(Key::LeftShift))
+			sweep_offset += mouse_wheel_delta() * 1.f;
+		else
+			sweep_length += mouse_wheel_delta() * 1.f;
 	}
 
 	if (key_pressed(Key::N))
@@ -82,19 +85,27 @@ void Editor::update()
 
 	if (has_sweep)
 	{
-		sweep_src.position = sweep_origin;
+		Vec3 start = sweep_origin + sweep_direction * sweep_offset;
+		Vec3 delta = sweep_direction * sweep_length;
 
-		Hit_Result hit = sweep_src.sweep(sweep_direction * sweep_length, sweep_tar);
+		sweep_src.position = start;
+
+		Hit_Result hit = scene->sweep(sweep_src, delta, Sweep_Info());
 		Color clr = hit.has_hit ? Color::red : Color::green;
+		if (hit.is_penetrating)
+			clr = Color::yellow;
 
 		sweep_src.position = hit.position;
 
-		debug->line(sweep_origin, hit.position, clr);
-		debug->line(hit.position, sweep_origin + sweep_direction * sweep_length, Color::blue);
-		debug->vector(hit.position, hit.normal, clr);
+		debug->line(start, hit.position, clr);
+		debug->line(hit.position, start + delta, Color::blue);
+		if (hit.is_penetrating)
+			debug->vector(hit.position, hit.normal * hit.penetration_depth, clr);
+		else
+			debug->vector(hit.position, hit.normal, clr);
+
 		debug->print(String::printf("Time: %f", hit.time));
 		sweep_src.debug_draw(clr);
-		sweep_tar.debug_draw(clr);
 	}
 }
 

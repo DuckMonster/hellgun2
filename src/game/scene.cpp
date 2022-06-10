@@ -72,6 +72,30 @@ Hit_Result Scene::sweep(const Shape& shape, const Vec3& delta, Sweep_Info info)
 	return result;
 }
 
+Array<Hit_Result> Scene::sweep_multi(const Shape& shape, const Vec3& delta, Sweep_Info info)
+{
+	if (info.source_entity == NULL)
+		info.ignore_self = false;
+
+	Array<Hit_Result> results;
+	for(auto* collider : colliders)
+	{
+		// Collider not covered by the object mask
+		if ((collider->object_type & info.object_mask) == 0)
+			continue;
+
+		// Ignore self
+		if (info.ignore_self && info.source_entity == collider->owner)
+			continue;
+
+		Hit_Result hit = collider->receive_sweep(shape, delta);
+		if (hit.has_hit)
+			results.add(hit);
+	}
+
+	return results;
+}
+
 Hit_Result Scene::sweep_collider(const Collider* collider, const Vec3& delta, Sweep_Info info)
 {
 	Hit_Result result = Hit_Result::make_no_hit(collider->position + delta);
@@ -91,4 +115,22 @@ Hit_Result Scene::sweep_collider(const Collider* collider, const Vec3& delta, Sw
 	}
 
 	return result;
+}
+
+void Scene::add_damage_number(const Vec3& position, float damage, const Vec3& direction)
+{
+	// Find if there's an inactive number we can re-use
+	for(auto& nmbr : damage_numbers)
+	{
+		if (!nmbr.active)
+		{
+			nmbr.begin(position, damage, direction);
+			return;
+		}
+	}
+
+	// Nope, we need to add a new one
+	Damage_Number& number = damage_numbers.add_default();
+	number.init();
+	number.begin(position, damage, direction);
 }

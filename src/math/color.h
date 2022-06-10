@@ -2,6 +2,7 @@
 
 struct Color
 {
+	static const Color transparent;
 	static const Color black;
 	static const Color white;
 	static const Color red;

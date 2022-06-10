@@ -78,4 +78,6 @@ struct Vec4
 	Vec4 operator-(const Vec4& other) { return Vec4(x - other.x, y - other.y, z - other.z, w - other.w); }
 	Vec4 operator*(float scalar) { return Vec4(x * scalar, y * scalar, z * scalar, w * scalar); }
 	Vec4 operator/(float scalar) { return Vec4(x / scalar, y / scalar, z / scalar, w / scalar); }
+
+	Vec4& operator/=(float scalar) { x /= scalar; y /= scalar; z /= scalar; w /= scalar; return *this; }
 };

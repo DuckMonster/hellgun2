@@ -28,15 +28,14 @@ struct Hit_Result
 		return result;
 	}
 
-	static Hit_Result make_penetrating(const Vec3& position, const Vec3& depen_vector)
+	static Hit_Result make_penetrating(const Vec3& position, const Vec3& normal, float depth)
 	{
 		Hit_Result result;
 		result.has_hit = true;
 		result.is_penetrating = true;
 		result.position = position;
-
-		result.penetration_depth = length(depen_vector);
-		result.normal = depen_vector / result.penetration_depth;
+		result.normal = normal;
+		result.penetration_depth = depth;
 
 		return result;
 	}

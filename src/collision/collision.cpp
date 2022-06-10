@@ -43,7 +43,7 @@ Hit_Result Collision::intersect_point(const Vec3& point, const AABB& tar)
 		}
 	}
 
-	return Hit_Result::make_penetrating(point, min_depth_normal * min_depth);
+	return Hit_Result::make_penetrating(point, min_depth_normal, min_depth);
 }
 
 Hit_Result Collision::line_trace(const Vec3& start, const Vec3& end, const AABB& tar)
@@ -132,7 +132,7 @@ Hit_Result Collision::line_trace(const Vec3& start, const Vec3& end, const Spher
 
 		float depth = tar.radius - dist_to_sphere;
 
-		return Hit_Result::make_penetrating(start, normal * depth);
+		return Hit_Result::make_penetrating(start, normal, depth);
 	}
 
 	// Find the closest point to sphere on the line
@@ -255,7 +255,7 @@ Hit_Result Collision::intersect_aabb(const AABB& src, const AABB& tar)
 	if (!axis_result.intersect)
 		return Hit_Result::make_no_hit(src.center());
 
-	return Hit_Result::make_penetrating(src.center(), axis_result.axis * axis_result.depth);
+	return Hit_Result::make_penetrating(src.center(), axis_result.axis, axis_result.depth);
 }
 
 Hit_Result Collision::intersect_aabb(const AABB& src, const Sphere& tar)
@@ -267,7 +267,7 @@ Hit_Result Collision::intersect_aabb(const AABB& src, const Sphere& tar)
 		return Hit_Result::make_no_hit(src.center());
 
 	// No depenetration yet... :(
-	return Hit_Result::make_penetrating(src.center(), Vec3::zero);
+	return Hit_Result::make_penetrating(src.center(), Vec3::zero, 0.f);
 }
 
 Hit_Result Collision::sweep_aabb(const AABB& src, const Vec3& delta, const AABB& tar)
@@ -359,7 +359,7 @@ Hit_Result Collision::intersect_sphere(const Sphere& src, const Sphere& tar)
 	float depth = (src.radius + tar.radius) - length(difference);
 	Vec3 normal = normalize(difference);
 
-	return Hit_Result::make_penetrating(src.origin, normal * depth);
+	return Hit_Result::make_penetrating(src.origin, normal, depth);
 }
 
 Hit_Result Collision::sweep_sphere(const Sphere& src, const Vec3& delta, const Sphere& tar)

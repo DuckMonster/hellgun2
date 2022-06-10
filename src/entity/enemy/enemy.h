@@ -1,5 +1,6 @@
 #pragma once
 #include "entity/entity.h"
+#include "damage_data.h"
 
 #define ENEMY_SPD (5.f)
 #define ENEMY_ACC (15.f)
@@ -24,7 +25,7 @@ public:
 	float mouth_angle = 0;
 	float next_mouth_twitch_time = 0.f;
 
-	void hit();
+	void hit(const Damage_Data& data);
 
 	void init() override;
 	void on_destroyed() override;

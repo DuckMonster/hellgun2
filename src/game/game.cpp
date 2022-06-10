@@ -41,6 +41,11 @@ void Game::init()
 	// Load level
 	level = Resource::load_level("level/test.lvl");
 	level->open();
+
+	// Test stuff
+	Collider* test_collider = scene->add_collider();
+	test_collider->attach_shape(Shape::aabb(Vec3(-3.f, 0.f, 0.f), Vec3(3.f)));
+	test_collider->attach_shape(Shape::sphere(Vec3(3.f, 0.f, 0.f), 1.5f));
 }
 
 void Game::update()
@@ -62,6 +67,12 @@ void Game::update()
 	for(auto* entity : scene->entities)
 		entity->update();
 
+	for(auto& damage_nmbr : scene->damage_numbers)
+	{
+		if (damage_nmbr.active)
+			damage_nmbr.update();
+	}
+
 	fx->update();
 
 	if (scene->pending_destruction)
@@ -79,6 +90,12 @@ void Game::render()
 
 	for(auto* entity : scene->entities)
 		entity->render(info);
+
+	for(auto& damage_nmbr : scene->damage_numbers)
+	{
+		if (damage_nmbr.active)
+			damage_nmbr.render(info);
+	}
 
 	level->render(info);
 	fx->render(info);

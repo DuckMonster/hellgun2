@@ -33,17 +33,17 @@ void Pistol_Projectile::update()
 	if (hit.has_hit)
 	{
 		scene->destroy_entity(this);
-		/*
-		if (hit.collider->owner)
-			scene->destroy_entity(hit.collider->owner);
-			*/
-		fx->spawn_system<Impact_Spike_System>(position, 4.f, 0.15f, normalize(velocity));
 
 		Enemy* as_enemy = cast<Enemy>(hit.collider->owner);
 		if (as_enemy)
 		{
-			as_enemy->hit();
-			as_enemy->velocity += normalize(velocity) * 15.f;
+			Damage_Data data;
+			data.damage = 10.f;
+			data.direction = normalize(velocity);
+			data.impulse = data.direction * 15.f;
+			data.visual_scale = 4.f;
+
+			as_enemy->hit(data);
 		}
 
 		// Spawn ammo drop

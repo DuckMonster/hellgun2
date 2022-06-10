@@ -10,7 +10,7 @@ void Grid_Font::load_file(const char* path, u32 glyph_w, u32 glyph_h)
 	mesh.bind_attribute(0, 1, 2, 4 * sizeof(float), 2 * sizeof(float));
 
 	mat = Resource::load_material("material/ui/gridfont.mat");
-	texture = Resource::load_texture("ui/font.tga");
+	texture = Resource::load_texture(path);
 
 	this->glyph_w = glyph_w;
 	this->glyph_h = glyph_h;
