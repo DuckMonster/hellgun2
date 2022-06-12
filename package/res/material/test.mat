@@ -1,0 +1,2 @@
+vertex: "shader/test.vert"
+fragment: "shader/test.frag"

@@ -18,7 +18,7 @@
 
 int main()
 {
-	context.open("Hellgun", 800, 600);
+	context.open("Hellgun", 1024, 768);
 
 	load_gl_extensions();
 
@@ -44,6 +44,7 @@ int main()
 	editor->init();
 
 	glEnable(GL_DEPTH_TEST);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	//glEnable(GL_CULL_FACE);
 
 	bool is_open = true;

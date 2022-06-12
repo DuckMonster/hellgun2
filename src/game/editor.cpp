@@ -134,11 +134,13 @@ void Editor::enter_editor()
 	// Move camera to match game camera
 	camera.position = game->camera.position;
 	camera.rotation = game->camera.rotation;
+
+	context.unlock_cursor();
 }
 
 void Editor::exit_editor()
 {
-	context.unlock_cursor();
+	context.lock_cursor();
 }
 
 void Editor::change_time_dilation(i32 delta)

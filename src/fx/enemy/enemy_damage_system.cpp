@@ -4,7 +4,7 @@
 #include "gfx/mesh.h"
 #include "gfx/texture.h"
 
-static const float DURATION = 0.15f;
+static const float DURATION = 0.11f;
 
 void Enemy_Damage_System::init(Mesh* mesh, Texture* texture, const Mat4& transform)
 {
@@ -31,7 +31,6 @@ void Enemy_Damage_System::system_render(const Render_Info& info)
 
 	glEnable(GL_BLEND);
 	glDisable(GL_DEPTH_TEST);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	mesh->bind();
 	mesh->draw();

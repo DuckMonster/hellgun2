@@ -10,4 +10,6 @@ public:
 
 	virtual void update() {}
 	virtual void render(const Render_Info& info) {}
+
+	Vec3 get_aim_direction();
 };

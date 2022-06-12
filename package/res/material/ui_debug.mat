@@ -1,0 +1,2 @@
+vertex: "shader/ui_debug.vert"
+fragment: "shader/ui_debug.frag"

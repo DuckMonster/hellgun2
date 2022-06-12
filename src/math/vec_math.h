@@ -48,6 +48,10 @@ inline float distance_sqrd(const Vec3& a, const Vec3& b)
 	return length_sqrd(b - a);
 }
 
+inline Vec2 normalize(const Vec2& v)
+{
+	return v / length(v);
+}
 inline Vec3 normalize(const Vec3& v)
 {
 	return v / length(v);

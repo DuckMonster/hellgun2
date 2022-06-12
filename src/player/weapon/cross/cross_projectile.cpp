@@ -1,4 +1,5 @@
 #include "cross_projectile.h"
+#include "cross.h"
 #include "gfx/mesh.h"
 #include "gfx/material.h"
 #include "gfx/texture.h"
@@ -15,6 +16,11 @@ void Cross_Projectile::init()
 {
 	last_sweep_position = position;
 	next_sweep_time = time_elapsed() + CROSS_SWEEP_INTERVAL;
+}
+
+void Cross_Projectile::on_destroyed()
+{
+	host->ammo++;
 }
 
 void Cross_Projectile::update()
@@ -74,11 +80,9 @@ void Cross_Projectile::update()
 		}
 	}
 
-	debug->print(String::printf("v: {%f, %f, %f}", velocity.x, velocity.y, velocity.z));
-
 	// Do sweeping against geometry
 	// (but only for a while, after that we want to guarantee the projectile coming back)
-	//if (get_age() < 1.5f)
+	if (get_age() < 1.5f)
 	{
 		Shape shape = Shape::sphere(position, 2.5f);
 		Sweep_Info info;
@@ -91,9 +95,6 @@ void Cross_Projectile::update()
 				position += hit.normal * (hit.penetration_depth + 0.1f);
 			else
 				velocity -= constrain_to_direction(velocity, hit.normal) * 1.6f;
-
-			if (hit.contains_nan())
-				error("Hit contains nan");
 		}
 	}
 

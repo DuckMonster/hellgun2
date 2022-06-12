@@ -1,0 +1,7 @@
+test: 222222
+float_test: 25.12
+test_obj:
+{
+	inner_test: 255
+	some_str: "Hello, World!"
+}

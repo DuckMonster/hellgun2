@@ -25,6 +25,15 @@ void Level::close()
 {
 	if (!is_open)
 		return;
+
+	for(Prop& prop : props)
+	{
+		if (prop.collider)
+		{
+			scene->destroy_collider(prop.collider);
+			prop.collider = nullptr;
+		}
+	}
 }
 
 void Level::clear()

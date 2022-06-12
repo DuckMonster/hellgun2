@@ -10,6 +10,7 @@
 #include "resource/resource.h"
 
 #include "player/player.h"
+#include "player/weapon/weapon.h"
 #include "entity/enemy/enemy.h"
 
 #include "math/random.h"
@@ -34,34 +35,65 @@ void Game::init()
 
 	// Spawn player
 	player = scene->spawn_entity<Player>(Vec3::zero);
-
-	// Enemy spawning stuff
-	enemy_spawn_time = 2.f;
+	player->weapons[0]->on_equipped(); // sigh..
 
 	// Load level
 	level = Resource::load_level("level/test.lvl");
 	level->open();
 
+	next_spawn_time = 0.f;
+
+	context.lock_cursor();
+
 	// Test stuff
+	/*
 	Collider* test_collider = scene->add_collider();
 	test_collider->attach_shape(Shape::aabb(Vec3(-3.f, 0.f, 0.f), Vec3(3.f)));
 	test_collider->attach_shape(Shape::sphere(Vec3(3.f, 0.f, 0.f), 1.5f));
+	*/
 }
 
 void Game::update()
 {
 	// Update camera
 	{
-		Vec3 target_position = Math::lerp(player->position, player->calculate_aim_position(), 0.3f);
+		Vec3 target_position = Math::lerp(player->position, get_mouse_game_position(), 0.3f);
 		camera.position = Math::lerp(camera.position, target_position, 15.f * time_delta());
 		camera.position.z = 55.f;
+	}
+
+	// Restart
+	if (key_pressed(Key::R))
+	{
+		// Destroy all entities
+		for(auto* entity : scene->entities)
+			scene->destroy_entity(entity);
+
+		scene->finish_destruction();
+		level->close();
+
+		init();
+		return;
 	}
 
 	// Update enemy spawning
 	if (key_pressed(Key::E))
 	{
-		Vec3 spawn_pos = Vec3(Random::range(-10.f, 10.f), Random::range(0.f, 10.f), 0.f);
-		scene->spawn_entity<Enemy>(spawn_pos);
+		spawn_enemies = !spawn_enemies;
+	}
+
+	if (spawn_enemies && time_has_reached(next_spawn_time))
+	{
+		Vec3 spawn_pos = Vec3(Random::range(-15.f, 15.f), Random::range(-15.f, 15.f), 0.f);
+		for(u32 i = 0; i < 8; i++)
+		{
+			Vec3 enemy_pos = spawn_pos + Random::point_on_circle(Vec3::right) * Random::range(0.f, 1.5f);
+
+			Enemy* enemy = scene->spawn_entity<Enemy>(spawn_pos);
+			enemy->velocity = Random::point_on_circle(Vec3::right) * Random::range(5.f, 15.f);
+		}
+
+		next_spawn_time = time_elapsed() + 10.f;
 	}
 
 	for(auto* entity : scene->entities)
@@ -101,7 +133,10 @@ void Game::render()
 	fx->render(info);
 
 	debug->render(info);
-	ui->render(info);
+	//ui->render(info);
+	player->render_ui(info);
+
+	// Render some debug UI
 }
 
 Ray Game::get_mouse_world_ray()

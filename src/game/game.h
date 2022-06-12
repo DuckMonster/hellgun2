@@ -9,7 +9,9 @@ struct Game
 	Camera editor_camera;
 
 	Player* player;
-	float enemy_spawn_time = 0.f;
+
+	bool spawn_enemies = false;
+	float next_spawn_time = 0.f;
 
 	void init();
 	void update();

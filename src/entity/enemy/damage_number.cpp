@@ -38,6 +38,7 @@ void Damage_Number::render(const Render_Info& info)
 	font_info.foreground = Color::red;
 	font_info.background = Color::transparent;
 	font_info.alignment = Vec2(0.5f, 1.f);
+	font_info.scale = 2.f;
 
 	font.render_text(damage_text, canvas_location, font_info, info);
 }

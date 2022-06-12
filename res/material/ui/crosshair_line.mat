@@ -1,0 +1,2 @@
+vertex: "shader/ui/crosshair_line.vert"
+fragment: "shader/ui/crosshair_line.frag"

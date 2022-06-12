@@ -27,13 +27,13 @@ void Grid_Font::render_text(const String& str, Vec2 position, const Grid_Font_In
 {
 	glyphs.empty();
 
-	Vec2 string_size = Vec2(str.length() * glyph_w);
+	Vec2 string_size = Vec2(str.length() * glyph_w * font_info.scale);
 	position -= string_size * font_info.alignment;
 
 	for(char c : str)
 	{
-		push_glyph(c, position);
-		position.x += glyph_w;
+		push_glyph(c, position, font_info.scale);
+		position.x += glyph_w * font_info.scale;
 	}
 
 	mesh.buffer_data(0, glyphs.count() * sizeof(Glyph), glyphs.data());
@@ -48,7 +48,7 @@ void Grid_Font::render_text(const String& str, Vec2 position, const Grid_Font_In
 	mesh.draw();
 }
 
-void Grid_Font::push_glyph(char chr, const Vec2& position)
+void Grid_Font::push_glyph(char chr, const Vec2& position, float scale)
 {
 	Glyph glyph;
 
@@ -59,8 +59,8 @@ void Grid_Font::push_glyph(char chr, const Vec2& position)
 	Vec2 u = Vec2(glyph_u, 0.f);
 	Vec2 v = Vec2(0.f, -glyph_v);
 
-	Vec2 w = Vec2(glyph_w, 0.f);
-	Vec2 h = Vec2(0.f, glyph_h);
+	Vec2 w = Vec2(glyph_w, 0.f) * scale;
+	Vec2 h = Vec2(0.f, glyph_h) * scale;
 
 	glyph.vertices[0] = { position, uv_base };
 	glyph.vertices[1] = { position + h, uv_base + v };

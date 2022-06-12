@@ -128,8 +128,6 @@ public:
 
 	void render(const Render_Info& render_info) override
 	{
-		debug->print(String::printf("Particles: %d", particles.count()), 0.f);
-
 		material->use();
 		material->set("u_ViewProjection", render_info.view_projection);
 		if (local_space)

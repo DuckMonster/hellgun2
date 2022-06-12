@@ -36,16 +36,14 @@ void Enemy::hit(const Damage_Data& data)
 	scene->add_damage_number(position, data.damage, data.direction);
 
 	velocity += data.impulse;
+
+	health -= data.damage;
+	if (health <= 0.f)
+		scene->destroy_entity(this);
 }
 
 void Enemy::on_destroyed()
 {
-	Material* mat = Resource::load_material("material/sprite.mat");
-	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
-	Texture* skull = Resource::load_texture("texture/skull.tga");
-	Mat4 orient = mat_orient_x(normalize(velocity));
-
-	fx->spawn_system<Enemy_Damage_System>(position, mesh, skull, mat_translation(position) * orient * mat_scale(3.f));
 	scene->destroy_collider(collider);
 }
 
@@ -93,6 +91,13 @@ void Enemy::update()
 
 		mouth_angle = Math::radians(Random::range(-5.f - 5.f * openness, 5.f + 5.f * openness) + 40.f * openness);
 		next_mouth_twitch_time = time_elapsed() + 0.015f;
+	}
+
+	// Update player damage
+	if (!game->player->is_immune() && game->player->is_alive())
+	{
+		if (distance_sqrd(position, game->player->position) < Math::square(1.5f))
+			game->player->hit(direction_to(position, game->player->position));
 	}
 }
 

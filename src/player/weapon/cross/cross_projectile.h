@@ -22,6 +22,7 @@ public:
 	float next_sweep_time;
 
 	void init() override;
+	void on_destroyed() override;
 	void update() override;
 	void render(const Render_Info& info) override;
 };

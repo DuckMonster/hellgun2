@@ -16,6 +16,8 @@ public:
 	float acceleration;
 	float friction;
 
+	float health = 10.f;
+
 	Vec3 velocity;
 	Vec3 target_offset;
 	float offset_timer = 0.f;
