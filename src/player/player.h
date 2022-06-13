@@ -1,8 +1,7 @@
 #pragma once
-#include "gfx/mesh.h"
-#include "gfx/material.h"
 #include "entity/entity.h"
 #include "collision/collision.h"
+#include "container/array.h"
 
 #define PLAYER_SPD (25.f)
 
@@ -30,6 +29,7 @@
 #define PLAYER_IMMUNE_TIME (2.f)
 
 class Weapon;
+class Drawable;
 
 class Player : public Entity
 {
@@ -37,12 +37,17 @@ class Player : public Entity
 
 public:
 	void init() override;
+	void on_destroyed() override;
+
 	void update() override;
-	void render(const Render_Info& info) override;
-	void render_ui(const Render_Info& info);
 	bool is_alive() { return health > 0; }
 
 	float get_movement_input();
+
+	// Rendering
+	Drawable* mesh = nullptr;
+	Drawable* crosshair_circle;
+	Drawable* crosshair_line;
 
 	// Health
 	int health = 3;
@@ -53,9 +58,6 @@ public:
 	// Weapon stuff
 	Array<Weapon*> weapons;
 	u32 equipped_weapon = 0;
-
-	Mesh crosshair_circle;
-	Mesh crosshair_line;
 
 	// Movement stuff
 	void update_movement();

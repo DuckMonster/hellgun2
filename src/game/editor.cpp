@@ -122,6 +122,8 @@ void Editor::render()
 		entity->render(info);
 	for(auto* collider : scene->colliders)
 		collider->debug_draw(Color::blue);
+	for(auto* drawable : scene->drawables)
+		drawable->render(info);
 
 	fx->render(info);
 	level->render(info);

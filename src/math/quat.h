@@ -5,6 +5,8 @@ struct Quat
 {
 	static const Quat identity;
 
+	static Quat from_x(const Vec3& x);
+
 	float x, y, z, w;
 	Quat() {}
 	Quat(float x, float y, float z, float w)
@@ -19,6 +21,7 @@ struct Quat
 		z = axis.z * sin_angle;
 		w = cos_angle;
 	}
+	Quat(const Mat4& mat);
 
 	Vec3 operator*(const Vec3& v) const
 	{

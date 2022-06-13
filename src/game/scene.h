@@ -1,5 +1,6 @@
 #pragma once
 #include "collision/collider.h"
+#include "drawable.h"
 #include "container/array.h"
 #include "entity/enemy/damage_number.h"
 
@@ -63,6 +64,11 @@ public:
 	Hit_Result sweep(const Shape& shape, const Vec3& delta, Sweep_Info info = Sweep_Info());
 	Array<Hit_Result> sweep_multi(const Shape& shape, const Vec3& delta, Sweep_Info info = Sweep_Info());
 	Hit_Result sweep_collider(const Collider* collider, const Vec3& delta, Sweep_Info info = Sweep_Info());
+
+	// Drawables
+	Array<Drawable*> drawables;
+	Drawable* add_drawable();
+	void destroy_drawable(Drawable* drawable);
 
 	// Damage numbers
 	Array<Damage_Number> damage_numbers;

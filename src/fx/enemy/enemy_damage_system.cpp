@@ -3,8 +3,17 @@
 #include "gfx/material.h"
 #include "gfx/mesh.h"
 #include "gfx/texture.h"
+#include "game/drawable.h"
 
 static const float DURATION = 0.11f;
+
+void Enemy_Damage_System::init(Drawable* drawable)
+{
+	this->mesh = drawable->mesh;
+	this->texture = drawable->texture;
+	this->material = Resource::load_material("material/fx/enemy_damage.mat");
+	this->transform = drawable->get_world_matrix();
+}
 
 void Enemy_Damage_System::init(Mesh* mesh, Texture* texture, const Mat4& transform)
 {

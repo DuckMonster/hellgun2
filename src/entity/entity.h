@@ -30,6 +30,8 @@ class Entity
 {
 public:
 	Vec3 position;
+	Quat rotation = Quat::identity;
+
 	float spawn_time;
 
 	bool marked_for_destroy = false;

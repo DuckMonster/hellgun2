@@ -4,16 +4,26 @@
 #include "game/game.h"
 #include "player/player.h"
 #include "pistol_projectile.h"
-#include "gfx/mesh.h"
-#include "gfx/material.h"
-#include "gfx/texture.h"
-#include "resource/resource.h"
 #include "fx/fx.h"
 #include "fx/surface_impact_system.h"
+#include "game/drawable.h"
+
+void Pistol::init()
+{
+	mesh = scene->add_drawable();
+	mesh->load("mesh/plane.msh", "material/sprite.mat", "texture/pistol_hold.tga");
+	mesh->set_disabled(true);
+}
 
 void Pistol::on_equipped()
 {
 	position = game->player->position;
+	mesh->set_disabled(false);
+}
+
+void Pistol::on_unequipped()
+{
+	mesh->set_disabled(true);
 }
 
 void Pistol::update()
@@ -49,20 +59,11 @@ void Pistol::update()
 	// reduce recoil
 	recoil_angle = Math::lerp(recoil_angle, 0.f, 12.f * time_delta());
 	recoil_offset = Math::lerp(recoil_offset, Vec3::zero, 7.f * time_delta());
-}
-
-void Pistol::render(const Render_Info& info)
-{
-	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
-	Material* mat = Resource::load_material("material/sprite.mat");
-	Texture* tex = Resource::load_texture("texture/pistol_hold.tga");
 
 	Quat recoil_quat = Quat(Vec3::right, recoil_angle);
-
-	mat->use();
-	mat->set("u_ViewProjection", info.view_projection);
-	mat->set("u_Model", mat_translation(position + recoil_offset) * mat_orient_x(get_aim_direction()) * recoil_quat.matrix() * mat_scale(2.f));
-
-	tex->bind();
-	mesh->draw();
+	mesh->matrix =
+		mat_translation(position + recoil_offset) *
+		mat_orient_x(get_aim_direction()) *
+		recoil_quat.matrix() *
+		mat_scale(2.f);
 }

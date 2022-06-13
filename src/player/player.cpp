@@ -11,6 +11,7 @@
 #include "fx/surface_impact_system.h"
 #include "weapon/pistol/pistol.h"
 #include "weapon/cross/cross.h"
+#include "crosshair.h"
 
 #include <stdio.h>
 
@@ -19,40 +20,64 @@ void Player::init()
 	weapons.add(new Pistol());
 	weapons.add(new Cross());
 
+	for(auto* wpn : weapons)
+		wpn->init();
+
+	// Meshes
+	mesh = scene->add_drawable();
+	mesh->load("mesh/plane.msh", "material/default.mat");
+	mesh->attach_to(this);
+
 	// Load crosshair meshes
-	crosshair_circle.init();
-	crosshair_circle.add_buffer(0);
-	crosshair_circle.bind_attribute(0, 0, 2, 2 * sizeof(float), 0);
 
-	constexpr u32 CIRCLE_RESOLUTION = 32;
-	Vec2 circle_data[CIRCLE_RESOLUTION];
-	float angle_step = TAU / CIRCLE_RESOLUTION;
+	// Circle
+	crosshair_circle = scene->add_drawable();
+	crosshair_circle->material = Resource::load_material("material/ui/crosshair.mat");
+	crosshair_circle->mesh = get_crosshair_circle();
+	crosshair_circle->flags = DRW_UI | DRW_Blend;
 
-	for(u32 i = 0; i < CIRCLE_RESOLUTION; ++i)
-		circle_data[i] = Vec2(Math::cos(angle_step * i), Math::sin(angle_step * i));
+	crosshair_circle->on_render.bind_lambda([this](const Render_Info& info)
+	{
+		crosshair_circle->matrix = mat_translation(Vec3(mouse_x(), mouse_y(), 0.f)) * mat_scale(4.f);
+	});
 
-	crosshair_circle.buffer_data(0, sizeof(circle_data), circle_data);
-	crosshair_circle.draw_num = CIRCLE_RESOLUTION;
-	crosshair_circle.draw_mode = GL_LINE_LOOP;
+	// Line
+	Vec2 line_data[] = { Vec2(0.5f, 0.f), Vec2(1.f, 0.f) };
+	crosshair_line = scene->add_drawable();
+	crosshair_line->material = Resource::load_material("material/ui/crosshair_line.mat");
+	crosshair_line->mesh = get_crosshair_line();
+	crosshair_line->flags = DRW_UI | DRW_Blend;
 
-	crosshair_line.init();
-	crosshair_line.add_buffer(0);
-	crosshair_line.bind_attribute(0, 0, 2, 2 * sizeof(float), 0);
-	crosshair_line.buffer_data(0, sizeof(Vec2) * 2, circle_data); // just temp data
+	crosshair_line->on_render.bind_lambda([this](const Render_Info& info)
+	{
+		Vec2 src = info.world_to_canvas(position);
+		Vec2 tar = Vec2(mouse_x(), mouse_y());
 
-	float line_alphas[] = { 0.f, 1.f };
-	crosshair_line.add_buffer(1);
-	crosshair_line.bind_attribute(1, 1, 1, 1 * sizeof(float), 0);
-	crosshair_line.buffer_data(1, sizeof(line_alphas), line_alphas);
+		float length = ::length(tar - src);
+		Vec2 dir = (tar - src) / length;
 
-	crosshair_line.draw_num = 2;
-	crosshair_line.draw_mode = GL_LINES;
+		crosshair_line->matrix = Mat4(
+			Vec3(dir * (length - 4.f)),
+			Vec3::zero,
+			Vec3::zero,
+			Vec3(src)
+		);
+	});
+}
+
+void Player::on_destroyed()
+{
+	scene->destroy_drawable(mesh);
+	scene->destroy_drawable(crosshair_line);
+	scene->destroy_drawable(crosshair_circle);
 }
 
 void Player::update()
 {
 	if (!is_alive())
 		return;
+
+	debug->print(String::printf("HEALTH: %d", health));
 
 	Vec3 input = Vec3::zero;
 	if (key_down(Key::A))
@@ -72,7 +97,16 @@ void Player::update()
 	update_movement();
 	move(velocity * time_delta());
 
-	debug->print(String::printf("HEALTH: %d", health));
+	// Blinking when hit!
+	if (is_immune())
+	{
+		int pulse = time_elapsed_raw() * 10.f;
+		mesh->set_disabled(pulse % 2);
+	}
+	else
+	{
+		mesh->set_disabled(false);
+	}
 }
 
 void Player::update_movement()
@@ -250,62 +284,7 @@ void Player::hit(const Vec3& direction)
 	velocity += direction * PLAYER_HIT_IMPULSE;
 
 	immune_until = time_elapsed() + PLAYER_IMMUNE_TIME;
-}
 
-void Player::render(const Render_Info& info)
-{
 	if (!is_alive())
-		return;
-
-	// Blink while immune :)
-	if (is_immune() && int(time_elapsed_raw() * 10.f) % 2)
-		return;
-
-	Material* mat = Resource::load_material("material/default.mat");
-	mat->use();
-	mat->set("u_ViewProjection", info.view_projection);
-	mat->set("u_Model", mat_translation(position));
-
-	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
-	mesh->draw();
-
-	// Render equipped weapon
-	weapons[equipped_weapon]->render(info);
-}
-
-void Player::render_ui(const Render_Info& info)
-{
-	glEnable(GL_BLEND);
-
-	// Draw circle
-	Material* mat = Resource::load_material("material/ui/crosshair.mat");
-	mat->use();
-	mat->set("u_ViewProjection", info.ui_canvas);
-	mat->set("u_Model", mat_translation(Vec3(mouse_x(), mouse_y(), 0.f)) * mat_scale(Vec3(4.f)));
-
-	crosshair_circle.draw();
-
-	// Draw line
-	mat = Resource::load_material("material/ui/crosshair_line.mat");
-	mat->use();
-	mat->set("u_ViewProjection", info.ui_canvas);
-
-	Vec2 line_start = info.world_to_canvas(position);
-	Vec2 line_end = Vec2(mouse_x(), mouse_y());
-
-	// Offset line_end to be at the boundary of the circle
-	Vec2 dir = normalize(line_end - line_start);
-	line_end -= dir * 4.f;
-
-	// Offset line_start to be at the middle-point
-	line_start = Math::lerp(line_start, line_end, 0.5f);
-
-	Vec2 line_verts[2];
-	line_verts[0] = line_start;
-	line_verts[1] = line_end;
-
-	crosshair_line.buffer_subdata(0, 0, sizeof(line_verts), line_verts);
-	crosshair_line.draw();
-
-	glDisable(GL_BLEND);
+		mesh->set_disabled(true);
 }

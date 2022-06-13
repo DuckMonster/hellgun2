@@ -117,6 +117,20 @@ Hit_Result Scene::sweep_collider(const Collider* collider, const Vec3& delta, Sw
 	return result;
 }
 
+Drawable* Scene::add_drawable()
+{
+	Drawable* drawable = new Drawable();
+	drawables.add(drawable);
+
+	return drawable;
+}
+
+void Scene::destroy_drawable(Drawable* drawable)
+{
+	drawables.remove(drawable);
+	delete drawable;
+}
+
 void Scene::add_damage_number(const Vec3& position, float damage, const Vec3& direction)
 {
 	// Find if there's an inactive number we can re-use

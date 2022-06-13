@@ -123,6 +123,9 @@ void Game::render()
 	for(auto* entity : scene->entities)
 		entity->render(info);
 
+	for(auto* drawable : scene->drawables)
+		drawable->render(info);
+
 	for(auto& damage_nmbr : scene->damage_numbers)
 	{
 		if (damage_nmbr.active)
@@ -134,7 +137,7 @@ void Game::render()
 
 	debug->render(info);
 	//ui->render(info);
-	player->render_ui(info);
+	//player->render_ui(info);
 
 	// Render some debug UI
 }

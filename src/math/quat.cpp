@@ -2,6 +2,49 @@
 
 const Quat Quat::identity(0.f, 0.f, 0.f, 1.f);
 
+Quat Quat::from_x(const Vec3& x)
+{
+	Mat4 mat = mat_orient_x(x);
+	return Quat(mat);
+}
+
+Quat::Quat(const Mat4& m)
+{
+	float tr = m.m00 + m.m11 + m.m22;
+	if (tr > 0.f)
+	{
+		float S = Math::sqrt(tr + 1.f) * 2.f;
+		w = S * 0.25f;
+		x = (m.m12 - m.m21) / S;
+		y = (m.m20 - m.m02) / S;
+		z = (m.m01 - m.m10) / S;
+	}
+	else if (m.m00 > m.m11 && m.m00 > m.m22)
+	{
+		float S = Math::sqrt(1.f + m.m00 - m.m11 - m.m22) * 2.f;
+		w = (m.m12 - m.m21) / S;
+		x = S * 0.25f;
+		y = (m.m10 + m.m01) / S;
+		z = (m.m20 + m.m02) / S;
+	}
+	else if (m.m11 > m.m22)
+	{
+		float S = Math::sqrt(1.f + m.m11 - m.m00 - m.m22) * 2.f;
+		w = (m.m20 - m.m02) / S;
+		x = (m.m10 + m.m01) / S;
+		y = S * 0.25f;
+		z = (m.m21 + m.m12) / S;
+	}
+	else
+	{
+		float S = Math::sqrt(1.f + m.m22 - m.m00 - m.m11) * 2.f;
+		w = (m.m01 - m.m10) / S;
+		x = (m.m20 + m.m02) / S;
+		y = (m.m21 + m.m12) / S;
+		z = S * 0.25f;
+	}
+}
+
 Mat4 Quat::matrix() const
 {
 	// Copied from Unreal! Read up on this!

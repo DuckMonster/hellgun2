@@ -1,6 +1,4 @@
 #include "enemy.h"
-#include "resource/resource_common.h"
-#include "resource/resource.h"
 #include "player/player.h"
 #include "game/game.h"
 #include "game/scene.h"
@@ -8,7 +6,6 @@
 #include "fx/fx.h"
 #include "fx/enemy/enemy_damage_system.h"
 #include "fx/weapon/impact_spike_system.h"
-#include "gfx/texture.h"
 #include "math/random.h"
 
 void Enemy::init()
@@ -21,17 +18,31 @@ void Enemy::init()
 	collider->attach_shape(Shape::sphere(Vec3::zero, 1.5f));
 	collider->owner = this;
 	collider->position = position;
+
+	skull = scene->add_drawable();
+	skull->load("mesh/plane.msh", "material/sprite.mat", "texture/skull.tga");
+	skull->attach_to(this);
+	skull->matrix = mat_scale(3.f);
+	skull->depth_offset = 0.f;
+
+	jaw_front = scene->add_drawable();
+	jaw_front->load("mesh/plane.msh", "material/sprite.mat", "texture/skull_jawf.tga");
+	jaw_front->attach_to(this);
+	jaw_front->matrix = mat_scale(3.f);
+	jaw_front->depth_offset = -2.f;
+
+	jaw_back = scene->add_drawable();
+	jaw_back->load("mesh/plane.msh", "material/sprite.mat", "texture/skull_jawb.tga");
+	jaw_back->attach_to(this);
+	jaw_back->matrix = mat_scale(3.f);
+	jaw_back->depth_offset = -1.f;
 }
 
 void Enemy::hit(const Damage_Data& data)
 {
-	Material* mat = Resource::load_material("material/sprite.mat");
-	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
-	Texture* skull = Resource::load_texture("texture/skull.tga");
-	Mat4 orient = mat_orient_x(normalize(velocity));
-
-	fx->spawn_system<Enemy_Damage_System>(position, mesh, skull, mat_translation(position) * orient * mat_scale(3.f));
-	fx->spawn_system<Impact_Spike_System>(position, data.visual_scale, 0.15f, data.direction);
+	fx->spawn_system<Enemy_Damage_System>(position, skull);
+	fx->spawn_system<Enemy_Damage_System>(position, jaw_front);
+	fx->spawn_system<Enemy_Damage_System>(position, jaw_back);
 
 	scene->add_damage_number(position, data.damage, data.direction);
 
@@ -45,6 +56,9 @@ void Enemy::hit(const Damage_Data& data)
 void Enemy::on_destroyed()
 {
 	scene->destroy_collider(collider);
+	scene->destroy_drawable(skull);
+	scene->destroy_drawable(jaw_back);
+	scene->destroy_drawable(jaw_front);
 }
 
 void Enemy::update() 
@@ -81,6 +95,7 @@ void Enemy::update()
 
 	// Move!
 	position += velocity * time_delta();
+	rotation = Quat::from_x(velocity);
 	collider->position = position;
 
 	// Update face twitching
@@ -92,6 +107,9 @@ void Enemy::update()
 		mouth_angle = Math::radians(Random::range(-5.f - 5.f * openness, 5.f + 5.f * openness) + 40.f * openness);
 		next_mouth_twitch_time = time_elapsed() + 0.015f;
 	}
+	skull->matrix = Quat(Vec3::right, mouth_angle).matrix() * mat_scale(3.f);
+	jaw_back->matrix = Quat(Vec3::right, -mouth_angle).matrix() * mat_scale(3.f);
+	jaw_front->matrix = Quat(Vec3::right, -mouth_angle).matrix() * mat_scale(3.f);
 
 	// Update player damage
 	if (!game->player->is_immune() && game->player->is_alive())
@@ -99,46 +117,6 @@ void Enemy::update()
 		if (distance_sqrd(position, game->player->position) < Math::square(1.5f))
 			game->player->hit(direction_to(position, game->player->position));
 	}
-}
-
-void Enemy::render(const Render_Info& info)
-{
-	Material* mat = Resource::load_material("material/sprite.mat");
-	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
-	Texture* skull = Resource::load_texture("texture/skull.tga");
-	Texture* jaw_front = Resource::load_texture("texture/skull_jawf.tga");
-	Texture* jaw_back = Resource::load_texture("texture/skull_jawb.tga");
-
-	// Main orientation of the skull
-	Mat4 orient = mat_orient_x(normalize(velocity));
-
-	mat->use();
-	mat->set("u_ViewProjection", info.view_projection);
-	glEnable(GL_POLYGON_OFFSET_FILL); // Used to do depth offset
-
-	// Draw main skull, rotated counter-clockwise
-	glPolygonOffset(0.f, 0.f);
-	mat->set("u_Model", mat_translation(position) * orient * Quat(Vec3::right, mouth_angle).matrix() * mat_scale(3.f));
-	skull->bind();
-	mesh->draw();
-
-	// Draw jaw, rotated clockwise
-	mat->set("u_Model",
-		mat_translation(position) *
-		orient *
-		Quat(Vec3::right, -mouth_angle).matrix() *
-		mat_scale(3.f)
-	);
-
-	// Front jaw, offset depth to further forward
-	glPolygonOffset(0.f, -0.1f);
-	jaw_front->bind();
-	mesh->draw();
-
-	// Back jaw, offset depth to further behind
-	glPolygonOffset(0.f, 0.1f);
-	jaw_back->bind();
-	mesh->draw();
 }
 
 void Enemy::select_new_target_offset()

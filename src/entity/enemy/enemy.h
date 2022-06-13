@@ -7,6 +7,7 @@
 #define ENEMY_FRICTION (0.5f)
 
 class Collider;
+class Drawable;
 
 class Enemy : public Entity
 {
@@ -24,6 +25,10 @@ public:
 
 	Collider* collider = nullptr;
 
+	Drawable* skull = nullptr;
+	Drawable* jaw_front = nullptr;
+	Drawable* jaw_back = nullptr;
+
 	float mouth_angle = 0;
 	float next_mouth_twitch_time = 0.f;
 
@@ -32,7 +37,6 @@ public:
 	void init() override;
 	void on_destroyed() override;
 	void update() override;
-	void render(const Render_Info& info) override;
 
 	void select_new_target_offset();
 };

@@ -4,14 +4,24 @@
 #include "game/game.h"
 #include "game/scene.h"
 #include "player/player.h"
-#include "gfx/mesh.h"
-#include "gfx/material.h"
-#include "gfx/texture.h"
-#include "resource/resource.h"
+#include "game/drawable.h"
+
+void Cross::init()
+{
+	mesh = scene->add_drawable();
+	mesh->load("mesh/plane.msh", "material/sprite.mat", "texture/cross.tga");
+	mesh->set_disabled(true);
+}
 
 void Cross::on_equipped()
 {
 	position = game->player->position;
+	mesh->set_disabled(false);
+}
+
+void Cross::on_unequipped()
+{
+	mesh->set_disabled(true);
 }
 
 void Cross::update()
@@ -37,21 +47,6 @@ void Cross::update()
 
 	Vec3 target_position = game->player->position - get_aim_direction() * 1.f;
 	position = Math::lerp(position, target_position, 45.f * time_delta());
-}
 
-void Cross::render(const Render_Info& info)
-{
-	if (ammo == 0)
-		return;
-
-	Mesh* mesh = Resource::load_mesh("mesh/plane.msh");
-	Material* mat = Resource::load_material("material/sprite.mat");
-	Texture* tex = Resource::load_texture("texture/cross.tga");
-
-	mat->use();
-	mat->set("u_ViewProjection", info.view_projection);
-	mat->set("u_Model", mat_translation(position) * mat_orient_x(get_aim_direction()) * mat_scale(2.f));
-
-	tex->bind();
-	mesh->draw();
+	mesh->matrix = mat_translation(position) * mat_orient_x(get_aim_direction()) * mat_scale(2.f);
 }
