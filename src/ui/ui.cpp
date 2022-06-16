@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "resource/resource.h"
 
 UI* ui;
 
@@ -19,9 +20,26 @@ void UI::init()
 	rect_mesh.buffer_data(0, sizeof(rect_data), rect_data);
 	rect_mesh.draw_num = 4;
 	rect_mesh.draw_mode = GL_LINE_LOOP;
+
+	ui_material = Resource::load_material("material/ui/ui.mat");
 }
 
 void UI::render(const Render_Info& info)
 {
-	ui_debug->rect(info, UI_Rect(Vec2(16.f, 16.f), Vec2(64.f, 64.f)));
+}
+
+void UI::draw_rect(const Render_Info& info, const UI_Rect& rect)
+{
+	Mat4 model = Mat4(
+		rect.size.x, 0.f, 0.f, 0.f,
+		0.f, rect.size.y, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		rect.position.x, rect.position.y, 0.f, 1.f
+	);
+
+	ui_material->use();
+	ui_material->set("u_Model", info.view_projection);
+	ui_material->set("u_ViewProjection", model);
+
+	rect_mesh.draw();
 }

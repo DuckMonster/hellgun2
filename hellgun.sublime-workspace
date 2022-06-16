@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"time_els",
+				"time_elapsed_raw"
+			],
+			[
+				"nearly_",
+				"is_nearly_equal"
+			],
+			[
 				"mak_",
 				"make_no_hit"
 			],
@@ -120,6 +128,14 @@
 		"last_filter": "",
 		"selected_items":
 		[
+			[
+				"javascr",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"javascrip",
+				"Set Syntax: JavaScript"
+			],
 			[
 				"c++",
 				"Set Syntax: C++"
@@ -245,29 +261,100 @@
 	},
 	"file_history":
 	[
-		"/D/Prog/hellgun/src/player/weapon/pistol/pistol_ammo_drop.cpp",
+		"/D/Prog/hellgun/src/game/game.cpp",
+		"/D/Prog/hellgun/src/game/game.h",
+		"/D/Prog/hellgun/src/ui/ui_canvas.h",
+		"/D/Prog/hellgun/src/ui/ui.h",
+		"/D/Prog/hellgun/src/ui/ui.cpp",
+		"/D/Prog/hellgun/src/gfx/mesh.h",
+		"/D/Prog/hellgun/src/main.cpp",
+		"/D/Prog/hellgun/src/player/weapon/pistol/pistol.cpp",
+		"/D/Prog/hellgun/src/player/player.h",
+		"/D/Prog/hellgun/src/player/player.cpp",
+		"/D/Prog/hellgun/src/player/weapon/pistol/pistol.h",
+		"/D/Prog/hellgun/src/player/weapon/cross/cross.h",
+		"/D/Prog/hellgun/src/player/weapon/cross/cross.cpp",
+		"/D/Prog/hellgun/src/player/weapon/weapon.h",
+		"/D/Prog/hellgun/src/player/crosshair.cpp",
+		"/D/Prog/hellgun/src/player/weapon/weapon.cpp",
+		"/D/Prog/hellgun/src/player/crosshair.h",
+		"/D/Prog/hellgun/src/game/drawable.h",
+		"/D/Prog/hellgun/src/game/drawable.cpp",
+		"/D/Prog/hellgun/src/core/callback.h",
+		"/D/Prog/hellgun/src/math/vec_math.h",
+		"/D/Prog/hellgun/res/shader/ui/crosshair_line.vert",
+		"/D/Prog/hellgun/src/fx/enemy/enemy_damage_system.h",
+		"/D/Prog/hellgun/src/fx/enemy/enemy_damage_system.cpp",
+		"/D/Prog/hellgun/src/entity/enemy/enemy.cpp",
+		"/D/Prog/hellgun/include/GL/glext.h",
+		"/D/Prog/hellgun/src/math/quat.h",
+		"/D/Prog/hellgun/src/entity/entity.h",
+		"/D/Prog/hellgun/src/math/quat.cpp",
+		"/D/Prog/hellgun/src/entity/enemy/enemy.h",
+		"/D/Prog/hellgun/src/game/editor.cpp",
+		"/D/Prog/hellgun/src/core/pch.h",
+		"/D/Prog/hellgun/src/math/matrix.h",
+		"/D/Prog/hellgun/src/math/matrix_math.h",
+		"/D/Prog/hellgun/src/entity/dummy.cpp",
+		"/D/Prog/hellgun/src/game/scene.h",
+		"/D/Prog/hellgun/src/game/scene.cpp",
+		"/D/Prog/hellgun/src/gfx/mesh.cpp",
+		"/D/Prog/hellgun/src/math/vec.h",
+		"/D/Prog/hellgun/res/shader/ui/crosshair.vert",
+		"/D/Prog/hellgun/res/shader/ui/crosshair.frag",
+		"/D/Prog/hellgun/res/material/ui/crosshair_line.mat",
+		"/D/Prog/hellgun/res/shader/ui/crosshair_line.frag",
+		"/D/Prog/hellgun/src/entity/enemy/damage_number.cpp",
+		"/D/Prog/hellgun/src/entity/enemy/damage_number.h",
+		"/D/Prog/hellgun/src/fx/fx.cpp",
+		"/D/Prog/hellgun/src/fx/emitter.h",
+		"/D/Prog/hellgun/res/material/ui/crosshair.mat",
+		"/D/Prog/hellgun/src/gfx/grid_font.h",
+		"/D/Prog/hellgun/src/gfx/grid_font.cpp",
+		"/D/Prog/hellgun/src/game/level.h",
+		"/D/Prog/hellgun/src/game/level.cpp",
+		"/D/Prog/hellgun/res/shader/ui/gridfont.vert",
+		"/D/Prog/hellgun/res/shader/ui/gridfont.frag",
+		"/D/Prog/hellgun/res/shader/fx/enemy_damage.frag",
 		"/D/Prog/hellgun/src/player/weapon/pistol/pistol_projectile.cpp",
+		"/D/Prog/hellgun/src/fx/surface_impact_system.h",
+		"/D/Prog/hellgun/src/fx/surface_impact_system.cpp",
+		"/D/Prog/hellgun/res/shader/sprite.frag",
+		"/D/Prog/hellgun/src/math/random.h",
+		"/D/Prog/hellgun/src/player/weapon/cross/cross_projectile.h",
+		"/D/Prog/hellgun/src/player/weapon/cross/cross_projectile.cpp",
+		"/D/Prog/hellgun/src/math/color.h",
+		"/D/Prog/hellgun/src/math/color.cpp",
+		"/D/Prog/hellgun/src/gfx/render_info.h",
+		"/D/Prog/hellgun/src/entity/enemy/damage_data.h",
+		"/D/Prog/hellgun/src/debug/debug.cpp",
+		"/D/Prog/hellgun/src/collision/collision.h",
+		"/D/Prog/hellgun/src/collision/collision.cpp",
+		"/D/Prog/hellgun/src/collision/collider.h",
+		"/D/Prog/hellgun/src/game/editor.h",
+		"/D/Prog/hellgun/src/collision/shape.h",
+		"/D/Prog/hellgun/src/player/weapon/pistol/pistol_projectile.h",
+		"/D/Prog/hellgun/src/core/time.cpp",
+		"/D/Prog/hellgun/src/math/my_math.cpp",
+		"/D/Prog/hellgun/src/fx/weapon/impact_spike_system.cpp",
+		"/D/Prog/hellgun/src/fx/test_system.cpp",
+		"/D/Prog/hellgun/src/fx/particle_system.cpp",
+		"/D/Prog/hellgun/src/fx/test_system.h",
+		"/D/Prog/hellgun/src/fx/trail_system.h",
+		"/D/Prog/hellgun/src/fx/weapon/impact_spike_system.h",
+		"/D/Prog/hellgun/src/fx/weapon/muzzle_flash_system.h",
+		"/D/Prog/hellgun/src/fx/weapon/muzzle_flash_system.cpp",
+		"/D/Prog/hellgun/src/fx/trail_system.cpp",
+		"/D/Prog/hellgun/src/player/weapon/pistol/pistol_ammo_drop.cpp",
 		"/D/Prog/hellgun/src/resource/material_resource.cpp",
 		"/D/Prog/hellgun/src/resource/resource.cpp",
 		"/D/Prog/hellgun/src/debug/debug.h",
-		"/D/Prog/hellgun/src/entity/entity.h",
-		"/D/Prog/hellgun/src/fx/emitter.h",
 		"/D/Prog/hellgun/src/fx/fx.h",
 		"/D/Prog/hellgun/src/fx/particle_system.h",
-		"/D/Prog/hellgun/src/fx/test_system.h",
-		"/D/Prog/hellgun/src/game/level.h",
-		"/D/Prog/hellgun/src/gfx/grid_font.h",
-		"/D/Prog/hellgun/src/player/weapon/weapon.h",
-		"/D/Prog/hellgun/src/ui/ui.h",
 		"/D/Prog/hellgun/src/ui/ui_debug.h",
 		"/D/Prog/hellgun/src/ui/widget.h",
 		"/D/Prog/hellgun/src/resource/level_resource.cpp",
-		"/D/Prog/hellgun/src/main.cpp",
-		"/D/Prog/hellgun/src/entity/dummy.cpp",
-		"/D/Prog/hellgun/src/entity/enemy/enemy.cpp",
-		"/D/Prog/hellgun/src/player/player.cpp",
 		"/D/Prog/hellgun/src/resource/resource_common.cpp",
-		"/D/Prog/hellgun/src/core/pch.h",
 		"/D/Prog/hellgun/src/resource/shader_resource.cpp",
 		"/D/Prog/hellgun/src/resource/mesh_resource.cpp",
 		"/D/Prog/hellgun/src/resource/dat_resource.cpp",
@@ -279,8 +366,6 @@
 		"/D/Prog/hellgun/src/fx/enemy/enemydamagesystem.cpp",
 		"/D/Prog/hellgun/src/math/matrixmath.h",
 		"/D/Prog/hellgun/src/fx/weapon/impactspikesystem.cpp",
-		"/D/Prog/hellgun/src/game/game.cpp",
-		"/D/Prog/hellgun/src/player/weapon/cross/cross.h",
 		"/D/Prog/hellgun/src/fx/weapon/impactspikesystem.h",
 		"/D/Prog/hellgun/src/player/weapon/cross",
 		"/D/Prog/hellgun/src/fx/particlesystem.h",
@@ -288,91 +373,22 @@
 		"/D/Prog/hellgun/res/material/fx/spike.mat",
 		"/D/Prog/hellgun/res/shader/fx/particle_star.geom",
 		"/D/Prog/hellgun/res/shader/fx/spike.frag",
-		"/D/Prog/hellgun/res/shader/fx/enemy_damage.frag",
 		"/D/Prog/hellgun/res/shader/fx/enemy_damage.vert",
 		"/D/Prog/hellgun/src/player/weapon/pistol/pistolprojectile.h",
-		"/D/Prog/hellgun/src/game/scene.h",
-		"/D/Prog/hellgun/src/entity/enemy/enemy.h",
 		"/D/Prog/hellgun/src/fx/enemy/enemydamagesystem.h",
-		"/D/Prog/hellgun/include/GL/glext.h",
 		"/D/Prog/hellgun/res/material/fx/enemy_damage.mat",
 		"/D/Prog/hellgun/src/gfx/texture.h",
 		"/D/Prog/hellgun/src/gfx/texture.cpp",
 		"/D/Prog/hellgun/src/math/mymath.h",
 		"/D/Prog/hellgun/src/core/time.h",
-		"/D/Prog/hellgun/src/math/random.h",
-		"/D/Prog/hellgun/src/math/quat.cpp",
 		"/D/Prog/hellgun/src/ui/widget.cpp",
-		"/D/Prog/hellgun/src/math/matrix.h",
-		"/D/Prog/hellgun/src/math/quat.h",
-		"/D/Prog/hellgun/src/collision/collider.h",
-		"/D/Prog/hellgun/src/game/editor.cpp",
-		"/D/Prog/hellgun/src/game/level.cpp",
-		"/D/Prog/hellgun/src/debug/debug.cpp",
 		"/D/Prog/hellgun/src/player/weapon/pistol/pistolammodrop.cpp",
 		"/D/Prog/hellgun/res/shader/default.vert",
 		"/D/Prog/hellgun/res/shader/default.frag",
 		"/D/Prog/hellgun/res/shader/prop.vert",
 		"/D/Prog/hellgun/res/shader/prop.frag",
 		"/D/Prog/hellgun/src/resource/shaderresource.h",
-		"/D/Prog/hellgun/src/gfx/shader.h",
-		"/D/Prog/hellgun/src/game/scene.cpp",
-		"/D/Prog/hellgun/src/math/vecmath.h",
-		"/D/Prog/hellgun/src/gfx/mesh.h",
-		"/D/Prog/hellgun/src/gfx/mesh.cpp",
-		"/D/Prog/hellgun/src/import/msh.cpp",
-		"/D/Prog/hellgun/src/resource/levelresource.cpp",
-		"/D/Prog/hellgun/res/material/default.mat",
-		"/D/Prog/hellgun/src/resource/materialresource.cpp",
-		"/D/Prog/hellgun/res/material/prop.mat",
-		"/D/Prog/hellgun/src/game/game.h",
-		"/D/Prog/hellgun/src/import/msh.h",
-		"/D/Prog/hellgun/src/resource/meshresource.cpp",
-		"/D/Prog/hellgun/src/resource/levelresource.h",
-		"/D/Prog/hellgun/src/resource/meshresource.h",
-		"/D/Prog/hellgun/src/resource/shaderresource.cpp",
-		"/D/Prog/hellgun/src/resource/textureresource.cpp",
-		"/D/Prog/hellgun/src/core/io.h",
-		"/D/Prog/hellgun/src/core/io.cpp",
-		"/D/Prog/hellgun/src/resource/resource.h",
-		"/D/Prog/hellgun/src/container/string.h",
-		"/D/Prog/hellgun/src/core/parse/filestream.h",
-		"/D/Prog/hellgun/src/container/array.h",
-		"/D/Prog/hellgun/src/import/obj.h",
-		"/D/Prog/hellgun/src/core/parse/binarystream.cpp",
-		"/D/Prog/hellgun/src/core/parse/binarystream.h",
-		"/D/Prog/hellgun/src/core/parse/filestream.cpp",
-		"/D/Prog/hellgun/src/collision/shape.h",
-		"/D/Prog/hellgun/src/collision/collision.cpp",
-		"/D/Prog/hellgun/src/collision/collider.cpp",
-		"/D/Prog/hellgun/src/collision/shape.cpp",
-		"/D/Prog/hellgun/src/collision/collision.h",
-		"/D/Prog/hellgun/src/game/editor.h",
-		"/D/Prog/hellgun/src/collision/aabb.h",
-		"/D/Prog/hellgun/src/collision/sphere.h",
-		"/D/Prog/hellgun/hellgun.vcxproj",
-		"/D/Prog/hellgun/src/collision/capsule.h",
-		"/D/Prog/hellgun/src/core/template.h",
-		"/D/Prog/hellgun/src/math/vec.h",
-		"/D/Prog/hellgun/src/collision/circle.h",
-		"/D/Prog/hellgun/src/collision/line.h",
-		"/D/Prog/hellgun/src/math/vec.cpp",
-		"/D/Prog/hellgun/src/core/context.cpp",
-		"/D/Prog/hellgun/src/core/input.h",
-		"/D/Prog/hellgun/src/core/input.cpp",
-		"/D/Prog/hellgun/include/GLFW/glfw3.h",
-		"/D/Prog/hellgun/src/gfx/gridfont.h",
-		"/D/Prog/hellgun/src/gfx/gridfont.cpp",
-		"/D/Prog/hellgun/src/fx/fx.cpp",
-		"/D/Prog/hellgun/src/math/color.h",
-		"/D/Prog/hellgun/res/shader/ui/gridfont.frag",
-		"/D/Prog/hellgun/res/shader/fx/particle_trail.geom",
-		"/D/Prog/hellgun/src/collision/aabb.cpp",
-		"/D/Prog/hellgun/res/mesh/sphere.obj",
-		"/D/Prog/hellgun/res/mesh/test.dae",
-		"/D/Prog/hellgun/src/core/utils.h",
-		"/D/Prog/hellgun/src/resource/materialresource.h",
-		"/D/Prog/hellgun/src/gfx/opengl.h"
+		"/D/Prog/hellgun/src/gfx/shader.h"
 	],
 	"find":
 	{
@@ -391,6 +407,18 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"\n};",
+			"Matrix",
+			"location",
+			"impactspikesystem.h",
+			"testsystem.h",
+			"surfaceimpactsystem.h",
+			"enemydamagesystem.h",
+			"pistolprojectile.h",
+			"gridfont.h",
+			"particlesystem.h",
+			"muzzleflashsystem.h",
+			"trailsystem.h",
 			"binarystream.h",
 			"filestream.h",
 			"pistolammodrop.h",
@@ -420,6 +448,17 @@
 		"regex": false,
 		"replace_history":
 		[
+			"Mat4",
+			"position",
+			"impact_spike_system.h",
+			"test_system.h",
+			"surface_impact_system.h",
+			"enemy_damage_system.h",
+			"pistol_projectile.h",
+			"grid_font.h",
+			"particle_system.h",
+			"muzzle_flash_system.h",
+			"trail_system.h",
 			"binary_stream.h",
 			"file_stream.h",
 			"pistol_ammo_drop.h",
@@ -465,7 +504,7 @@
 	"pinned_build_system": "",
 	"replace":
 	{
-		"height": 98.0
+		"height": 148.0
 	},
 	"save_all_on_build": true,
 	"select_file":
@@ -475,16 +514,312 @@
 		"selected_items":
 		[
 			[
-				"resource.cpp",
-				"Source\\resource\\resource.cpp"
+				"mesh.h",
+				"Source\\gfx\\mesh.h"
+			],
+			[
+				"main.cp",
+				"Source\\main.cpp"
+			],
+			[
+				"game.h",
+				"Source\\game\\game.h"
+			],
+			[
+				"ui.h",
+				"Source\\ui\\ui.h"
+			],
+			[
+				"plyaer.h",
+				"Source\\player\\player.h"
+			],
+			[
+				"cross.h",
+				"Source\\player\\weapon\\cross\\cross.h"
+			],
+			[
+				"pistol.cpp",
+				"Source\\player\\weapon\\pistol\\pistol.cpp"
+			],
+			[
+				"player.cpp",
+				"Source\\player\\player.cpp"
+			],
+			[
+				"weapon.h",
+				"Source\\player\\weapon\\weapon.h"
+			],
+			[
+				"pistol.h",
+				"Source\\player\\weapon\\pistol\\pistol.h"
+			],
+			[
+				"drawable.h",
+				"Source\\game\\drawable.h"
+			],
+			[
+				"drawabl",
+				"Source\\game\\drawable.h"
+			],
+			[
+				"game.cpp",
+				"Source\\game\\game.cpp"
+			],
+			[
+				"crosshair_line",
+				"Resources\\shader\\ui\\crosshair_line.vert"
+			],
+			[
+				"vecmat",
+				"Source\\math\\vec_math.h"
+			],
+			[
+				"drawable",
+				"Source\\game\\drawable.h"
+			],
+			[
+				"callback.h",
+				"Source\\core\\callback.h"
+			],
+			[
+				"drawable.cpp",
+				"Source\\game\\drawable.cpp"
+			],
+			[
+				"player.h",
+				"Source\\player\\player.h"
+			],
+			[
+				"enemyc.pp",
+				"Source\\entity\\enemy\\enemy.cpp"
+			],
+			[
+				"drawa",
+				"Source\\game\\drawable.h"
+			],
+			[
+				"enemy_damage",
+				"Source\\fx\\enemy\\enemy_damage_system.h"
+			],
+			[
+				"enemy.cpp",
+				"Source\\entity\\enemy\\enemy.cpp"
+			],
+			[
+				"enemy.h",
+				"Source\\entity\\enemy\\enemy.h"
+			],
+			[
+				"editor.cpp",
+				"Source\\game\\editor.cpp"
+			],
+			[
+				"enemy.cp",
+				"Source\\entity\\enemy\\enemy.cpp"
+			],
+			[
+				"quat.cpp",
+				"Source\\math\\quat.cpp"
+			],
+			[
+				"entity.h",
+				"Source\\entity\\entity.h"
 			],
 			[
 				"pch.h",
 				"Source\\core\\pch.h"
 			],
 			[
-				"game.cpp",
+				"matrix_mat",
+				"Source\\math\\matrix_math.h"
+			],
+			[
+				"matrix",
+				"Source\\math\\matrix.h"
+			],
+			[
+				"quat.h",
+				"Source\\math\\quat.h"
+			],
+			[
+				"entity.cpp",
+				"Source\\entity\\dummy.cpp"
+			],
+			[
+				"scene.h",
+				"Source\\game\\scene.h"
+			],
+			[
+				"editor.cp",
+				"Source\\game\\editor.cpp"
+			],
+			[
+				"damagesys",
+				"Source\\fx\\enemy\\enemy_damage_system.cpp"
+			],
+			[
+				"crosshair.ver",
+				"Resources\\shader\\ui\\crosshair.vert"
+			],
+			[
+				"vec.h",
+				"Source\\math\\vec.h"
+			],
+			[
+				"vecmath",
+				"Source\\math\\vec_math.h"
+			],
+			[
+				"player.cp",
+				"Source\\player\\player.cpp"
+			],
+			[
+				"emitter.",
+				"Source\\fx\\emitter.h"
+			],
+			[
+				"fx.cpp",
+				"Source\\fx\\fx.cpp"
+			],
+			[
+				"damage",
+				"Resources\\shader\\fx\\enemy_damage.frag"
+			],
+			[
+				"enemy_dama",
+				"Source\\fx\\enemy\\enemy_damage_system.h"
+			],
+			[
+				"level.h",
+				"Source\\game\\level.h"
+			],
+			[
+				"gridfont.ver",
+				"Resources\\shader\\ui\\gridfont.vert"
+			],
+			[
+				"grid_font.cpp",
+				"Source\\gfx\\grid_font.cpp"
+			],
+			[
+				"damage_numb",
+				"Source\\entity\\enemy\\damage_number.cpp"
+			],
+			[
+				"font.ver",
+				"Resources\\shader\\ui\\gridfont.vert"
+			],
+			[
+				"font",
+				"Source\\gfx\\grid_font.h"
+			],
+			[
+				"pistol_projec",
+				"Source\\player\\weapon\\pistol\\pistol_projectile.cpp"
+			],
+			[
+				"sprite.frag",
+				"Resources\\shader\\sprite.frag"
+			],
+			[
+				"playe.rh",
+				"Source\\player\\player.h"
+			],
+			[
+				"random.h",
+				"Source\\math\\random.h"
+			],
+			[
+				"cross.cpp",
+				"Source\\player\\weapon\\cross\\cross.cpp"
+			],
+			[
+				"cross_proje",
+				"Source\\player\\weapon\\cross\\cross_projectile.h"
+			],
+			[
+				"cross_proj",
+				"Source\\player\\weapon\\cross\\cross_projectile.cpp"
+			],
+			[
+				"game.cp",
 				"Source\\game\\game.cpp"
+			],
+			[
+				"color.h",
+				"Source\\math\\color.h"
+			],
+			[
+				"matrix.h",
+				"Source\\math\\matrix.h"
+			],
+			[
+				"damage_num",
+				"Source\\entity\\enemy\\damage_number.h"
+			],
+			[
+				"vec",
+				"Source\\math\\vec.h"
+			],
+			[
+				"render_",
+				"Source\\gfx\\render_info.h"
+			],
+			[
+				"pistolproje",
+				"Source\\player\\weapon\\pistol\\pistol_projectile.cpp"
+			],
+			[
+				"damagenumbe",
+				"Source\\entity\\enemy\\damage_number.h"
+			],
+			[
+				"scne.h",
+				"Source\\game\\scene.h"
+			],
+			[
+				"debug.cp",
+				"Source\\debug\\debug.cpp"
+			],
+			[
+				"collision.cpp",
+				"Source\\collision\\collision.cpp"
+			],
+			[
+				"collision.h",
+				"Source\\collision\\collision.h"
+			],
+			[
+				"collider.h",
+				"Source\\collision\\collider.h"
+			],
+			[
+				"cross",
+				"Source\\player\\weapon\\cross\\cross_projectile.cpp"
+			],
+			[
+				"cross_pro",
+				"Source\\player\\weapon\\cross\\cross_projectile.cpp"
+			],
+			[
+				"pistol_proje",
+				"Source\\player\\weapon\\pistol\\pistol_projectile.cpp"
+			],
+			[
+				"pistol_proj",
+				"Source\\player\\weapon\\pistol\\pistol_projectile.cpp"
+			],
+			[
+				"pistol.cp",
+				"Source\\player\\weapon\\pistol\\pistol.cpp"
+			],
+			[
+				"my_math.cpp",
+				"Source\\math\\my_math.cpp"
+			],
+			[
+				"resource.cpp",
+				"Source\\resource\\resource.cpp"
 			],
 			[
 				"enemydamagesyst",
@@ -511,10 +846,6 @@
 				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
 			],
 			[
-				"pistolproje",
-				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
-			],
-			[
 				"particlesys",
 				"Source\\fx\\particlesystem.h"
 			],
@@ -525,10 +856,6 @@
 			[
 				"impactspike",
 				"Source\\fx\\weapon\\impactspikesystem.cpp"
-			],
-			[
-				"player.cpp",
-				"Source\\player\\player.cpp"
 			],
 			[
 				"fx_star",
@@ -555,10 +882,6 @@
 				"Source\\fx\\enemy\\enemydamagesystem.cpp"
 			],
 			[
-				"enemy.h",
-				"Source\\entity\\enemy\\enemy.h"
-			],
-			[
 				"pistolprojec",
 				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
 			],
@@ -569,14 +892,6 @@
 			[
 				"enetity.h",
 				"Source\\entity\\entity.h"
-			],
-			[
-				"enemy.cp",
-				"Source\\entity\\enemy\\enemy.cpp"
-			],
-			[
-				"enemy_dama",
-				"Resources\\shader\\fx\\enemy_damage.vert"
 			],
 			[
 				"texture.h",
@@ -591,28 +906,12 @@
 				"Source\\fx\\enemy\\enemydamagesystem.h"
 			],
 			[
-				"enemy.cpp",
-				"Source\\entity\\enemy\\enemy.cpp"
-			],
-			[
 				"math.h",
 				"Source\\math\\mymath.h"
 			],
 			[
-				"random.h",
-				"Source\\math\\random.h"
-			],
-			[
 				"time.h",
 				"Source\\core\\time.h"
-			],
-			[
-				"main.cp",
-				"Source\\main.cpp"
-			],
-			[
-				"game.cp",
-				"Source\\game\\game.cpp"
 			],
 			[
 				"widget.h",
@@ -627,20 +926,8 @@
 				"Source\\math\\matrixmath.h"
 			],
 			[
-				"quat.h",
-				"Source\\math\\quat.h"
-			],
-			[
-				"vec.h",
-				"Source\\math\\vec.h"
-			],
-			[
 				"vecma",
 				"Source\\math\\vecmath.h"
-			],
-			[
-				"enemyc.pp",
-				"Source\\entity\\enemy\\enemy.cpp"
 			],
 			[
 				"default.ver",
@@ -655,24 +942,12 @@
 				"Resources\\material\\default.mat"
 			],
 			[
-				"collider.h",
-				"Source\\collision\\collider.h"
-			],
-			[
 				"level.cpp",
 				"Source\\game\\level.cpp"
 			],
 			[
 				"pistolammod",
 				"Source\\player\\weapon\\pistol\\pistolammodrop.cpp"
-			],
-			[
-				"editor.cpp",
-				"Source\\game\\editor.cpp"
-			],
-			[
-				"debug.cp",
-				"Source\\debug\\debug.cpp"
 			],
 			[
 				"scene.cpp",
@@ -711,18 +986,6 @@
 				"Source\\import\\msh.cpp"
 			],
 			[
-				"mesh.h",
-				"Source\\gfx\\mesh.h"
-			],
-			[
-				"scene.h",
-				"Source\\game\\scene.h"
-			],
-			[
-				"vecmath",
-				"Source\\math\\vecmath.h"
-			],
-			[
 				"leel.cpp",
 				"Source\\game\\level.cpp"
 			],
@@ -739,16 +1002,8 @@
 				"Source\\import\\msh.cpp"
 			],
 			[
-				"game.h",
-				"Source\\game\\game.h"
-			],
-			[
 				"levelresour",
 				"Source\\resource\\levelresource.cpp"
-			],
-			[
-				"level.h",
-				"Source\\game\\level.h"
 			],
 			[
 				"io.cpp",
@@ -769,222 +1024,6 @@
 			[
 				"meshres",
 				"Source\\resource\\meshresource.cpp"
-			],
-			[
-				"meshresour",
-				"Source\\resource\\meshresource.h"
-			],
-			[
-				"textureres",
-				"Source\\resource\\textureresource.cpp"
-			],
-			[
-				"meshreou",
-				"Source\\resource\\meshresource.cpp"
-			],
-			[
-				"resource.h",
-				"Source\\resource\\resource.h"
-			],
-			[
-				"main.cpp",
-				"Source\\main.cpp"
-			],
-			[
-				"levelresource.cpp",
-				"Source\\resource\\levelresource.cpp"
-			],
-			[
-				"io.h",
-				"Source\\core\\io.h"
-			],
-			[
-				"string.h",
-				"Source\\container\\string.h"
-			],
-			[
-				"meshresou",
-				"Source\\resource\\meshresource.h"
-			],
-			[
-				"defautl.ver",
-				"Resources\\shader\\default.vert"
-			],
-			[
-				"defualt.fra",
-				"Resources\\shader\\default.frag"
-			],
-			[
-				"obj.cpp",
-				"Source\\import\\obj.cpp"
-			],
-			[
-				"main",
-				"Source\\main.cpp"
-			],
-			[
-				"array.h",
-				"Source\\container\\array.h"
-			],
-			[
-				"binaryt",
-				"Source\\core\\parse\\binarystream.cpp"
-			],
-			[
-				"binarystreamc.",
-				"Source\\core\\parse\\binarystream.cpp"
-			],
-			[
-				"filestrea",
-				"Source\\core\\parse\\filestream.h"
-			],
-			[
-				"obj.h",
-				"Source\\import\\obj.h"
-			],
-			[
-				"plyaer.cpp",
-				"Source\\player\\player.cpp"
-			],
-			[
-				"level.cp",
-				"Source\\game\\level.cpp"
-			],
-			[
-				"leve.h",
-				"Source\\game\\level.h"
-			],
-			[
-				"editor.cp",
-				"Source\\game\\editor.cpp"
-			],
-			[
-				"scene.cp",
-				"Source\\game\\scene.cpp"
-			],
-			[
-				"entity.h",
-				"Source\\entity\\entity.h"
-			],
-			[
-				"pistol.cpp",
-				"Source\\player\\weapon\\pistol\\pistol.cpp"
-			],
-			[
-				"dummy.cpp",
-				"Source\\entity\\dummy.cpp"
-			],
-			[
-				"pistolammodro",
-				"Source\\player\\weapon\\pistol\\pistolammodrop.cpp"
-			],
-			[
-				"dummy.cp",
-				"Source\\entity\\dummy.cpp"
-			],
-			[
-				"shape.h",
-				"Source\\collision\\shape.h"
-			],
-			[
-				"collision.cpp",
-				"Source\\collision\\collision.cpp"
-			],
-			[
-				"shape.cpp",
-				"Source\\collision\\shape.cpp"
-			],
-			[
-				"collision.h",
-				"Source\\collision\\collision.h"
-			],
-			[
-				"debug.h",
-				"Source\\debug\\debug.h"
-			],
-			[
-				"player",
-				"Source\\player\\player.cpp"
-			],
-			[
-				"sphere.h",
-				"Source\\collision\\sphere.h"
-			],
-			[
-				"collision.cp",
-				"Source\\collision\\collision.cpp"
-			],
-			[
-				"vcxproj",
-				"Root\\hellgun.vcxproj"
-			],
-			[
-				"caps",
-				"Source\\collision\\capsule.h"
-			],
-			[
-				"aabb.h",
-				"Source\\collision\\aabb.h"
-			],
-			[
-				"colliion.cp",
-				"Source\\collision\\collision.cpp"
-			],
-			[
-				"editor.h",
-				"Source\\game\\editor.h"
-			],
-			[
-				"aabb",
-				"Source\\collision\\aabb.h"
-			],
-			[
-				"edtior.cp",
-				"Source\\game\\editor.cpp"
-			],
-			[
-				"aabb.",
-				"Source\\collision\\aabb.h"
-			],
-			[
-				"pistolprojectile.cp",
-				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
-			],
-			[
-				"line.h",
-				"Source\\collision\\line.h"
-			],
-			[
-				"sphere",
-				"Source\\collision\\sphere.h"
-			],
-			[
-				"player.cp",
-				"Source\\player\\player.cpp"
-			],
-			[
-				"player.h",
-				"Source\\player\\player.h"
-			],
-			[
-				"vecmat",
-				"Source\\math\\vecmath.h"
-			],
-			[
-				"input.h",
-				"Source\\core\\input.h"
-			],
-			[
-				"context.cp",
-				"Source\\core\\context.cpp"
-			],
-			[
-				"collisionc.p",
-				"Source\\collision\\collision.cpp"
-			],
-			[
-				"collisio",
-				"Source\\collision\\collision.h"
 			]
 		],
 		"width": 0.0
@@ -1001,9 +1040,69 @@
 	"select_symbol":
 	{
 		"height": 500.0,
-		"last_filter": "hit",
+		"last_filter": "glPolygonOffset",
 		"selected_items":
 		[
+			[
+				"glPolygonOffset",
+				"glPolygonOffsetEXT"
+			],
+			[
+				"buffer_subda",
+				"buffer_subdata"
+			],
+			[
+				"bind_attr",
+				"bind_attribute"
+			],
+			[
+				"Surface_",
+				"Surface_Impact_System"
+			],
+			[
+				"Font_Info",
+				"Grid_Font_Info"
+			],
+			[
+				"add_damage_",
+				"add_damage_number"
+			],
+			[
+				"Damage_DA",
+				"Damage_Data"
+			],
+			[
+				"debug_draw",
+				"debug_draw"
+			],
+			[
+				"render_text",
+				"render_text"
+			],
+			[
+				"Grid_Fo",
+				"Grid_Font"
+			],
+			[
+				"contains_nan",
+				"contains_nan"
+			],
+			[
+				"Shape",
+				"Shape"
+			],
+			[
+				"direction",
+				"direction_to"
+			],
+			[
+				"time_sinc",
+				"time_since"
+			],
+			[
+				"get_age",
+				"get_age"
+			],
 			[
 				"hit",
 				"hit"
@@ -1455,66 +1554,6 @@
 			[
 				"glfwPOll",
 				"glfwPollEvents"
-			],
-			[
-				"glfwCreateWin",
-				"glfwCreateWindow"
-			],
-			[
-				"glfwWindow",
-				"GLFWwindow"
-			],
-			[
-				"glGenBuffers",
-				"glGenBuffers"
-			],
-			[
-				"GLGENBUFFERS",
-				"glGenBuffers"
-			],
-			[
-				"glGetProcAddre",
-				"eglGetProcAddress"
-			],
-			[
-				"SDL_GL_GetProc",
-				"SDL_GL_GetProcAddress"
-			],
-			[
-				"glewInit",
-				"glewInit"
-			],
-			[
-				"SDL_GL_Load",
-				"SDL_GL_LoadLibrary"
-			],
-			[
-				"glGenVertex",
-				"glGenVertexArrays"
-			],
-			[
-				"lookAt",
-				"lookAt"
-			],
-			[
-				"perspective",
-				"perspective"
-			],
-			[
-				"SDL_PixelFormat",
-				"SDL_PixelFormat"
-			],
-			[
-				"Window format",
-				"SDL_GetWindowPixelFormat"
-			],
-			[
-				"SDL_SetFormat",
-				"SDL_SetPixelFormatPalette"
-			],
-			[
-				"SDL renderscale",
-				"SDL_RenderSetScale"
 			]
 		],
 		"width": 580.0
@@ -1525,23 +1564,38 @@
 		{
 			":command:":
 			[
+				"a",
 				"<:history:>",
-				"i"
+				"<Esc>"
 			],
 			":history:":
 			[
 				[
 					"insert",
 					{
-						"characters": "HDSAF"
+						"characters": " "
 					}
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"insert",
+					{
+						"characters": " "
+					}
+				],
+				[
+					"left_delete",
+					null
 				]
 			],
-			"alternate_view": 308,
+			"alternate_view": 901,
 			"last_command_line": null,
 			"last_search_pattern":
 			[
-				"fx->"
+				"debug"
 			]
 		}
 	},
