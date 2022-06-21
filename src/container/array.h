@@ -183,6 +183,24 @@ public:
 		memcpy(_data + index, _data + _count, sizeof(T));
 	}
 
+	// Stack-like functions
+	T& top()
+	{
+		if (_count == 0)
+			fatal("Array::top called in an empty array");
+
+		return _data[_count - 1];
+	}
+
+	void pop()
+	{
+		if (_count == 0)
+			fatal("Array::pop called in an empty array");
+
+		_count--;
+		_data[_count].~T();
+	}
+
 	u32 find(const T& other)
 	{
 		for(u32 i = 0; i < _count; ++i)

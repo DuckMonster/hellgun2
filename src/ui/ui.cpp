@@ -1,45 +1,46 @@
 #include "ui.h"
 #include "resource/resource.h"
+#include "core/context.h"
 
 UI* ui;
 
 void UI::init()
 {
-	// Init rect mesh
-	rect_mesh.init();
-	rect_mesh.add_buffer(0);
-	rect_mesh.bind_attribute(0, 0, 2);
-
-	Vec2 rect_data[] = {
-		Vec2(0.f, 0.f),
-		Vec2(1.f, 0.f),
-		Vec2(1.f, 1.f),
-		Vec2(0.f, 1.f)
-	};
-
-	rect_mesh.buffer_data(0, sizeof(rect_data), rect_data);
-	rect_mesh.draw_num = 4;
-	rect_mesh.draw_mode = GL_LINE_LOOP;
-
-	ui_material = Resource::load_material("material/ui/ui.mat");
+	drawer.init();
 }
 
 void UI::render(const Render_Info& info)
 {
+	drawer.begin(info);
+	drawer.push_bounding_rect_abs(UI_Rect(Vec2::zero, Vec2(context.width, context.height)));
+
+	root.render(drawer);
+
+	drawer.pop_bounding_rect();
 }
 
-void UI::draw_rect(const Render_Info& info, const UI_Rect& rect)
+void UI::begin_frame()
 {
-	Mat4 model = Mat4(
-		rect.size.x, 0.f, 0.f, 0.f,
-		0.f, rect.size.y, 0.f, 0.f,
-		0.f, 0.f, 1.f, 0.f,
-		rect.position.x, rect.position.y, 0.f, 1.f
-	);
+	root.clear_children();
+}
 
-	ui_material->use();
-	ui_material->set("u_Model", info.view_projection);
-	ui_material->set("u_ViewProjection", model);
+void UI::end_frame()
+{
+	if (captures.count() != 0)
+		error("UI ended frame with non-zero pending captures.\nDid you forget an 'end' somewhere?");
 
-	rect_mesh.draw();
+	captures.empty();
+}
+
+void UI::push_capture(const Capture_Delegate& delegate)
+{
+	captures.emplace(move(delegate));
+}
+
+void UI::pop_capture()
+{
+	if (captures.count() == 0)
+		error("pop_capture called with no pending captures.\nDid you accidentally call 'end' without a matching 'begin'?");
+
+	captures.pop();
 }

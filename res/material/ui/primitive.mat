@@ -1,0 +1,2 @@
+vertex: "shader/ui/primitive.vert"
+fragment: "shader/ui/primitive.frag"

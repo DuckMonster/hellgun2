@@ -1,0 +1,2 @@
+vertex: "shader/ui/textured.vert"
+fragment: "shader/ui/textured.frag"

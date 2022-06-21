@@ -36,6 +36,7 @@ int main()
 	fx = new Fx();
 
 	ui = new UI();
+	ui->init();
 
 	game->init();
 	editor->init();
