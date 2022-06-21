@@ -17,9 +17,9 @@
 #include "math/plane.h"
 #include "fx/fx.h"
 #include "ui/ui.h"
-#include "ui/wrect.h"
+#include "ui/wcanvas.h"
+#include "ui/whorizontal_box.h"
 #include "ui/wimage.h"
-#include "ui/Whorizontal_box.h"
 
 Game* game;
 
@@ -142,28 +142,20 @@ void Game::render()
 
 	ui->begin_frame();
 
+	if (ui->begin<WCanvas>())
 	{
-		Canvas_Slot_Info slot_info;
-		slot_info.position = Vec2(20.f, -20.f);
-		slot_info.alignment = Vec2(0.f, 1.f);
-		slot_info.anchor = Vec2(0.f, 1.f);
+		ui->alignment(0.5f, 1.f);
+		ui->anchor(0.5f, 1.f);
 
-		ui->get_root()->begin(slot_info);
-			auto* hbox = ui->wadd<WHorizontal_Box>();
-
-			Horizontal_Box_Slot_Info hbox_slot;
-			hbox_slot.padding = Vec2(8.f, 8.f);
-			hbox->begin(hbox_slot);
-
-				if (key_down(Key::K))
-				{
-					u32 num_images = 5 + int(Math::sin(time_elapsed()) * 4.f);
-					for(u32 i = 0; i < num_images; ++i)
-						ui->wadd<WImage>(Vec2(64.f, 64.f), Resource::load_texture("texture/skull.tga"));
-				}
-
-			hbox->end();
-		ui->get_root()->end();
+		if (ui->begin<WHorizontal_Box>())
+		{
+			ui->padding(8.f);
+			ui->add<WImage>(Resource::load_texture("texture/skull.tga"));
+			ui->add<WImage>(Resource::load_texture("texture/skull.tga"));
+			ui->add<WImage>(Resource::load_texture("texture/skull.tga"));
+			ui->end();
+		}
+		ui->end();
 	}
 
 	ui->end_frame();
