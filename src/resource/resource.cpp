@@ -22,33 +22,33 @@ void Resource::register_resource(const String& str, void* data)
 	printf("Resource '%s' loaded\n", str.data());
 }
 
-Mesh* Resource::load_mesh(const String& path)
+Mesh* Resource::load_mesh(const TString& path)
 {
 	return &find_or_load_resource<Mesh_Resource>(path)->mesh;
 }
 
-Material* Resource::load_material(const String& path)
+Material* Resource::load_material(const TString& path)
 {
 	return &find_or_load_resource<Material_Resource>(path)->material;
 }
 
-Shader* Resource::load_shader(const String& path)
+Shader* Resource::load_shader(const TString& path)
 {
 	Shader_Resource* res = find_or_load_resource<Shader_Resource>(path);
 	return &res->shader;
 }
 
-Texture* Resource::load_texture(const String& path)
+Texture* Resource::load_texture(const TString& path)
 {
 	return &find_or_load_resource<Texture_Resource>(path)->texture;
 }
 
-Level* Resource::load_level(const String& path)
+Level* Resource::load_level(const TString& path)
 {
 	return &find_or_load_resource<Level_Resource>(path)->level;
 }
 
-Dat_File* Resource::load_dat(const String& path)
+Dat_File* Resource::load_dat(const TString& path)
 {
 	Dat_Resource* res = find_or_load_resource<Dat_Resource>(path);
 	return &res->dat;
@@ -59,7 +59,7 @@ void Resource::update_hotreload()
 	bool had_hotreload = false;
 	Stop_Watch watch;
 
-	Array<Resource*> resources_copy = resources;
+	TArray<Resource*> resources_copy = resources;
 	for(auto* resource : resources_copy)
 	{
 		u64 new_time = get_file_modify_time(resource->get_absolute_path().data());
@@ -104,7 +104,7 @@ void Resource::update_file_time()
 	file_time = get_file_modify_time(get_absolute_path().data());
 }
 
-String Resource::get_absolute_path()
+TString Resource::get_absolute_path()
 {
-	return Resource::resource_root + path;
+	return TString(Resource::resource_root) + path;
 }

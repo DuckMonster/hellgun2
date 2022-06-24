@@ -20,7 +20,7 @@ private:
 
 	struct Text_Info
 	{
-		String string;
+		TString string;
 
 		Vec2 position;
 		Vec2 alignment;
@@ -40,6 +40,7 @@ private:
 
 public:
 	void init();
+	void new_frame();
 
 	void line(const Vec3& from, const Vec3& to, const Color& color = Color::red, float thickness = 2.f);
 	void point(const Vec3& position, const Color& color = Color::red, float size = 10.f);
@@ -56,8 +57,8 @@ public:
 
 	void hit_result(const Hit_Result& hit);
 
-	void text(const String& str, const Vec2& position, const Color& foreground = Color::white, const Color& background = Color::black, const Vec2& alignment = Vec2::zero);
-	void print(const String& str, float duration = 0.f);
+	void text(const TString& str, const Vec2& position, const Color& foreground = Color::white, const Color& background = Color::black, const Vec2& alignment = Vec2::zero);
+	void print(const TString& str, float duration = 0.f);
 
 	void render(const Render_Info& info);
 };

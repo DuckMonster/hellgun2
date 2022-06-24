@@ -77,7 +77,7 @@ void Player::update()
 	if (!is_alive())
 		return;
 
-	debug->print(String::printf("HEALTH: %d", health));
+	debug->print(TString::printf("HEALTH: %d", health));
 
 	Vec3 input = Vec3::zero;
 	if (key_down(Key::A))

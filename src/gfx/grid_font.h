@@ -49,7 +49,7 @@ struct Grid_Font
 	Array<Glyph> glyphs;
 
 	void load_file(const char* path, u32 glyph_w, u32 glyph_h);
-	void render_text(const String& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info);
+	void render_text(const TString& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info);
 
 	void push_glyph(char glyph, const Vec2& position, float scale);
 };

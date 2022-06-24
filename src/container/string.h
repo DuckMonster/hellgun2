@@ -2,14 +2,19 @@
 #include <string.h>
 #include <stdio.h>
 #include "core/alloc/heap_allocator.h"
+#include "core/alloc/temp_allocator.h"
 
-struct String
+template<typename TAllocator>
+struct String_Base
 {
-	static String printf(const char* format, ...);
+	template<typename>
+	friend struct String_Base;
+
+	static String_Base printf(const char* format, ...);
 
 	struct Iterator
 	{
-		Iterator(const String& str, int index) : str(str), index(index) {}
+		Iterator(const String_Base<TAllocator>& str, int index) : str(str), index(index) {}
 
 		Iterator& operator++() { index++; return *this; }
 		Iterator& operator--() { index--; return *this; }
@@ -18,38 +23,47 @@ struct String
 		bool operator==(const Iterator& other) { return index == other.index; }
 		bool operator!=(const Iterator& other) { return index != other.index; }
 
-		const String& str;
+		const String_Base<TAllocator>& str;
 		int index;
 	};
 
-	String() : _data(nullptr), _length(0), _capacity(0) {}
-	String(const char* c_str)
+	String_Base() : _data(nullptr), _length(0), _capacity(0) {}
+	String_Base(const char* c_str)
 	{
 		u32 len = (u32)strlen(c_str);
 		_capacity = len + 1;
 		_length = len;
 
-		_data = (char*)Heap_Allocator::malloc(len + 1);
+		_data = (char*)TAllocator::malloc(len + 1);
 		memcpy(_data, c_str, len + 1);
 	}
-	String(const char* c_str, u32 length)
+	String_Base(const char* c_str, u32 length)
 	{
 		_capacity = length + 1;
 		_length = length;
 
-		_data = (char*)Heap_Allocator::malloc(length + 1);
+		_data = (char*)TAllocator::malloc(length + 1);
 		memcpy(_data, c_str, length);
 		_data[length] = 0;
 	}
-	String(const String& other)
+	String_Base(const String_Base& other)
 	{
 		_capacity = other._capacity;
 		_length = other._length;
 
-		_data = (char*)Heap_Allocator::malloc(other._capacity);
+		_data = (char*)TAllocator::malloc(other._capacity);
 		memcpy(_data, other._data, other._length + 1);
 	}
-	String(String&& other)
+	template<typename TOtherAllocator>
+	String_Base(const String_Base<TOtherAllocator>& other)
+	{
+		_capacity = other._capacity;
+		_length = other._length;
+
+		_data = (char*)TAllocator::malloc(other._capacity);
+		memcpy(_data, other._data, other._length + 1);
+	}
+	String_Base(String_Base&& other)
 	{
 		_data = other._data;
 		_length = other._length;
@@ -59,10 +73,10 @@ struct String
 		other._length = 0;
 		other._capacity = 0;
 	}
-	~String()
+	~String_Base()
 	{
 		if (_data)
-			Heap_Allocator::free(_data);
+			TAllocator::free(_data);
 	}
 
 	bool is_empty() const { return _length == 0; }
@@ -76,7 +90,7 @@ struct String
 	char& operator[](u32 index) { return _data[index]; }
 	char operator[](u32 index) const { return _data[index]; }
 
-	void operator=(const String& other)
+	void operator=(const String_Base& other)
 	{
 		// We already have the capacity to store this
 		if (_capacity > other._capacity)
@@ -90,12 +104,30 @@ struct String
 		_capacity = other._capacity;
 		_length = other._length;
 
-		_data = (char*)Heap_Allocator::malloc(other._capacity);
+		_data = (char*)TAllocator::malloc(other._capacity);
 		memcpy(_data, other._data, other._length + 1);
 	}
-	void operator=(String&& other)
+	template<typename TOtherAllocator>
+	void operator=(const String_Base<TOtherAllocator>& other)
 	{
-		if (_data) Heap_Allocator::free(_data);
+		// We already have the capacity to store this
+		if (_capacity > other._capacity)
+		{
+			memcpy(_data, other._data, other._length + 1);
+			_length = other._length;
+
+			return;
+		}
+
+		_capacity = other._capacity;
+		_length = other._length;
+
+		_data = (char*)TAllocator::malloc(other._capacity);
+		memcpy(_data, other._data, other._length + 1);
+	}
+	void operator=(String_Base&& other)
+	{
+		if (_data) TAllocator::free(_data);
 
 		_data = other._data;
 		_length = other._length;
@@ -118,7 +150,7 @@ struct String
 	}
 
 	// Find functions etc.
-	bool ends_with(const String& substr) const
+	bool ends_with(const String_Base& substr) const
 	{
 		// Well the substr is longer than ours so...
 		if (_length < substr._length)
@@ -128,24 +160,24 @@ struct String
 	}
 
 	// Various utility functions
-	String substr(u32 offset, u32 count) const
+	String_Base substr(u32 offset, u32 count) const
 	{
 		if (offset > _length)
 			offset = _length;
 		if (offset + count > _length)
 			count = _length - offset;
 
-		return String(_data + offset, count);
+		return String_Base(_data + offset, count);
 	}
-	String right_chop(u32 count) const
+	String_Base right_chop(u32 count) const
 	{
 		return substr(0, _length - count);
 	}
 
 	// Addition/etc
-	String operator+(const String& other) const
+	String_Base operator+(const String_Base& other) const
 	{
-		String result;
+		String_Base result;
 		result.resize(length() + other.length());
 		memcpy(result.data(), data(), length());
 		memcpy(result.data() + length(), other.data(), other.length());
@@ -153,7 +185,7 @@ struct String
 
 		return result;
 	}
-	String& operator+=(const String& other)
+	String_Base& operator+=(const String_Base& other)
 	{
 		reserve(_length + other._length);
 		memcpy(_data + _length, other._data, other._length + 1);
@@ -161,9 +193,9 @@ struct String
 
 		return *this;
 	}
-	String operator+(const char* c_str) const
+	String_Base operator+(const char* c_str) const
 	{
-		String result;
+		String_Base result;
 
 		u32 c_str_len = (u32)strlen(c_str);
 		result.resize(length() + c_str_len);
@@ -174,14 +206,15 @@ struct String
 		return result;
 	}
 
-	bool operator==(const String& other) const
+	template<typename TOtherAllocator>
+	bool operator==(const String_Base<TOtherAllocator>& other) const
 	{
 		if (other.length() != length()) 
 			return false;
 
 		return memcmp(data(), other.data(), length()) == 0;
 	}
-	bool operator!=(const String& other) const
+	bool operator!=(const String_Base& other) const
 	{
 		if (other.length() != length()) 
 			return true;
@@ -199,11 +232,11 @@ private:
 		if (_capacity >= new_capacity)
 			return;
 
-		char* new_data = (char*)Heap_Allocator::malloc(new_capacity);
+		char* new_data = (char*)TAllocator::malloc(new_capacity);
 		if (_data)
 		{
 			memcpy(new_data, _data, _length + 1);
-			Heap_Allocator::free(_data);
+			TAllocator::free(_data);
 		}
 
 		_data = new_data;
@@ -214,3 +247,6 @@ private:
 	u32 _length = 0;
 	u32 _capacity = 0;
 };
+
+using String = String_Base<Heap_Allocator>;
+using TString = String_Base<Temp_Allocator>;

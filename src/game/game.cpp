@@ -138,8 +138,6 @@ void Game::render()
 	level->render(info);
 	fx->render(info);
 
-	debug->render(info);
-
 /*
 	ui->new_frame();
 

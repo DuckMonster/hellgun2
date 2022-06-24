@@ -134,6 +134,22 @@ void Debug::init()
 	debug_font.load_file("ui/font.tga", 6, 9);
 }
 
+void Debug::new_frame()
+{
+	draw_list.empty();
+	text_list.empty();
+
+	for(u32 i = 0; i < print_list.count(); ++i)
+	{
+		// Check duration
+		if (time_since(print_list[i].print_time) >= print_list[i].duration)
+		{
+			print_list.remove_at(i);
+			i--;
+		}
+	}
+}
+
 void Debug::line(const Vec3& from, const Vec3& to, const Color& color, float thickness)
 {
 	Mat4 model = Mat4(to - from, Vec3(0.f, 1.f, 0.f), Vec3(0.f, 0.f, 1.f), from);
@@ -215,7 +231,7 @@ void Debug::capsule(const Vec3& a, const Vec3& b, float radius, const Color& col
 	line(a - perp_b, b - perp_b, color, thickness);
 }
 
-void Debug::text(const String& str, const Vec2& position, const Color& foreground, const Color& background, const Vec2& alignment)
+void Debug::text(const TString& str, const Vec2& position, const Color& foreground, const Color& background, const Vec2& alignment)
 {
 	Text_Info& info = text_list.add_default();
 	info.string = str;
@@ -225,7 +241,7 @@ void Debug::text(const String& str, const Vec2& position, const Color& foregroun
 	info.background = background;
 }
 
-void Debug::print(const String& str, float duration)
+void Debug::print(const TString& str, float duration)
 {
 	Print_Info& info = print_list.add_default();
 	info.string = str;
@@ -249,8 +265,6 @@ void Debug::render(const Render_Info& info)
 		draw.mesh->draw();
 	}
 
-	draw_list.empty();
-
 	glDisable(GL_DEPTH_TEST);
 
 	// Text list
@@ -264,21 +278,12 @@ void Debug::render(const Render_Info& info)
 		debug_font.render_text(text.string, text.position, font_info, info);
 	}
 
-	text_list.empty();
-
 	// Print list
 	float y = 10.f;
 	for(u32 i = 0; i < print_list.count(); ++i)
 	{
 		debug_font.render_text(print_list[i].string, Vec2(10.f, y), Grid_Font_Info(), info);
 		y += debug_font.glyph_h;
-
-		// Check duration
-		if (time_since(print_list[i].print_time) >= print_list[i].duration)
-		{
-			print_list.remove_at(i);
-			i--;
-		}
 	}
 
 	glEnable(GL_DEPTH_TEST);

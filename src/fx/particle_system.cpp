@@ -6,10 +6,7 @@
 Particle_System::~Particle_System()
 {
 	for(auto* emitter : emitters)
-	{
-		printf("delete emitter\n");
 		delete emitter;
-	}
 
 	emitters.reset();
 }

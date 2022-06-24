@@ -23,7 +23,7 @@ void Grid_Font::load_file(const char* path, u32 glyph_w, u32 glyph_h)
 	row_count = texture->width / (glyph_w + 1);
 }
 
-void Grid_Font::render_text(const String& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info)
+void Grid_Font::render_text(const TString& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info)
 {
 	glyphs.empty();
 

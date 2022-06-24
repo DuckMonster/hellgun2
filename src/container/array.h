@@ -2,16 +2,20 @@
 #include <new>
 #include <string.h>
 #include "core/alloc/heap_allocator.h"
+#include "core/alloc/temp_allocator.h"
 
 #define INDEX_NONE (~0)
 
-template<typename T>
-struct Array
+template<typename T, typename TAllocator>
+struct Array_Base
 {
+	template<typename T, typename TAllocator>
+	friend struct Array_Base;
+
 public:
 	struct Iterator
 	{
-		Iterator(Array<T>& arr, int index) : arr(arr), index(index) {}
+		Iterator(Array_Base<T, TAllocator>& arr, int index) : arr(arr), index(index) {}
 
 		Iterator& operator++() { index++; return *this; }
 		Iterator& operator--() { index--; return *this; }
@@ -20,13 +24,13 @@ public:
 		bool operator==(const Iterator& other) { return index == other.index; }
 		bool operator!=(const Iterator& other) { return index != other.index; }
 
-		Array<T>& arr;
+		Array_Base<T, TAllocator>& arr;
 		int index = 0;
 	};
 
 	struct Const_Iterator
 	{
-		Const_Iterator(const Array<T>& arr, int index) : arr(arr), index(index) {}
+		Const_Iterator(const Array_Base<T, TAllocator>& arr, int index) : arr(arr), index(index) {}
 
 		Const_Iterator& operator++() { index++; return *this; }
 		Const_Iterator& operator--() { index--; return *this; }
@@ -35,21 +39,31 @@ public:
 		bool operator==(const Const_Iterator& other) { return index == other.index; }
 		bool operator!=(const Const_Iterator& other) { return index != other.index; }
 
-		const Array<T>& arr;
+		const Array_Base<T, TAllocator>& arr;
 		int index = 0;
 	};
 
-	Array() {}
-	Array(const Array& other)
+	Array_Base() {}
+	Array_Base(const Array_Base& other)
 	{
-		_data = (T*)Heap_Allocator::malloc(other.data_size());
+		_data = TAllocator::malloc<T>(other.data_size());
 		_count = other._count;
 		_capacity = other._capacity;
 
 		for(u32 i = 0; i < _count; ++i)
 			new(_data + i) T(other[i]);
 	}
-	Array(Array&& other)
+	template<typename TOtherAllocator>
+	Array_Base(const Array_Base<T, TOtherAllocator>& other)
+	{
+		_data = TAllocator::malloc<T>(other.data_size());
+		_count = other._count;
+		_capacity = other._capacity;
+
+		for(u32 i = 0; i < _count; ++i)
+			new(_data + i) T(other[i]);
+	}
+	Array_Base(Array_Base&& other)
 	{
 		_data = other._data;
 		_count = other._count;
@@ -59,13 +73,13 @@ public:
 		other._count = 0;
 		other._capacity = 0;
 	}
-	~Array()
+	~Array_Base()
 	{
 		for(u32 i = 0; i < _count; ++i)
 			_data[i].~T();
 
 		if (_data)
-			Heap_Allocator::free(_data);
+			TAllocator::free(_data);
 	}
 
 	u32 capacity() const { return _capacity; }
@@ -78,7 +92,7 @@ public:
 	T& operator[](u32 index) { return _data[index]; }
 	const T& operator[](u32 index) const { return _data[index]; }
 
-	void operator=(const Array& other)
+	void operator=(const Array_Base& other)
 	{
 		empty();
 		ensure_capacity(other._capacity);
@@ -89,10 +103,22 @@ public:
 
 		_count = other._count;
 	}
-	void operator=(Array&& other)
+	template<typename TOtherAllocator>
+	void operator=(const Array_Base<T, TOtherAllocator>& other)
 	{
 		empty();
-		if (_data) Heap_Allocator::free(_data);
+		ensure_capacity(other._capacity);
+
+		// Copy over each element
+		for(int i = 0; i < other._count; ++i)
+			new(_data + i) T(other[i]);
+
+		_count = other._count;
+	}
+	void operator=(Array_Base&& other)
+	{
+		empty();
+		if (_data) TAllocator::free(_data);
 
 		_data = other._data;
 		_count = other._count;
@@ -188,7 +214,7 @@ public:
 	T& top()
 	{
 		if (_count == 0)
-			fatal("Array::top called in an empty array");
+			fatal("Array_Base::top called in an empty array");
 
 		return _data[_count - 1];
 	}
@@ -196,7 +222,7 @@ public:
 	void pop()
 	{
 		if (_count == 0)
-			fatal("Array::pop called in an empty array");
+			fatal("Array_Base::pop called in an empty array");
 
 		_count--;
 		_data[_count].~T();
@@ -205,7 +231,7 @@ public:
 	T pop_copy()
 	{
 		if (_count == 0)
-			fatal("Array::pop_copy called in an empty array");
+			fatal("Array_Base::pop_copy called in an empty array");
 
 		T copy = _data[_count - 1];
 		pop();
@@ -247,7 +273,7 @@ public:
 	void reset()
 	{
 		empty();
-		if (_data) Heap_Allocator::free(_data);
+		if (_data) TAllocator::free(_data);
 		_data = nullptr;
 		_count = 0;
 		_capacity = 0;
@@ -265,12 +291,12 @@ private:
 			return;
 
 		_capacity = Math::ceil_po2(new_capacity);
-		T* new_data = (T*)Heap_Allocator::malloc(sizeof(T) * _capacity);
+		T* new_data = TAllocator::malloc<T>(sizeof(T) * _capacity);
 
 		if (_data)
 		{
 			memcpy(new_data, _data, sizeof(T) * _count);
-			Heap_Allocator::free(_data);
+			TAllocator::free(_data);
 		}
 
 		_data = new_data;
@@ -280,3 +306,9 @@ private:
 	u32 _capacity = 0;
 	u32 _count = 0;
 };
+
+template<typename T>
+using Array = Array_Base<T, Heap_Allocator>;
+
+template<typename T>
+using TArray = Array_Base<T, Temp_Allocator>;

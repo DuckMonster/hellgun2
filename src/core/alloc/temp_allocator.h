@@ -3,6 +3,7 @@
 class Temp_Allocator
 {
 public:
+	static void init(u32 size);
 	static void* malloc(u32 size);
 	template<typename T>
 	static T* malloc(u32 size)
@@ -15,7 +16,6 @@ public:
 	static u8* buffer;
 	static u32 buffer_size;
 	static u32 buffer_cursor;
-	static void ensure_capacity(u32 size);
 
 	// Debugging variables
 	static void new_frame();

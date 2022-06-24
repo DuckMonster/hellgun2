@@ -2,9 +2,10 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-String String::printf(const char* format, ...)
+template<typename TAllocator>
+String_Base<TAllocator> String_Base<TAllocator>::printf(const char* format, ...)
 {
-	String result;
+	String_Base<TAllocator> result;
 
 	va_list vl;
 	va_start(vl, format);
@@ -20,3 +21,6 @@ String String::printf(const char* format, ...)
 
 	return result;
 }
+
+template String_Base<Heap_Allocator> String_Base<Heap_Allocator>::printf(const char* format, ...);
+template String_Base<Temp_Allocator> String_Base<Temp_Allocator>::printf(const char* format, ...);

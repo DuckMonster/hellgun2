@@ -17,8 +17,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+template<typename T, typename TAllocator>
+struct Test_Base
+{
+};
+
+template<typename T>
+using Test = Test_Base<T, Heap_Allocator>;
+
 int main()
 {
+	Temp_Allocator::init(50000);
 	context.open("Hellgun", 1024, 768);
 
 	load_gl_extensions();
@@ -55,8 +64,6 @@ int main()
 	{
 		Heap_Allocator::new_frame();
 		Temp_Allocator::new_frame();
-
-		Temp_Allocator::malloc(520);
 
 		context.update();
 		time_update();
@@ -100,18 +107,37 @@ int main()
 		}
 
 		// Debug text
-		debug->text(String::printf("%.02f ms", time_delta_raw() * 1000.f), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
-		debug->text(String::printf("Entity count: %d", scene->entities.count()), Vec2(context.width, 12.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
-		debug->text(String::printf("Num systems: %u", fx->systems.count()), Vec2(context.width, 24.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("%.02f ms", time_delta_raw() * 1000.f), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("Entity count: %d", scene->entities.count()), Vec2(context.width, 12.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("Num systems: %u", fx->systems.count()), Vec2(context.width, 24.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
 
 		// Heap
-		debug->text(String::printf("Heap count: %u", Heap_Allocator::total_allocation_count), Vec2(context.width, 44.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
-		debug->text(String::printf("Heap size: %u B", Heap_Allocator::total_allocation_size), Vec2(context.width, 54.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
-		debug->text(String::printf("This Frame: %u", Heap_Allocator::frame_allocation_count), Vec2(context.width, 64.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("Heap count: %u", Heap_Allocator::total_allocation_count), Vec2(context.width, 44.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("Heap size: %u B", Heap_Allocator::total_allocation_size), Vec2(context.width, 54.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("This Frame: %u", Heap_Allocator::frame_allocation_count), Vec2(context.width, 64.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
 
 		// Temp
-		debug->text(String::printf("Temp capacity: %u B", Temp_Allocator::buffer_size), Vec2(context.width, 84.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
-		debug->text(String::printf("Temp usage: %u B (%u)", Temp_Allocator::frame_allocation_size, Temp_Allocator::frame_allocation_count), Vec2(context.width, 94.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("Temp capacity: %u B", Temp_Allocator::buffer_size), Vec2(context.width, 84.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
+		debug->text(TString::printf("Temp usage: %u B (%u)", Temp_Allocator::frame_allocation_size, Temp_Allocator::frame_allocation_count), Vec2(context.width, 94.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
+
+		// Render debug
+		Render_Info info;
+		info.ui_canvas = mat_ortho(0.f, context.width, context.height, 0.f);
+
+		if (editor_mode)
+		{
+			info.view = editor->camera.get_view();
+			info.projection = editor->camera.get_projection();
+		}
+		else
+		{
+			info.view = game->camera.get_view();
+			info.projection = game->camera.get_projection();
+		}
+		info.view_projection = info.projection * info.view;
+
+		debug->render(info);
+		debug->new_frame();
 	}
 
 	delete game;

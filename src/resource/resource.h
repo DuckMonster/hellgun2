@@ -20,7 +20,7 @@ protected:
 	static void register_resource(const String& str, void* data);
 
 	template<typename ResourceT>
-	static ResourceT* find_or_load_resource(const String& path)
+	static ResourceT* find_or_load_resource(const TString& path)
 	{
 		if (resource_map.contains(path))
 			return (ResourceT*)resource_map[path];
@@ -40,13 +40,13 @@ protected:
 	}
 
 public:
-	static Mesh* load_mesh(const String& path);
-	static Material* load_material(const String& path);
-	static Shader* load_shader(const String& path);
-	static Texture* load_texture(const String& path);
-	static Level* load_level(const String& path);
+	static Mesh* load_mesh(const TString& path);
+	static Material* load_material(const TString& path);
+	static Shader* load_shader(const TString& path);
+	static Texture* load_texture(const TString& path);
+	static Level* load_level(const TString& path);
 
-	static Dat_File* load_dat(const String& path);
+	static Dat_File* load_dat(const TString& path);
 
 	static void update_hotreload();
 	static void hotreload_resource(Resource* resource);
@@ -62,7 +62,7 @@ public:
 	void clear_dependencies();
 
 	void update_file_time();
-	String get_absolute_path();
+	TString get_absolute_path();
 
 	Array<Resource*> depend_list;
 	Array<Resource*> child_list;
