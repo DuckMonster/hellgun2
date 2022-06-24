@@ -14,6 +14,8 @@ class Particle_System
 	Array<Emitter_Base*> emitters;
 
 public:
+	virtual ~Particle_System();
+
 	float spawn_time;
 	float get_age() { return time_since(spawn_time); }
 

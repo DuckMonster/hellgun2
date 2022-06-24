@@ -1,4 +1,3 @@
-#include <stdio.h>
 #include "core/context.h"
 #include "core/input.h"
 #include "game/game.h"
@@ -13,7 +12,10 @@
 #include "import/dat.h"
 #include "import/obj.h"
 #include "ui/ui.h"
+#include "core/alloc/heap_allocator.h"
+#include "core/alloc/temp_allocator.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 int main()
 {
@@ -51,6 +53,11 @@ int main()
 
 	while(context.is_open())
 	{
+		Heap_Allocator::new_frame();
+		Temp_Allocator::new_frame();
+
+		Temp_Allocator::malloc(520);
+
 		context.update();
 		time_update();
 
@@ -81,12 +88,6 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// Debug text
-		debug->text(String::printf("%.02f ms", time_delta_raw() * 1000.f), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
-		debug->text(String::printf("Entity count: %d", scene->entities.count()), Vec2(context.width, 12.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
-
-		debug->text(String::printf("Num systems: %u", fx->systems.count()), Vec2(context.width, 24.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
-
 		if (editor_mode)
 		{
 			editor->update();
@@ -97,6 +98,20 @@ int main()
 			game->update();
 			game->render();
 		}
+
+		// Debug text
+		debug->text(String::printf("%.02f ms", time_delta_raw() * 1000.f), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+		debug->text(String::printf("Entity count: %d", scene->entities.count()), Vec2(context.width, 12.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+		debug->text(String::printf("Num systems: %u", fx->systems.count()), Vec2(context.width, 24.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
+
+		// Heap
+		debug->text(String::printf("Heap count: %u", Heap_Allocator::total_allocation_count), Vec2(context.width, 44.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
+		debug->text(String::printf("Heap size: %u B", Heap_Allocator::total_allocation_size), Vec2(context.width, 54.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
+		debug->text(String::printf("This Frame: %u", Heap_Allocator::frame_allocation_count), Vec2(context.width, 64.f), Color::white, Color::red * 0.4f, Vec2(1.f, 0.f));
+
+		// Temp
+		debug->text(String::printf("Temp capacity: %u B", Temp_Allocator::buffer_size), Vec2(context.width, 84.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
+		debug->text(String::printf("Temp usage: %u B (%u)", Temp_Allocator::frame_allocation_size, Temp_Allocator::frame_allocation_count), Vec2(context.width, 94.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
 	}
 
 	delete game;

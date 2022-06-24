@@ -23,6 +23,8 @@ struct Particle_Vertex
 class Emitter_Base
 {
 public:
+	virtual ~Emitter_Base() {}
+
 	Particle_System* system;
 
 	virtual u32 num_particles() { return 0; }
@@ -53,6 +55,11 @@ public:
 	bool local_space = false;
 	bool preserve_order = false;
 	float spawn_time;
+
+	virtual ~Emitter()
+	{
+		mesh.free();
+	}
 
 	u32 num_particles() override { return particles.count(); }
 	void set_draw_mode(GLenum mode) { mesh.draw_mode = mode; }

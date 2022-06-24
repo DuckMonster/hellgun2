@@ -129,20 +129,24 @@
 		"selected_items":
 		[
 			[
-				"javascr",
+				"javascrip",
 				"Set Syntax: JavaScript"
 			],
 			[
-				"javascrip",
+				"rename",
+				"Rename File"
+			],
+			[
+				"javacrip",
+				"Set Syntax: JavaScript"
+			],
+			[
+				"javascr",
 				"Set Syntax: JavaScript"
 			],
 			[
 				"c++",
 				"Set Syntax: C++"
-			],
-			[
-				"rename",
-				"Rename File"
 			],
 			[
 				"prefere",
@@ -261,13 +265,44 @@
 	},
 	"file_history":
 	[
-		"/D/Prog/hellgun/src/game/game.cpp",
-		"/D/Prog/hellgun/src/game/game.h",
-		"/D/Prog/hellgun/src/ui/ui_canvas.h",
-		"/D/Prog/hellgun/src/ui/ui.h",
+		"/D/Prog/hellgun/src/ui/widget.h",
+		"/D/Prog/hellgun/src/ui/wimage.h",
+		"/D/Prog/hellgun/src/ui/wimage.cpp",
 		"/D/Prog/hellgun/src/ui/ui.cpp",
-		"/D/Prog/hellgun/src/gfx/mesh.h",
+		"/D/Prog/hellgun/src/ui/ui.h",
+		"/D/Prog/hellgun/src/game/game.cpp",
+		"/D/Prog/hellgun/src/gfx/render_info.h",
+		"/D/Prog/hellgun/src/ui/ui_drawer.h",
+		"/D/Prog/hellgun/src/ui/ui_drawer.cpp",
+		"/D/Prog/hellgun/src/ui/ui_style.h",
+		"/D/Prog/hellgun/src/ui/wcanvas.h",
+		"/D/Prog/hellgun/src/ui/ui_rect.h",
+		"/D/Prog/hellgun/src/ui/wcanvas.cpp",
+		"/D/Prog/hellgun/src/ui/widget_tree.h",
+		"/D/Prog/hellgun/src/math/matrix.h",
+		"/D/Prog/hellgun/src/ui/whorizontal_box.h",
+		"/D/Prog/hellgun/src/ui/whorizontal_box.cpp",
+		"/D/Prog/hellgun/src/container/array.h",
+		"/D/Prog/hellgun/hellgun.vcxproj",
+		"/D/Prog/hellgun/res/shader/ui/textured.vert",
+		"/D/Prog/hellgun/res/shader/ui/textured.frag",
+		"/D/Prog/hellgun/res/material/ui/textured.mat",
+		"/D/Prog/hellgun/res/material/ui/primitive.mat",
+		"/D/Prog/hellgun/res/shader/ui/ui.vert",
+		"/D/Prog/hellgun/src/ui/wrect.h",
+		"/D/Prog/hellgun/src/core/template.h",
+		"/D/Prog/hellgun/src/core/context.h",
+		"/D/Prog/hellgun/src/core/delegate.h",
+		"/D/Prog/hellgun/src/ui/wrect.cpp",
+		"/D/Prog/hellgun/src/debug/error.h",
+		"/D/Prog/hellgun/src/game/game.h",
 		"/D/Prog/hellgun/src/main.cpp",
+		"/D/Prog/hellgun/src/core/callback.h",
+		"/D/Prog/hellgun/src/ui/canvas.h",
+		"/D/Prog/hellgun/res/material/ui/ui.mat",
+		"/D/Prog/hellgun/res/shader/ui/ui.frag",
+		"/D/Prog/hellgun/src/ui/ui_canvas.h",
+		"/D/Prog/hellgun/src/gfx/mesh.h",
 		"/D/Prog/hellgun/src/player/weapon/pistol/pistol.cpp",
 		"/D/Prog/hellgun/src/player/player.h",
 		"/D/Prog/hellgun/src/player/player.cpp",
@@ -280,7 +315,6 @@
 		"/D/Prog/hellgun/src/player/crosshair.h",
 		"/D/Prog/hellgun/src/game/drawable.h",
 		"/D/Prog/hellgun/src/game/drawable.cpp",
-		"/D/Prog/hellgun/src/core/callback.h",
 		"/D/Prog/hellgun/src/math/vec_math.h",
 		"/D/Prog/hellgun/res/shader/ui/crosshair_line.vert",
 		"/D/Prog/hellgun/src/fx/enemy/enemy_damage_system.h",
@@ -293,7 +327,6 @@
 		"/D/Prog/hellgun/src/entity/enemy/enemy.h",
 		"/D/Prog/hellgun/src/game/editor.cpp",
 		"/D/Prog/hellgun/src/core/pch.h",
-		"/D/Prog/hellgun/src/math/matrix.h",
 		"/D/Prog/hellgun/src/math/matrix_math.h",
 		"/D/Prog/hellgun/src/entity/dummy.cpp",
 		"/D/Prog/hellgun/src/game/scene.h",
@@ -325,7 +358,6 @@
 		"/D/Prog/hellgun/src/player/weapon/cross/cross_projectile.cpp",
 		"/D/Prog/hellgun/src/math/color.h",
 		"/D/Prog/hellgun/src/math/color.cpp",
-		"/D/Prog/hellgun/src/gfx/render_info.h",
 		"/D/Prog/hellgun/src/entity/enemy/damage_data.h",
 		"/D/Prog/hellgun/src/debug/debug.cpp",
 		"/D/Prog/hellgun/src/collision/collision.h",
@@ -352,7 +384,6 @@
 		"/D/Prog/hellgun/src/fx/fx.h",
 		"/D/Prog/hellgun/src/fx/particle_system.h",
 		"/D/Prog/hellgun/src/ui/ui_debug.h",
-		"/D/Prog/hellgun/src/ui/widget.h",
 		"/D/Prog/hellgun/src/resource/level_resource.cpp",
 		"/D/Prog/hellgun/src/resource/resource_common.cpp",
 		"/D/Prog/hellgun/src/resource/shader_resource.cpp",
@@ -361,34 +392,7 @@
 		"/D/Prog/hellgun/src/resource/texture_resource.cpp",
 		"/D/Prog/hellgun/src/resource/texture_resource.h",
 		"/D/Prog/hellgun/src/math/vector.cpp",
-		"/D/Prog/hellgun/src/player/weapon/pistol/pistolprojectile.cpp",
-		"/D/Prog/hellgun/res/shader/fx/spike.vert",
-		"/D/Prog/hellgun/src/fx/enemy/enemydamagesystem.cpp",
-		"/D/Prog/hellgun/src/math/matrixmath.h",
-		"/D/Prog/hellgun/src/fx/weapon/impactspikesystem.cpp",
-		"/D/Prog/hellgun/src/fx/weapon/impactspikesystem.h",
-		"/D/Prog/hellgun/src/player/weapon/cross",
-		"/D/Prog/hellgun/src/fx/particlesystem.h",
-		"/D/Prog/hellgun/res/material/fx/particle_star.mat",
-		"/D/Prog/hellgun/res/material/fx/spike.mat",
-		"/D/Prog/hellgun/res/shader/fx/particle_star.geom",
-		"/D/Prog/hellgun/res/shader/fx/spike.frag",
-		"/D/Prog/hellgun/res/shader/fx/enemy_damage.vert",
-		"/D/Prog/hellgun/src/player/weapon/pistol/pistolprojectile.h",
-		"/D/Prog/hellgun/src/fx/enemy/enemydamagesystem.h",
-		"/D/Prog/hellgun/res/material/fx/enemy_damage.mat",
-		"/D/Prog/hellgun/src/gfx/texture.h",
-		"/D/Prog/hellgun/src/gfx/texture.cpp",
-		"/D/Prog/hellgun/src/math/mymath.h",
-		"/D/Prog/hellgun/src/core/time.h",
-		"/D/Prog/hellgun/src/ui/widget.cpp",
-		"/D/Prog/hellgun/src/player/weapon/pistol/pistolammodrop.cpp",
-		"/D/Prog/hellgun/res/shader/default.vert",
-		"/D/Prog/hellgun/res/shader/default.frag",
-		"/D/Prog/hellgun/res/shader/prop.vert",
-		"/D/Prog/hellgun/res/shader/prop.frag",
-		"/D/Prog/hellgun/src/resource/shaderresource.h",
-		"/D/Prog/hellgun/src/gfx/shader.h"
+		"/D/Prog/hellgun/src/player/weapon/pistol/pistolprojectile.cpp"
 	],
 	"find":
 	{
@@ -514,8 +518,204 @@
 		"selected_items":
 		[
 			[
-				"mesh.h",
-				"Source\\gfx\\mesh.h"
+				"wimage",
+				"Source\\ui\\wimage.cpp"
+			],
+			[
+				"widget",
+				"Source\\ui\\widget_tree.h"
+			],
+			[
+				"canvas.cp",
+				"Source\\ui\\wcanvas.cpp"
+			],
+			[
+				"game.cpp",
+				"Source\\game\\game.cpp"
+			],
+			[
+				"ui.h",
+				"Source\\ui\\ui.h"
+			],
+			[
+				"canvas.h",
+				"Source\\ui\\wcanvas.h"
+			],
+			[
+				"array.h",
+				"Source\\container\\array.h"
+			],
+			[
+				"widget_",
+				"Source\\ui\\widget_tree.h"
+			],
+			[
+				"widget.h",
+				"Source\\ui\\widget.h"
+			],
+			[
+				"render_in",
+				"Source\\gfx\\render_info.h"
+			],
+			[
+				"image.h",
+				"Source\\ui\\wimage.h"
+			],
+			[
+				"ui.cpp",
+				"Source\\ui\\ui.cpp"
+			],
+			[
+				"drawer",
+				"Source\\ui\\ui_drawer.h"
+			],
+			[
+				"render",
+				"Source\\gfx\\render_info.h"
+			],
+			[
+				"wcanv",
+				"Source\\ui\\wcanvas.h"
+			],
+			[
+				"idget.h",
+				"Source\\ui\\widget.h"
+			],
+			[
+				"canvas",
+				"Source\\ui\\wcanvas.h"
+			],
+			[
+				"ui_rec",
+				"Source\\ui\\ui_rect.h"
+			],
+			[
+				"matrix",
+				"Source\\math\\matrix.h"
+			],
+			[
+				"wcanvas",
+				"Source\\ui\\wcanvas.h"
+			],
+			[
+				"widget_tre",
+				"Source\\ui\\widget_tree.h"
+			],
+			[
+				"wimage.h",
+				"Source\\ui\\wimage.h"
+			],
+			[
+				"whori",
+				"Source\\ui\\whorizontal_box.h"
+			],
+			[
+				"wcavnas",
+				"Source\\ui\\wcanvas.h"
+			],
+			[
+				"vcxpr",
+				"Root\\hellgun.vcxproj"
+			],
+			[
+				"input.h",
+				"Source\\core\\input.h"
+			],
+			[
+				"horizon",
+				"Source\\ui\\whorizontal_box.cpp"
+			],
+			[
+				"ui_draw",
+				"Source\\ui\\ui_drawer.h"
+			],
+			[
+				"game.cp",
+				"Source\\game\\game.cpp"
+			],
+			[
+				"primitive.ma",
+				"Resources\\material\\ui\\primitive.mat"
+			],
+			[
+				"textured.ma",
+				"Resources\\material\\ui\\textured.mat"
+			],
+			[
+				"ui_drawer",
+				"Source\\ui\\ui_drawer.cpp"
+			],
+			[
+				"textured.fra",
+				"Resources\\shader\\ui\\textured.frag"
+			],
+			[
+				"textured.ver",
+				"Resources\\shader\\ui\\textured.vert"
+			],
+			[
+				"primitive.m",
+				"Resources\\material\\ui\\primitive.mat"
+			],
+			[
+				"wrect",
+				"Source\\ui\\wrect.h"
+			],
+			[
+				"ui.ver",
+				"Resources\\shader\\ui\\ui.vert"
+			],
+			[
+				"drawer.cp",
+				"Source\\ui\\ui_drawer.cpp"
+			],
+			[
+				"wimage.cp",
+				"Source\\ui\\wimage.cpp"
+			],
+			[
+				"wcanvas.h",
+				"Source\\ui\\wcanvas.h"
+			],
+			[
+				"uidrawer.h",
+				"Source\\ui\\ui_drawer.h"
+			],
+			[
+				"uic.pp",
+				"Source\\ui\\ui.cpp"
+			],
+			[
+				"drawer.h",
+				"Source\\ui\\ui_drawer.h"
+			],
+			[
+				"uidrawer",
+				"Source\\ui\\ui_drawer.cpp"
+			],
+			[
+				"context.h",
+				"Source\\core\\context.h"
+			],
+			[
+				"template.h",
+				"Source\\core\\template.h"
+			],
+			[
+				"delegate",
+				"Source\\core\\delegate.h"
+			],
+			[
+				"delegat.",
+				"Source\\core\\delegate.h"
+			],
+			[
+				"wcanvas.cpp",
+				"Source\\ui\\wcanvas.cpp"
+			],
+			[
+				"delegate.h",
+				"Source\\core\\delegate.h"
 			],
 			[
 				"main.cp",
@@ -526,8 +726,28 @@
 				"Source\\game\\game.h"
 			],
 			[
-				"ui.h",
-				"Source\\ui\\ui.h"
+				"ui_rect",
+				"Source\\ui\\ui_rect.h"
+			],
+			[
+				"wcanva",
+				"Source\\ui\\wcanvas.h"
+			],
+			[
+				"widgeth",
+				"Source\\ui\\widget.h"
+			],
+			[
+				"callbac",
+				"Source\\core\\callback.h"
+			],
+			[
+				"ui_canva",
+				"Source\\ui\\ui_canvas.h"
+			],
+			[
+				"mesh.h",
+				"Source\\gfx\\mesh.h"
 			],
 			[
 				"plyaer.h",
@@ -560,10 +780,6 @@
 			[
 				"drawabl",
 				"Source\\game\\drawable.h"
-			],
-			[
-				"game.cpp",
-				"Source\\game\\game.cpp"
 			],
 			[
 				"crosshair_line",
@@ -632,10 +848,6 @@
 			[
 				"matrix_mat",
 				"Source\\math\\matrix_math.h"
-			],
-			[
-				"matrix",
-				"Source\\math\\matrix.h"
 			],
 			[
 				"quat.h",
@@ -742,10 +954,6 @@
 				"Source\\player\\weapon\\cross\\cross_projectile.cpp"
 			],
 			[
-				"game.cp",
-				"Source\\game\\game.cpp"
-			],
-			[
 				"color.h",
 				"Source\\math\\color.h"
 			],
@@ -820,210 +1028,6 @@
 			[
 				"resource.cpp",
 				"Source\\resource\\resource.cpp"
-			],
-			[
-				"enemydamagesyst",
-				"Source\\fx\\enemy\\enemydamagesystem.cpp"
-			],
-			[
-				"spike.ver",
-				"Resources\\shader\\fx\\spike.vert"
-			],
-			[
-				"pistol projectil",
-				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
-			],
-			[
-				"spike",
-				"Source\\fx\\weapon\\impactspikesystem.cpp"
-			],
-			[
-				"matmath",
-				"Source\\math\\matrixmath.h"
-			],
-			[
-				"pistolprojectil",
-				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
-			],
-			[
-				"particlesys",
-				"Source\\fx\\particlesystem.h"
-			],
-			[
-				"fx.h",
-				"Source\\fx\\fx.h"
-			],
-			[
-				"impactspike",
-				"Source\\fx\\weapon\\impactspikesystem.cpp"
-			],
-			[
-				"fx_star",
-				"Resources\\shader\\fx\\particle_star.geom"
-			],
-			[
-				"fx.mat",
-				"Resources\\material\\fx\\particle_star.mat"
-			],
-			[
-				"pistolproj",
-				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
-			],
-			[
-				"enemy_damage.ver",
-				"Resources\\shader\\fx\\enemy_damage.vert"
-			],
-			[
-				"enemydamage",
-				"Resources\\shader\\fx\\enemy_damage.frag"
-			],
-			[
-				"enemydama",
-				"Source\\fx\\enemy\\enemydamagesystem.cpp"
-			],
-			[
-				"pistolprojec",
-				"Source\\player\\weapon\\pistol\\pistolprojectile.cpp"
-			],
-			[
-				"entity",
-				"Source\\entity\\entity.h"
-			],
-			[
-				"enetity.h",
-				"Source\\entity\\entity.h"
-			],
-			[
-				"texture.h",
-				"Source\\gfx\\texture.h"
-			],
-			[
-				"enemy_damag",
-				"Resources\\material\\fx\\enemy_damage.mat"
-			],
-			[
-				"enemydamagesys",
-				"Source\\fx\\enemy\\enemydamagesystem.h"
-			],
-			[
-				"math.h",
-				"Source\\math\\mymath.h"
-			],
-			[
-				"time.h",
-				"Source\\core\\time.h"
-			],
-			[
-				"widget.h",
-				"Source\\ui\\widget.h"
-			],
-			[
-				"matir",
-				"Source\\math\\matrix.h"
-			],
-			[
-				"matrixma",
-				"Source\\math\\matrixmath.h"
-			],
-			[
-				"vecma",
-				"Source\\math\\vecmath.h"
-			],
-			[
-				"default.ver",
-				"Resources\\shader\\default.vert"
-			],
-			[
-				"defaultver",
-				"Resources\\shader\\default.vert"
-			],
-			[
-				"default.ma",
-				"Resources\\material\\default.mat"
-			],
-			[
-				"level.cpp",
-				"Source\\game\\level.cpp"
-			],
-			[
-				"pistolammod",
-				"Source\\player\\weapon\\pistol\\pistolammodrop.cpp"
-			],
-			[
-				"scene.cpp",
-				"Source\\game\\scene.cpp"
-			],
-			[
-				"prop.fra",
-				"Resources\\shader\\prop.frag"
-			],
-			[
-				"prop.ver",
-				"Resources\\shader\\prop.vert"
-			],
-			[
-				"shaderresou",
-				"Source\\resource\\shaderresource.h"
-			],
-			[
-				"materialres",
-				"Source\\resource\\materialresource.cpp"
-			],
-			[
-				"defaultmat",
-				"Resources\\material\\default.mat"
-			],
-			[
-				"levelresourc",
-				"Source\\resource\\levelresource.cpp"
-			],
-			[
-				"msh.cp",
-				"Source\\import\\msh.cpp"
-			],
-			[
-				"msh.cpp",
-				"Source\\import\\msh.cpp"
-			],
-			[
-				"leel.cpp",
-				"Source\\game\\level.cpp"
-			],
-			[
-				"msh.h",
-				"Source\\import\\msh.h"
-			],
-			[
-				"levelreso",
-				"Source\\resource\\levelresource.cpp"
-			],
-			[
-				"msh",
-				"Source\\import\\msh.cpp"
-			],
-			[
-				"levelresour",
-				"Source\\resource\\levelresource.cpp"
-			],
-			[
-				"io.cpp",
-				"Source\\core\\io.cpp"
-			],
-			[
-				"binary",
-				"Source\\core\\parse\\binarystream.h"
-			],
-			[
-				"levelresou",
-				"Source\\resource\\levelresource.cpp"
-			],
-			[
-				"levelres",
-				"Source\\resource\\levelresource.cpp"
-			],
-			[
-				"meshres",
-				"Source\\resource\\meshresource.cpp"
 			]
 		],
 		"width": 0.0
@@ -1040,9 +1044,21 @@
 	"select_symbol":
 	{
 		"height": 500.0,
-		"last_filter": "glPolygonOffset",
+		"last_filter": "wadd",
 		"selected_items":
 		[
+			[
+				"wadd",
+				"wadd"
+			],
+			[
+				"UI_Re",
+				"UI_Rect"
+			],
+			[
+				"error",
+				"error"
+			],
 			[
 				"glPolygonOffset",
 				"glPolygonOffsetEXT"
@@ -1542,18 +1558,6 @@
 			[
 				"GLFW_KEY_ESC",
 				"GLFW_KEY_ESCAPE"
-			],
-			[
-				"glfwSetKey",
-				"glfwSetKeyCallback"
-			],
-			[
-				"glfwShow",
-				"glfwShowWindow"
-			],
-			[
-				"glfwPOll",
-				"glfwPollEvents"
 			]
 		],
 		"width": 580.0
@@ -1564,45 +1568,24 @@
 		{
 			":command:":
 			[
-				"a",
-				"<:history:>",
-				"<Esc>"
+				"<:visual:>",
+				"y"
 			],
 			":history:":
 			[
-				[
-					"insert",
-					{
-						"characters": " "
-					}
-				],
-				[
-					"left_delete",
-					null
-				],
-				[
-					"insert",
-					{
-						"characters": " "
-					}
-				],
-				[
-					"left_delete",
-					null
-				]
 			],
-			"alternate_view": 901,
+			"alternate_view": 157,
 			"last_command_line": null,
 			"last_search_pattern":
 			[
-				"debug"
+				"texture_mat"
 			]
 		}
 	},
 	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 277.0,
 	"status_bar_visible": true,
 	"template_settings":

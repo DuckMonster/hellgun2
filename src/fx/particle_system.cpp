@@ -1,6 +1,18 @@
 #include "particle_system.h"
 #include "emitter.h"
 #include "entity/entity.h"
+#include <stdio.h>
+
+Particle_System::~Particle_System()
+{
+	for(auto* emitter : emitters)
+	{
+		printf("delete emitter\n");
+		delete emitter;
+	}
+
+	emitters.reset();
+}
 
 void Particle_System::update()
 {

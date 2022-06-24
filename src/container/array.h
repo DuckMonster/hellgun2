@@ -1,6 +1,7 @@
 #pragma once
 #include <new>
 #include <string.h>
+#include "core/alloc/heap_allocator.h"
 
 #define INDEX_NONE (~0)
 
@@ -41,7 +42,7 @@ public:
 	Array() {}
 	Array(const Array& other)
 	{
-		_data = (T*)malloc(other.data_size());
+		_data = (T*)Heap_Allocator::malloc(other.data_size());
 		_count = other._count;
 		_capacity = other._capacity;
 
@@ -64,7 +65,7 @@ public:
 			_data[i].~T();
 
 		if (_data)
-			free(_data);
+			Heap_Allocator::free(_data);
 	}
 
 	u32 capacity() const { return _capacity; }
@@ -91,7 +92,7 @@ public:
 	void operator=(Array&& other)
 	{
 		empty();
-		if (_data) free(_data);
+		if (_data) Heap_Allocator::free(_data);
 
 		_data = other._data;
 		_count = other._count;
@@ -201,6 +202,17 @@ public:
 		_data[_count].~T();
 	}
 
+	T pop_copy()
+	{
+		if (_count == 0)
+			fatal("Array::pop_copy called in an empty array");
+
+		T copy = _data[_count - 1];
+		pop();
+
+		return move(copy);
+	}
+
 	u32 find(const T& other)
 	{
 		for(u32 i = 0; i < _count; ++i)
@@ -235,7 +247,7 @@ public:
 	void reset()
 	{
 		empty();
-		if (_data) free(_data);
+		if (_data) Heap_Allocator::free(_data);
 		_data = nullptr;
 		_count = 0;
 		_capacity = 0;
@@ -253,12 +265,12 @@ private:
 			return;
 
 		_capacity = Math::ceil_po2(new_capacity);
-		T* new_data = (T*)malloc(sizeof(T) * _capacity);
+		T* new_data = (T*)Heap_Allocator::malloc(sizeof(T) * _capacity);
 
 		if (_data)
 		{
 			memcpy(new_data, _data, sizeof(T) * _count);
-			free(_data);
+			Heap_Allocator::free(_data);
 		}
 
 		_data = new_data;

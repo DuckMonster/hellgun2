@@ -17,7 +17,6 @@ public:
 	UI_Rect get_bounding_rect() { return bounding_stack.top(); }
 
 	void push_bounding_rect(const UI_Rect& rect);
-	void push_bounding_rect_abs(const UI_Rect& rect);
 	void pop_bounding_rect();
 
 private:

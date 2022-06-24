@@ -1,6 +1,7 @@
 #pragma once
 #include <string.h>
 #include <stdio.h>
+#include "core/alloc/heap_allocator.h"
 
 struct String
 {
@@ -28,7 +29,7 @@ struct String
 		_capacity = len + 1;
 		_length = len;
 
-		_data = (char*)malloc(len + 1);
+		_data = (char*)Heap_Allocator::malloc(len + 1);
 		memcpy(_data, c_str, len + 1);
 	}
 	String(const char* c_str, u32 length)
@@ -36,7 +37,7 @@ struct String
 		_capacity = length + 1;
 		_length = length;
 
-		_data = (char*)malloc(length + 1);
+		_data = (char*)Heap_Allocator::malloc(length + 1);
 		memcpy(_data, c_str, length);
 		_data[length] = 0;
 	}
@@ -45,7 +46,7 @@ struct String
 		_capacity = other._capacity;
 		_length = other._length;
 
-		_data = (char*)malloc(other._capacity);
+		_data = (char*)Heap_Allocator::malloc(other._capacity);
 		memcpy(_data, other._data, other._length + 1);
 	}
 	String(String&& other)
@@ -61,7 +62,7 @@ struct String
 	~String()
 	{
 		if (_data)
-			free(_data);
+			Heap_Allocator::free(_data);
 	}
 
 	bool is_empty() const { return _length == 0; }
@@ -89,12 +90,12 @@ struct String
 		_capacity = other._capacity;
 		_length = other._length;
 
-		_data = (char*)malloc(other._capacity);
+		_data = (char*)Heap_Allocator::malloc(other._capacity);
 		memcpy(_data, other._data, other._length + 1);
 	}
 	void operator=(String&& other)
 	{
-		if (_data) free(_data);
+		if (_data) Heap_Allocator::free(_data);
 
 		_data = other._data;
 		_length = other._length;
@@ -198,11 +199,11 @@ private:
 		if (_capacity >= new_capacity)
 			return;
 
-		char* new_data = (char*)malloc(new_capacity);
+		char* new_data = (char*)Heap_Allocator::malloc(new_capacity);
 		if (_data)
 		{
 			memcpy(new_data, _data, _length + 1);
-			free(_data);
+			Heap_Allocator::free(_data);
 		}
 
 		_data = new_data;

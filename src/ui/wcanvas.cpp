@@ -1,36 +1,25 @@
 #include "wcanvas.h"
-#include "ui.h"
+#include "debug/debug.h"
 
-void WCanvas::begin(const Canvas_Slot_Info& info)
+void WCanvas::build(Widget_Tree* tree, const UI_Rect& alotted_rect)
 {
-	pending_slot = info;
-	ui->push_capture([this](Widget* widget)
+	tree->bounding_rect = alotted_rect;
+
+	for(auto& child : tree->children)
 	{
-		children.add({pending_slot, widget});
-	});
-}
+		// Build first to get the size
+		child.build(UI_Rect::zero);
 
-void WCanvas::end()
-{
-	ui->pop_capture();
-}
+		const UI_Style& style = child.style;
 
-void WCanvas::render(UI_Drawer& drawer)
-{
-	UI_Rect rect = drawer.get_bounding_rect();
-	for(const auto& child : children)
-	{
-		UI_Rect child_rect;
-		child_rect.size = child.widget->get_desired_size();
+		// Reposition child according to anchors and stuff
+		Vec2 position = child.bounding_rect.position;
 
-		// Position
-		child_rect.position = child.slot.position;
 		// Anchor
-		child_rect.position += rect.size * child.slot.anchor;
+		position += alotted_rect.size * style.anchor;
 		// Alignment
-		child_rect.position -= child_rect.size * child.slot.alignment;
+		position -= child.bounding_rect.size * style.alignment;
 
-		drawer.push_bounding_rect(child_rect);
-		child.widget->render(drawer);
+		child.bounding_rect.position = position;
 	}
 }

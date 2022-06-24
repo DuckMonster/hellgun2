@@ -7,29 +7,31 @@ UI* ui;
 void UI::init()
 {
 	drawer.init();
-}
-
-void UI::render(const Render_Info& info)
-{
-	drawer.begin(info);
-	drawer.push_bounding_rect_abs(UI_Rect(Vec2::zero, Vec2(context.width, context.height)));
-
-	drawer.pop_bounding_rect();
+	root.widget = nullptr;
 }
 
 void UI::new_frame()
 {
+	root.clear();
 }
 
-void UI::push_capture(const Capture_Delegate& delegate)
+void UI::render(const Render_Info& info)
 {
-	captures.emplace(move(delegate));
+	root.build(UI_Rect(0.f, 0.f, context.width, context.height));
+
+	drawer.begin(info);
+	render_recursive(root);
 }
 
-void UI::pop_capture()
+void UI::render_recursive(const Widget_Tree& tree)
 {
-	if (captures.count() == 0)
-		error("pop_capture called with no pending captures.\nDid you accidentally call 'end' without a matching 'begin'?");
+	drawer.push_bounding_rect(tree.bounding_rect);
 
-	captures.pop();
+	if (tree.widget)
+		tree.widget->render(drawer);
+
+	for(const auto& child : tree.children)
+		render_recursive(child);
+
+	drawer.pop_bounding_rect();
 }

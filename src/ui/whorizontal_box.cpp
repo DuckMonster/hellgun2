@@ -1,47 +1,36 @@
 #include "whorizontal_box.h"
 #include "ui.h"
 
-Vec2 WHorizontal_Box::get_desired_size()
+void WHorizontal_Box::build(Widget_Tree* tree, const UI_Rect& alotted_rect)
 {
-	Vec2 size = Vec2::zero;
-	for(const auto& child : children)
-	{
-		Vec2 padding = child.slot.padding;
-		Vec2 child_size = child.widget->get_desired_size() + padding * 2.f;
+	// First calculate total bounds for this horizontal box
+	tree->bounding_rect = UI_Rect::zero;
 
-		size.x += child_size.x;
-		size.y = Math::max(size.y, child_size.y);
+	for(auto& child : tree->children)
+	{
+		child.build(UI_Rect::zero);
+		Vec2 padding = child.style.padding;
+
+		tree->bounding_rect.size.x += child.bounding_rect.size.x + padding.x * 2.f;
+		tree->bounding_rect.size.y = Math::max(tree->bounding_rect.size.y, child.bounding_rect.size.y + padding.y * 2.f);
 	}
 
-	return size;
-}
+	Vec2 my_size = tree->bounding_rect.size;
 
-void WHorizontal_Box::begin(const Horizontal_Box_Slot_Info& slot)
-{
-	ui->push_capture([this, slot](Widget* widget) {
-		children.add({ slot, widget });
-	});
-}
-void WHorizontal_Box::end()
-{
-	ui->pop_capture();
-}
+	// Start positioning the children
+	float x = 0;
 
-void WHorizontal_Box::render(UI_Drawer& drawer)
-{
-	UI_Rect rect = drawer.get_bounding_rect();
-	Vec2 position = Vec2::zero;
-
-	for(const auto& child : children)
+	for(auto& child : tree->children)
 	{
-		Vec2 padding = child.slot.padding;
-		Vec2 child_size = child.widget->get_desired_size();
-		UI_Rect child_rect = UI_Rect(position + padding, child_size);
+		Vec2 padding = child.style.padding;
+		Vec2 anchor = child.style.anchor;
 
-		drawer.push_bounding_rect(child_rect);
-		child.widget->render(drawer);
-		drawer.pop_bounding_rect();
+		Vec2 child_size = child.bounding_rect.size + padding * 2.f;
 
-		position.x += child_size.x + padding.x * 2.f;
+		// Check for left-over space on the y-axis for anchoring
+		float y_space = my_size.y - child_size.y;
+
+		child.bounding_rect.position = Vec2(x + padding.x, padding.y + y_space * anchor.y);
+		x += child_size.x;
 	}
 }

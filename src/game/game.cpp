@@ -140,26 +140,31 @@ void Game::render()
 
 	debug->render(info);
 
-	ui->begin_frame();
+/*
+	ui->new_frame();
 
-	if (ui->begin<WCanvas>())
+	//if (ui->begin<WCanvas>())
+	//if (ui->begin<WHorizontal_Box>())
 	{
-		ui->alignment(0.5f, 1.f);
-		ui->anchor(0.5f, 1.f);
+		ui->anchor(Vec2(0.5f, 0.5f));
+		ui->alignment(Vec2(0.5f, 0.5f));
 
 		if (ui->begin<WHorizontal_Box>())
 		{
 			ui->padding(8.f);
-			ui->add<WImage>(Resource::load_texture("texture/skull.tga"));
-			ui->add<WImage>(Resource::load_texture("texture/skull.tga"));
-			ui->add<WImage>(Resource::load_texture("texture/skull.tga"));
+			ui->anchor(0.f, Math::sin(time_elapsed()) * 0.5f + 0.5f);
+			ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
+			if (key_down(Key::X))
+				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
+
 			ui->end();
 		}
-		ui->end();
+
+		//ui->end();
 	}
 
-	ui->end_frame();
 	ui->render(info);
+	*/
 	//player->render_ui(info);
 
 	// Render some debug UI

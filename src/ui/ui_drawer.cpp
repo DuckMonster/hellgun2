@@ -1,5 +1,6 @@
 #include "ui_drawer.h"
 #include "resource/resource.h"
+#include "debug/debug.h"
 
 void UI_Drawer::init()
 {
@@ -62,6 +63,8 @@ void UI_Drawer::rect(const UI_Rect& rect)
 		rect.position.x + bounding_rect.position.x, rect.position.y + bounding_rect.position.y, 0.f, 1.f
 	));
 
+	debug->print(String::printf("UI_Drawer::rect(%f, %f, %f, %f)", rect.position.x, rect.position.y, rect.size.x, rect.size.y));
+
 	rect_mesh.draw();
 }
 
@@ -83,19 +86,18 @@ void UI_Drawer::texture(const UI_Rect& rect, Texture* texture)
 
 void UI_Drawer::push_bounding_rect(const UI_Rect& rect)
 {
+	if (bounding_stack.count() == 0)
+	{
+		bounding_stack.add(rect);
+		return;
+	}
+
+	// Debug draw
+	this->rect(rect);
+
 	UI_Rect current = get_bounding_rect();
-	UI_Rect local = UI_Rect(current.position + rect.position, rect.position);
-
-	this->rect(rect);
-
+	UI_Rect local = UI_Rect(current.position + rect.position, rect.size);
 	bounding_stack.add(local);
-}
-
-void UI_Drawer::push_bounding_rect_abs(const UI_Rect& rect)
-{
-	bounding_stack.add(rect);
-
-	this->rect(rect);
 }
 
 void UI_Drawer::pop_bounding_rect()
