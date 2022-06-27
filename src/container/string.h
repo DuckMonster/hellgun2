@@ -214,7 +214,8 @@ struct String_Base
 
 		return memcmp(data(), other.data(), length()) == 0;
 	}
-	bool operator!=(const String_Base& other) const
+	template<typename TOtherAllocator>
+	bool operator!=(const String_Base<TOtherAllocator>& other) const
 	{
 		if (other.length() != length()) 
 			return true;

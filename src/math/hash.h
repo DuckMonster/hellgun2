@@ -11,3 +11,5 @@ public:
 
 template<>
 u64 Hash::fnv64<String>(const String& string);
+template<>
+u64 Hash::fnv64<TString>(const TString& string);

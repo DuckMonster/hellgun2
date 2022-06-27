@@ -1,8 +1,9 @@
 #include "whorizontal_box.h"
 #include "ui.h"
 
-void WHorizontal_Box::build(Widget_Tree* tree, const UI_Rect& alotted_rect)
+void WHorizontal_Box::build()
 {
+	/*
 	// First calculate total bounds for this horizontal box
 	tree->bounding_rect = UI_Rect::zero;
 
@@ -33,4 +34,5 @@ void WHorizontal_Box::build(Widget_Tree* tree, const UI_Rect& alotted_rect)
 		child.bounding_rect.position = Vec2(x + padding.x, padding.y + y_space * anchor.y);
 		x += child_size.x;
 	}
+	*/
 }

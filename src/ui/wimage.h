@@ -3,13 +3,15 @@
 
 class WImage : public Widget
 {
-public:
-	void init(Texture* texture, const Vec2& size) { this->texture = texture; this->size = size; }
-	void build(Widget_Tree* tree, const UI_Rect& alotted_rect);
+	WIDGET_CLASS(WImage)
 
-	void render(UI_Drawer& drawer) override;
+public:
+	void init(const UI_Rect& geom, Texture* texture, const Vec2& size)
+	{
+		this->texture = texture;
+		rect = UI_Rect(Vec2::zero, size);
+	}
 
 private:
 	Texture* texture;
-	Vec2 size;
 };

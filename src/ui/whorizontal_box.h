@@ -3,7 +3,9 @@
 
 class WHorizontal_Box : public Widget
 {
+	WIDGET_CLASS(WHorizontal_Box)
+
 public:
 	void init() {}
-	void build(Widget_Tree* tree, const UI_Rect& alotted_rect) override;
+	void build() override;
 };

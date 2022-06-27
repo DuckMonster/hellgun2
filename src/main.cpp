@@ -27,6 +27,9 @@ using Test = Test_Base<T, Heap_Allocator>;
 
 int main()
 {
+	// Set thread priority
+	SetThreadPriority(GetCurrentThread(), THREAD_PRIORITY_HIGHEST);
+
 	Temp_Allocator::init(50000);
 	context.open("Hellgun", 1024, 768);
 
@@ -86,11 +89,13 @@ int main()
 			}
 		}
 
+/*
 		if (next_hotreload_time < time_elapsed_raw())
 		{
 			Resource::update_hotreload();
 			next_hotreload_time = time_elapsed_raw() + 1.f;
 		}
+		*/
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -119,6 +124,9 @@ int main()
 		// Temp
 		debug->text(TString::printf("Temp capacity: %u B", Temp_Allocator::buffer_size), Vec2(context.width, 84.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
 		debug->text(TString::printf("Temp usage: %u B (%u)", Temp_Allocator::frame_allocation_size, Temp_Allocator::frame_allocation_count), Vec2(context.width, 94.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
+
+		if (time_delta() > .005f)
+			debug->print(TString::printf("Hitch: %fms", time_delta() * 1000.f), 2.f);
 
 		// Render debug
 		Render_Info info;

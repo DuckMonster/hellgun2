@@ -1,8 +1,9 @@
 #include "wcanvas.h"
 #include "debug/debug.h"
 
-void WCanvas::build(Widget_Tree* tree, const UI_Rect& alotted_rect)
+void WCanvas::build()
 {
+	/*
 	tree->bounding_rect = alotted_rect;
 
 	for(auto& child : tree->children)
@@ -22,4 +23,5 @@ void WCanvas::build(Widget_Tree* tree, const UI_Rect& alotted_rect)
 
 		child.bounding_rect.position = position;
 	}
+	*/
 }

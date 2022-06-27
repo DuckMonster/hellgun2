@@ -7,8 +7,8 @@
 #include "level.h"
 #include "entity/entity.h"
 #include "fx/fx.h"
-
 #include "debug/debug.h"
+
 #include "game.h"
 
 Editor* editor;
@@ -127,8 +127,6 @@ void Editor::render()
 
 	fx->render(info);
 	level->render(info);
-
-	debug->render(info);
 }
 
 void Editor::enter_editor()

@@ -1,9 +1,9 @@
 #pragma once
 #include "ui_drawer.h"
 #include "ui_rect.h"
+#include "ui_style.h"
 #include "gfx/render_info.h"
 #include "container/array.h"
-#include "widget_tree.h"
 #include "widget.h"
 
 class UI
@@ -16,33 +16,18 @@ public:
 	template<typename TWidget, typename... TArgs>
 	bool begin(const TArgs&... args)
 	{
-		TWidget* widget = new TWidget();
-		widget->init(args...);
-
-		Widget_Tree* tree = tree_push();
-		tree->widget = widget;
-		tree->style = pending_style;
-
-		style_stack.add(pending_style);
-		pending_style = UI_Style();
-		return true;
+		current = current->begin_child<TWidget>(args...);
 	}
 
 	template<typename TWidget, typename... TArgs>
 	void add(const TArgs&... args)
 	{
-		TWidget* widget = new TWidget();
-		widget->init(args...);
-
-		Widget_Tree* tree = tree_add();
-		tree->widget = widget;
-		tree->style = pending_style;
+		current->add_child<TWidget>(args...);
 	}
 
 	void end()
 	{
-		Widget_Tree* top = tree_pop();
-		pending_style = style_stack.pop_copy();
+		current = current->end();
 	}
 
 	// Styling functions
@@ -53,46 +38,14 @@ public:
 	void padding(float padding) { pending_style.padding = Vec2(padding); }
 
 private:
-	void render_recursive(const Widget_Tree& tree);
-
-	Widget_Tree* tree_top()
-	{
-		if (tree_stack.count() == 0)
-			return &root;
-
-		return tree_stack.top();
-	}
-
-	Widget_Tree* tree_add()
-	{
-		Widget_Tree& tree = tree_top()->children.add_default();
-		return &tree;
-	}
-
-	Widget_Tree* tree_push()
-	{
-		Widget_Tree& tree = tree_top()->children.add_default();
-		tree_stack.add(&tree);
-
-		return &tree;
-	}
-
-	Widget_Tree* tree_pop()
-	{
-		Widget_Tree* top = tree_top();
-		tree_stack.pop();
-
-		return top;
-	}
-
 	UI_Drawer drawer;
+	Widget_Tree* root;
+	Widget_Tree* current;
 
-	Array<Widget*> widgets;
 	Array<UI_Style> style_stack;
 	UI_Style pending_style;
 
-	Array<Widget_Tree*> tree_stack;
-	Widget_Tree root;
+	u32 next_widget_number = 0;
 };
 
 extern UI* ui;

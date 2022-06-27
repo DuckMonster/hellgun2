@@ -43,14 +43,16 @@ public:
 		insert_node(bucket, hash, key, value);
 	}
 
-	bool contains(const TKey& key)
+	template<typename TOtherKey>
+	bool contains(const TOtherKey& key)
 	{
-		return find_node(Hash::fnv64<TKey>(key)) != nullptr;
+		return find_node(Hash::fnv64<TOtherKey>(key)) != nullptr;
 	}
 
-	TValue& operator[](const TKey& key)
+	template<typename TOtherKey>
+	TValue& operator[](const TOtherKey& key)
 	{
-		Node* node = find_node(Hash::fnv64<TKey>(key));
+		Node* node = find_node(Hash::fnv64<TOtherKey>(key));
 		if (node == nullptr)
 			fatal("Tried to fetch key from map that didn't exist");
 
@@ -61,9 +63,10 @@ public:
 
 		return node->value;
 	}
-	const TValue& operator[](const TKey& key) const
+	template<typename TOtherKey>
+	const TValue& operator[](const TOtherKey& key) const
 	{
-		Node* node = find_node(Hash::fnv64<TKey>(key));
+		Node* node = find_node(Hash::fnv64<TOtherKey>(key));
 		if (node == nullptr)
 			fatal("Tried to fetch key from map that didn't exist");
 

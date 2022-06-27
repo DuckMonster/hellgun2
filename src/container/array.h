@@ -210,6 +210,25 @@ public:
 		memcpy(_data + index, _data + _count, sizeof(T));
 	}
 
+	void set_count(u32 new_count)
+	{
+		// Setting count to a lower number, remove elements
+		if (new_count < _count)
+		{
+			for(u32 i = new_count; i < _count; ++i)
+				_data[i].~T();
+		}
+		// Setting count to a bigger number, construct elements
+		if (new_count > _count)
+		{
+			ensure_capacity(new_count);
+			for(u32 i = _count; i < new_count; ++i)
+				new(_data + i) T();
+		}
+
+		_count = new_count;
+	}
+
 	// Stack-like functions
 	T& top()
 	{

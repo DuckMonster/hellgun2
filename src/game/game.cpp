@@ -1,5 +1,4 @@
 #include "game.h"
-#include "debug/debug.h"
 #include "core/input.h"
 #include "core/context.h"
 #include "collision/collision.h"
@@ -138,11 +137,11 @@ void Game::render()
 	level->render(info);
 	fx->render(info);
 
-/*
 	ui->new_frame();
 
 	//if (ui->begin<WCanvas>())
 	//if (ui->begin<WHorizontal_Box>())
+	/*
 	{
 		ui->anchor(Vec2(0.5f, 0.5f));
 		ui->alignment(Vec2(0.5f, 0.5f));
@@ -160,12 +159,17 @@ void Game::render()
 
 		//ui->end();
 	}
+	*/
+
+	if (ui->begin<WHorizontal_Box>())
+	{
+		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
+		if (key_down(Key::X))
+			ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
+	}
 
 	ui->render(info);
-	*/
 	//player->render_ui(info);
-
-	// Render some debug UI
 }
 
 Ray Game::get_mouse_world_ray()

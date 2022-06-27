@@ -19,3 +19,5 @@ u64 Hash::fnv64(const void* data, u32 size)
 
 template<>
 u64 Hash::fnv64<String>(const String& string) { return fnv64(string.data(), string.length()); }
+template<>
+u64 Hash::fnv64<TString>(const TString& string) { return fnv64(string.data(), string.length()); }

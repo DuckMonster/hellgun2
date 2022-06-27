@@ -63,8 +63,6 @@ void UI_Drawer::rect(const UI_Rect& rect)
 		rect.position.x + bounding_rect.position.x, rect.position.y + bounding_rect.position.y, 0.f, 1.f
 	));
 
-	debug->print(String::printf("UI_Drawer::rect(%f, %f, %f, %f)", rect.position.x, rect.position.y, rect.size.x, rect.size.y));
-
 	rect_mesh.draw();
 }
 
