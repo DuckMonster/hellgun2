@@ -1,7 +1,6 @@
 #pragma once
 #include "gfx/render_info.h"
 #include "ui_rect.h"
-#include "ui_style.h"
 #include "ui_drawer.h"
 
 struct Widget_Class
@@ -39,12 +38,13 @@ class Widget
 {
 public:
 	Widget_ID id;
-	UI_Rect rect;
+	UI_Rect rect = UI_Rect::zero;
 	virtual Widget_Class* get_class() = 0;
 
-	void init(const UI_Rect& geom) { rect = geom; }
-	virtual void begin() { fatal("'%s' does not support children", get_class()->name); }
-	virtual void end(TArray<Widget*> children) {}
+	// void init(); <-- NEEDED IN EVERY WIDGET CLASS (arguments optional)
+	virtual void begin(const UI_Rect& geom) {}
+	virtual UI_Rect add_child(Widget* child) { fatal("'%s' does not accept children", get_class()->name); return UI_Rect::zero; }
+	virtual void end() {}
 
 	virtual void render(UI_Drawer& drawer) {}
 };

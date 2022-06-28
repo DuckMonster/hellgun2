@@ -1,4 +1,5 @@
 #include "ui_drawer.h"
+#include "widget.h"
 #include "resource/resource.h"
 #include "debug/debug.h"
 
@@ -42,18 +43,56 @@ void UI_Drawer::init()
 	textured_material = Resource::load_material("material/ui/textured.mat");
 }
 
-void UI_Drawer::begin(const Render_Info& info)
+void UI_Drawer::render(const Render_Info& info)
 {
 	primitive_material->use();
 	primitive_material->set("u_ViewProjection", info.ui_canvas);
 
 	textured_material->use();
 	textured_material->set("u_ViewProjection", info.ui_canvas);
+
+	// Traverse through all actions
+	for(auto& action : action_list)
+	{
+		switch(action.type)
+		{
+			case Action_Type::Draw_Only:
+				// debug
+				rect(action.widget->rect);
+
+				rect_stack.add(action.widget->rect);
+				action.widget->render(*this);
+				rect_stack.pop();
+				break;
+
+			case Action_Type::Draw_Push:
+				// debug
+				rect(action.widget->rect);
+
+				rect_stack.add(action.widget->rect);
+				action.widget->render(*this);
+				break;
+
+			case Action_Type::Pop:
+				rect_stack.pop();
+				break;
+		}
+	}
+}
+
+void UI_Drawer::clear_actions()
+{
+	action_list.empty();
 }
 
 void UI_Drawer::rect(const UI_Rect& rect)
 {
 	UI_Rect bounding_rect = get_bounding_rect();
+
+	debug->print(TString::printf("rect(%f, %f - %f, %f)",
+		rect.position.x, rect.position.y,
+		rect.size.x, rect.size.y
+	));
 
 	primitive_material->use();
 	primitive_material->set("u_Model", Mat4(
@@ -82,23 +121,7 @@ void UI_Drawer::texture(const UI_Rect& rect, Texture* texture)
 	quad_mesh.draw();
 }
 
-void UI_Drawer::push_bounding_rect(const UI_Rect& rect)
+void UI_Drawer::add_action(Action_Type type, Widget* widget)
 {
-	if (bounding_stack.count() == 0)
-	{
-		bounding_stack.add(rect);
-		return;
-	}
-
-	// Debug draw
-	this->rect(rect);
-
-	UI_Rect current = get_bounding_rect();
-	UI_Rect local = UI_Rect(current.position + rect.position, rect.size);
-	bounding_stack.add(local);
-}
-
-void UI_Drawer::pop_bounding_rect()
-{
-	bounding_stack.pop();
+	action_list.emplace(type, widget);
 }

@@ -11,4 +11,9 @@ struct UI_Rect
 		:position(position), size(size) {}
 	UI_Rect(float x, float y, float width, float height)
 		:position(x, y), size(width, height) {}
+
+	UI_Rect transform(const UI_Rect& child)
+	{
+		return UI_Rect(position + child.position, child.size);
+	}
 };

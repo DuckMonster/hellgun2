@@ -8,12 +8,11 @@ UI* ui;
 void UI::init()
 {
 	drawer.init();
-	root = new Widget_Tree();
 }
 
 void UI::new_frame()
 {
-	current = root;
+	next_widget_number = 0;
 }
 
 void UI::render(const Render_Info& info)
@@ -25,4 +24,12 @@ void UI::render(const Render_Info& info)
 	render_recursive(root);
 	root.clear();
 	*/
+
+	if (widget_stack.count() != 0)
+		error("widget_stack.count() > 0. You probably forgot to end() something!");
+
+	drawer.render(info);
+	drawer.clear_actions();
+
+	widget_stack.empty();
 }

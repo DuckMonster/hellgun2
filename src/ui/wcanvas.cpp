@@ -1,27 +1,39 @@
 #include "wcanvas.h"
 #include "debug/debug.h"
 
-void WCanvas::build()
+WIDGET_STYLE_IMPL(Canvas_Style)
+
+void WCanvas::begin(const UI_Rect& geom)
 {
-	/*
-	tree->bounding_rect = alotted_rect;
+	rect = geom;
+	Canvas_Style::push();
+}
 
-	for(auto& child : tree->children)
+UI_Rect WCanvas::add_child(Widget* widget)
+{
+	children.add({ Canvas_Style::get(), widget });
+	return UI_Rect::zero;
+}
+
+void WCanvas::end()
+{
+	Canvas_Style::pop();
+
+	for(const auto& slot : children)
 	{
-		// Build first to get the size
-		child.build(UI_Rect::zero);
+		auto style = slot.style;
+		Widget* widget = slot.widget;
 
-		const UI_Style& style = child.style;
+		Vec2 child_size = widget->rect.size;
+		Vec2 position = widget->rect.position;
 
-		// Reposition child according to anchors and stuff
-		Vec2 position = child.bounding_rect.position;
+		debug->print(TString::printf("anchor: {%f, %f}", style._anchor.x, style._anchor.y));
 
-		// Anchor
-		position += alotted_rect.size * style.anchor;
-		// Alignment
-		position -= child.bounding_rect.size * style.alignment;
+		position += rect.size * style._anchor;
+		position -= child_size * style._alignment;
 
-		child.bounding_rect.position = position;
+		widget->rect.position = position;
 	}
-	*/
+
+	children.empty();
 }

@@ -1,38 +1,36 @@
 #include "whorizontal_box.h"
-#include "ui.h"
+#include "debug/debug.h"
 
-void WHorizontal_Box::build()
+WIDGET_STYLE_IMPL(Horizontal_Box_Style);
+
+UI_Rect WHorizontal_Box::add_child(Widget* child)
 {
-	/*
-	// First calculate total bounds for this horizontal box
-	tree->bounding_rect = UI_Rect::zero;
+	children.add({ Horizontal_Box_Style::get(), child });
+	return UI_Rect::zero;
+}
 
-	for(auto& child : tree->children)
+void WHorizontal_Box::end()
+{
+	float x = 0.f;
+	float max_y = 0.f;
+
+	for(const auto& slot : children)
 	{
-		child.build(UI_Rect::zero);
-		Vec2 padding = child.style.padding;
+		auto style = slot.style;
+		Widget* widget = slot.widget;
+		Vec2 padding = style._padding;
 
-		tree->bounding_rect.size.x += child.bounding_rect.size.x + padding.x * 2.f;
-		tree->bounding_rect.size.y = Math::max(tree->bounding_rect.size.y, child.bounding_rect.size.y + padding.y * 2.f);
-	}
+		widget->rect.position.x = x + padding.x;
+		widget->rect.position.y = padding.y;
 
-	Vec2 my_size = tree->bounding_rect.size;
-
-	// Start positioning the children
-	float x = 0;
-
-	for(auto& child : tree->children)
-	{
-		Vec2 padding = child.style.padding;
-		Vec2 anchor = child.style.anchor;
-
-		Vec2 child_size = child.bounding_rect.size + padding * 2.f;
-
-		// Check for left-over space on the y-axis for anchoring
-		float y_space = my_size.y - child_size.y;
-
-		child.bounding_rect.position = Vec2(x + padding.x, padding.y + y_space * anchor.y);
+		Vec2 child_size = widget->rect.size + padding * 2.f;
 		x += child_size.x;
+		max_y = Math::max(max_y, child_size.y);
 	}
-	*/
+
+	rect.size = Vec2(x, max_y);
+
+	// Clear this cached data
+	Horizontal_Box_Style::pop();
+	children.empty();
 }

@@ -89,8 +89,20 @@ public:
 
 	u32 data_size() const { return sizeof(T) * _count; }
 
-	T& operator[](u32 index) { return _data[index]; }
-	const T& operator[](u32 index) const { return _data[index]; }
+	T& operator[](u32 index)
+	{
+		if (index >= _count)
+			fatal("Array index %d is out-of-bounds", index);
+
+		return _data[index];
+	}
+	const T& operator[](u32 index) const
+	{
+		if (index >= _count)
+			fatal("Array index %d is out-of-bounds", index);
+
+		return _data[index];
+	}
 
 	void operator=(const Array_Base& other)
 	{
@@ -247,7 +259,7 @@ public:
 		_data[_count].~T();
 	}
 
-	T pop_copy()
+	T&& pop_copy()
 	{
 		if (_count == 0)
 			fatal("Array_Base::pop_copy called in an empty array");

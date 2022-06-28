@@ -161,11 +161,24 @@ void Game::render()
 	}
 	*/
 
-	if (ui->begin<WHorizontal_Box>())
+	
+	if (ui->begin<WCanvas>())
 	{
-		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
-		if (key_down(Key::X))
+		Canvas_Style::anchor(Vec2(0.5f, 1.f));
+		Canvas_Style::alignment(Vec2(0.5f, 1.f));
+
+		if (ui->begin<WHorizontal_Box>())
+		{
+			Horizontal_Box_Style::padding(Vec2(8.f));
+
 			ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
+			if (key_down(Key::X))
+				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
+
+			ui->end();
+		}
+
+		ui->end();
 	}
 
 	ui->render(info);
