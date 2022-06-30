@@ -12,10 +12,8 @@ public:
 		this->size = size;
 	}
 
-	void begin(const UI_Rect& geom) override
-	{
-		rect = UI_Rect(Vec2::zero, size);
-	}
+	Vec2 get_desired_size() override { return size; }
+	void render(UI_Drawer& drawer) override;
 
 private:
 	Texture* texture;

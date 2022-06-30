@@ -3,37 +3,20 @@
 
 WIDGET_STYLE_IMPL(Canvas_Style)
 
-void WCanvas::begin(const UI_Rect& geom)
+void WCanvas::render(UI_Drawer& drawer)
 {
-	rect = geom;
-	Canvas_Style::push();
-}
-
-UI_Rect WCanvas::add_child(Widget* widget)
-{
-	children.add({ Canvas_Style::get(), widget });
-	return UI_Rect::zero;
-}
-
-void WCanvas::end()
-{
-	Canvas_Style::pop();
+	Vec2 my_size = drawer.current_rect().size;
 
 	for(const auto& slot : children)
 	{
-		auto style = slot.style;
-		Widget* widget = slot.widget;
+		Vec2 position = slot.style._position;
+		Vec2 child_size = slot.widget->get_desired_size();
 
-		Vec2 child_size = widget->rect.size;
-		Vec2 position = widget->rect.position;
+		position += my_size * slot.style._anchor;
+		position -= child_size * slot.style._alignment;
 
-		debug->print(TString::printf("anchor: {%f, %f}", style._anchor.x, style._anchor.y));
-
-		position += rect.size * style._anchor;
-		position -= child_size * style._alignment;
-
-		widget->rect.position = position;
+		drawer.push_rect(UI_Rect(position, child_size));
+		slot.widget->render(drawer);
+		drawer.pop_rect();
 	}
-
-	children.empty();
 }

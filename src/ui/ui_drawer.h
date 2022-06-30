@@ -3,7 +3,6 @@
 #include "gfx/mesh.h"
 #include "gfx/material.h"
 #include "gfx/texture.h"
-#include "core/context.h"
 #include "ui_rect.h"
 
 class Widget;
@@ -11,44 +10,28 @@ class Widget;
 class UI_Drawer
 {
 public:
-	enum class Action_Type : u8
-	{
-		Draw_Only,
-		Draw_Push,
-		Pop
-	};
-
-	struct Action
-	{
-		Action_Type type;
-		Widget* widget;
-
-		Action(Action_Type type, Widget* widget)
-			: type(type), widget(widget) {}
-	};
-
 	void init();
-	void render(const Render_Info& info);
-	void clear_actions();
+	void begin(const Render_Info& info);
 
-	void rect(const UI_Rect& rect);
-	void texture(const UI_Rect& rect, Texture* texture);
+	void rect(UI_Rect rect);
+	void texture(UI_Rect rect, Texture* texture);
 
-	void add_action(Action_Type type, Widget* widget);
-	UI_Rect get_bounding_rect()
+	UI_Rect current_rect() { return rect_stack.top(); }
+	void push_rect(const UI_Rect& new_rect)
 	{
+		// Debug
 		if (rect_stack.count() == 0)
-			return UI_Rect(Vec2::zero, Vec2(context.width, context.height));
+			rect_stack.add(new_rect);
 
-		UI_Rect result = rect_stack[0];
-		for(u32 i = 1; i < rect_stack.count(); ++i)
-			result = result.transform(rect_stack[i]);
-
-		return result;
+		rect(new_rect);
+		rect_stack.add(current_rect().transform(new_rect));
+	}
+	void pop_rect()
+	{
+		rect_stack.pop();
 	}
 
 private:
-	Array<Action> action_list;
 	Array<UI_Rect> rect_stack;
 
 	// Straight rectangle, used for primitives

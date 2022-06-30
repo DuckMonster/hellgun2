@@ -18,6 +18,7 @@
 #include "ui/ui.h"
 #include "ui/wcanvas.h"
 #include "ui/whorizontal_box.h"
+#include "ui/wvertical_box.h"
 #include "ui/wimage.h"
 
 Game* game;
@@ -136,48 +137,31 @@ void Game::render()
 
 	level->render(info);
 	fx->render(info);
-
-	ui->new_frame();
-
-	//if (ui->begin<WCanvas>())
-	//if (ui->begin<WHorizontal_Box>())
-	/*
-	{
-		ui->anchor(Vec2(0.5f, 0.5f));
-		ui->alignment(Vec2(0.5f, 0.5f));
-
-		if (ui->begin<WHorizontal_Box>())
-		{
-			ui->padding(8.f);
-			ui->anchor(0.f, Math::sin(time_elapsed()) * 0.5f + 0.5f);
-			ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
-			if (key_down(Key::X))
-				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
-
-			ui->end();
-		}
-
-		//ui->end();
-	}
-	*/
-
 	
-	if (ui->begin<WCanvas>())
+	ui->new_frame();
+	Canvas_Style::anchor(Vec2(0.5f, 1.f));
+	Canvas_Style::alignment(Vec2(0.5f, 1.f));
+	Canvas_Style::position(Vec2(0.f, -50.f));
+
+	if (ui->begin<WHorizontal_Box>())
 	{
-		Canvas_Style::anchor(Vec2(0.5f, 1.f));
-		Canvas_Style::alignment(Vec2(0.5f, 1.f));
+		Horizontal_Box_Style::padding(Vec2(8.f));
 
-		if (ui->begin<WHorizontal_Box>())
+		if (key_down(Key::X))
 		{
-			Horizontal_Box_Style::padding(Vec2(8.f));
-
-			ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
-			if (key_down(Key::X))
-				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
-
-			ui->end();
+			if (ui->begin<WVertical_Box>())
+			{
+				Vertical_Box_Style::padding(Vec2(2.f));
+				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
+				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
+				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
+				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
+				ui->end();
+			}
 		}
 
+		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
+		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
 		ui->end();
 	}
 

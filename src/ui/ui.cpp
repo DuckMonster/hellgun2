@@ -8,28 +8,22 @@ UI* ui;
 void UI::init()
 {
 	drawer.init();
+	root = new WCanvas();
 }
 
 void UI::new_frame()
 {
-	next_widget_number = 0;
+	root->init();
+	root->begin();
+	current = root;
 }
 
 void UI::render(const Render_Info& info)
 {
-	/*
-	root.build(UI_Rect(0.f, 0.f, context.width, context.height));
-
+	root->end();
 	drawer.begin(info);
-	render_recursive(root);
-	root.clear();
-	*/
 
-	if (widget_stack.count() != 0)
-		error("widget_stack.count() > 0. You probably forgot to end() something!");
-
-	drawer.render(info);
-	drawer.clear_actions();
-
-	widget_stack.empty();
+	drawer.push_rect(UI_Rect(Vec2::zero, Vec2(context.width, context.height)));
+	root->render(drawer);
+	drawer.pop_rect();
 }

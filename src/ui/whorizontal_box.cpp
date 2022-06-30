@@ -3,34 +3,37 @@
 
 WIDGET_STYLE_IMPL(Horizontal_Box_Style);
 
-UI_Rect WHorizontal_Box::add_child(Widget* child)
+Vec2 WHorizontal_Box::get_desired_size()
 {
-	children.add({ Horizontal_Box_Style::get(), child });
-	return UI_Rect::zero;
-}
-
-void WHorizontal_Box::end()
-{
-	float x = 0.f;
-	float max_y = 0.f;
+	Vec2 size = Vec2::zero;
 
 	for(const auto& slot : children)
 	{
 		auto style = slot.style;
 		Widget* widget = slot.widget;
-		Vec2 padding = style._padding;
 
-		widget->rect.position.x = x + padding.x;
-		widget->rect.position.y = padding.y;
-
-		Vec2 child_size = widget->rect.size + padding * 2.f;
-		x += child_size.x;
-		max_y = Math::max(max_y, child_size.y);
+		Vec2 child_size = widget->get_desired_size() + style._padding * 2.f;
+		size.x += child_size.x;
+		size.y = Math::max(size.y, child_size.y);
 	}
 
-	rect.size = Vec2(x, max_y);
+	return size;
+}
 
-	// Clear this cached data
-	Horizontal_Box_Style::pop();
-	children.empty();
+void WHorizontal_Box::render(UI_Drawer& drawer)
+{
+	float x = 0.f;
+	for(const auto& slot : children)
+	{
+		auto style = slot.style;
+		Widget* widget = slot.widget;
+		Vec2 child_size = widget->get_desired_size();
+		Vec2 padding = style._padding;
+
+		drawer.push_rect(UI_Rect(Vec2(x + padding.x, padding.y), child_size));
+		widget->render(drawer);
+		drawer.pop_rect();
+
+		x += child_size.x + padding.x * 2.f;
+	}
 }
