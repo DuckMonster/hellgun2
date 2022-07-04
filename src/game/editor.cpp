@@ -9,6 +9,15 @@
 #include "fx/fx.h"
 #include "debug/debug.h"
 
+#include "ui/ui.h"
+#include "ui/wcanvas.h"
+#include "ui/whorizontal_box.h"
+#include "ui/wvertical_box.h"
+#include "ui/wimage.h"
+#include "ui/wbutton.h"
+
+#include "resource/resource.h"
+
 #include "game.h"
 
 Editor* editor;
@@ -23,41 +32,42 @@ void Editor::init()
 	sweep_tar = Shape::aabb(Vec3::zero, Vec3(2.5f));
 }
 
+void func_test()
+{
+	debug->print("func_test()", 2.f);
+}
+
 void Editor::update()
 {
-	// Time dilation
-	if (key_pressed(Key::Plus))
-		change_time_dilation(1);
-	if (key_pressed(Key::Minus))
-		change_time_dilation(-1);
+	INPUT_SCOPE(Input_Group::Editor);
 
 	// Update camera movement
-	if (mouse_pressed(Mouse_Btn::Right))
+	if (input->mouse_pressed(Mouse_Btn::Right))
 		context.lock_cursor();
-	if (mouse_released(Mouse_Btn::Right))
+	if (input->mouse_released(Mouse_Btn::Right))
 		context.unlock_cursor();
 
-	if (mouse_down(Mouse_Btn::Right))
+	if (input->mouse_down(Mouse_Btn::Right))
 	{
 		// Translation
 		float delta = EDITOR_CAM_SPD * time_delta_raw();
-		if (key_down(Key::W))
+		if (input->key_down(Key::W))
 			camera.position += camera.forward() * delta;
-		if (key_down(Key::S))
+		if (input->key_down(Key::S))
 			camera.position -= camera.forward() * delta;
-		if (key_down(Key::D))
+		if (input->key_down(Key::D))
 			camera.position += camera.right() * delta;
-		if (key_down(Key::A))
+		if (input->key_down(Key::A))
 			camera.position -= camera.right() * delta;
 
-		if (key_down(Key::E) || key_down(Key::Spacebar))
+		if (input->key_down(Key::E) || input->key_down(Key::Spacebar))
 			camera.position += camera.up() * delta;
-		if (key_down(Key::Q) || key_down(Key::LeftControl))
+		if (input->key_down(Key::Q) || input->key_down(Key::LeftControl))
 			camera.position -= camera.up() * delta;
 
 		// Rotation
-		float yaw_delta = -mouse_delta_x() * EDITOR_CAM_SENS;
-		float pitch_delta = -mouse_delta_y() * EDITOR_CAM_SENS;
+		float yaw_delta = -input->mouse_delta_x() * EDITOR_CAM_SENS;
+		float pitch_delta = -input->mouse_delta_y() * EDITOR_CAM_SENS;
 
 		Quat yaw_quat = Quat(Vec3(0.f, 1.f, 0.f), yaw_delta);
 		Quat pitch_quat = Quat(Vec3(1.f, 0.f, 0.f), pitch_delta);
@@ -66,21 +76,21 @@ void Editor::update()
 	}
 
 	// Sweep testing
-	if (key_down(Key::F))
+	if (input->key_down(Key::F))
 	{
 		has_sweep = true;
 		sweep_origin = camera.position + camera.right();
 		sweep_direction = camera.forward();
 
-		if (key_down(Key::LeftShift))
-			sweep_offset += mouse_wheel_delta() * 1.f;
+		if (input->key_down(Key::LeftShift))
+			sweep_offset += input->mouse_wheel_delta() * 1.f;
 		else
-			sweep_length += mouse_wheel_delta() * 1.f;
+			sweep_length += input->mouse_wheel_delta() * 1.f;
 	}
 
-	if (key_pressed(Key::N))
+	if (input->key_pressed(Key::N))
 		sweep_src.type = (Shape::Type)(((u32)sweep_src.type + 1) % (u32)Shape::Type::MAX);
-	if (key_pressed(Key::M))
+	if (input->key_pressed(Key::M))
 		sweep_tar.type = (Shape::Type)(((u32)sweep_tar.type + 1) % (u32)Shape::Type::MAX);
 
 	if (has_sweep)
@@ -107,6 +117,46 @@ void Editor::update()
 		debug->print(String::printf("Time: %f", hit.time));
 		sweep_src.debug_draw(clr);
 	}
+
+	// Editor UI
+	Canvas_Style::anchor(Vec2(0.5f, 1.f));
+	Canvas_Style::alignment(Vec2(0.5f, 1.f));
+	Canvas_Style::position(Vec2(0.f, -50.f));
+
+	ui->begin<WHorizontal_Box>();
+	{
+		Horizontal_Box_Style::padding(Vec2(12.f));
+
+		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
+
+		ui->begin<WButton>(this, &Editor::method_test);
+		{
+			Default_Style::padding(2.f);
+			ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
+		}
+		ui->end();
+
+		if (!input->key_down(Key::Z))
+		{
+			WButton* btn = ui->begin<WButton>();
+			{
+				Vec2 size = Vec2(32, 32);
+
+				if (btn->is_held())
+					size = Vec2(64, 64);
+
+				Default_Style::padding(2.f);
+				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), size);
+
+			}
+			ui->end();
+		}
+		else
+		{
+			int apa = 50;
+		}
+	}
+	ui->end();
 }
 
 void Editor::render()
@@ -143,11 +193,7 @@ void Editor::exit_editor()
 	context.lock_cursor();
 }
 
-void Editor::change_time_dilation(i32 delta)
+void Editor::method_test()
 {
-	time_dilation_exp += delta;
-	time_dilation_exp = Math::clamp(time_dilation_exp, -8, 8);
-	time_dilate(Math::pow(1.5f, time_dilation_exp));
-
-	debug->print(String::printf("time dilation: %f\n", Math::pow(1.5f, time_dilation_exp)), 3.f);
+	debug->print("method_test()", 2.f);
 }

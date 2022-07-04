@@ -1,7 +1,11 @@
 #pragma once
+#include "ui.h"
+#include "widget_style.h"
 #include "gfx/render_info.h"
 #include "ui_rect.h"
 #include "ui_drawer.h"
+#include "widget_path.h"
+#include "debug/debug.h"
 
 struct Widget_Class
 {
@@ -43,6 +47,20 @@ struct Widget_ID
 	bool operator!=(const Widget_ID& other) { return cls != other.cls || number != other.number; }
 };
 
+struct Widget_Hit_Result
+{
+	Widget* widget = nullptr;
+	UI_Rect rect = UI_Rect::zero;
+
+	static Widget_Hit_Result select(const Widget_Hit_Result& a, const Widget_Hit_Result& b)
+	{
+		if (b.widget == nullptr)
+			return a;
+
+		return b;
+	}
+};
+
 class Widget
 {
 public:
@@ -51,37 +69,38 @@ public:
 	Widget* parent = nullptr;
 
 	virtual ~Widget() {}
-
 	virtual Widget_Class* get_class() = 0;
-	Widget* get_or_add_child(Widget_Class* cls);
+
+	// DONT OVERRIDE THESE
+	virtual void begin() { fatal("Tried to begin widget '%s', but it doesn't support children", get_class()->name); }
+	virtual void end() { fatal("Tried to end widget '%s', but it doesn't support children", get_class()->name); }
+	virtual void on_end() {}
+
+	virtual void free() {}
+	virtual void build(const UI_Rect& geom) {}
+
+	// void init(); <-- NEEDED IN EVERY WIDGET CLASS (arguments optional)
+	virtual void on_free() {}
+
+	virtual Widget* get_or_add_child(Widget_Class* cls) { return nullptr; }
 	template<typename TWidget>
 	TWidget* get_or_add_child()
 	{
 		return (TWidget*)get_or_add_child(TWidget::static_class());
 	}
 
-	// DONT OVERRIDE THESE
-	// Use on_begin() and on_end() instead
-	virtual void begin();
-	virtual void end();
-
-	virtual void free() {}
-
-	// void init(); <-- NEEDED IN EVERY WIDGET CLASS (arguments optional)
-	virtual void on_begin() {}
-	virtual void on_end() {}
-	virtual void on_free() {}
-
-	virtual void add_child(Widget* child) { fatal("Widget '%s' does not accept children.", get_class()->name); }
-	virtual Widget* find_child(const Widget_ID& id) { fatal("Widget '%s' does not accept children.", get_class()->name); return nullptr; }
-	virtual void set_child_count(u32 new_count) { if (new_count > 0) fatal("Widget '%s' does not accept children.", get_class()->name); }
+	// If we GET to this point as a leaf widget, just return ourself
+	virtual Widget_Hit_Result get_child_at(const Vec2& position, const UI_Rect& rect) { return { this, rect }; }
+	virtual void build_path_to_position(Widget_Path& path, const Vec2& position, const UI_Rect& rect) {}
 
 	virtual Vec2 get_desired_size() { return Vec2::zero; }
-
 	virtual void render(UI_Drawer& drawer) {}
 
-private:
-	u32 next_child_idx = 0;
+	// Various events!
+	virtual void on_mouse_enter() {}
+	virtual void on_mouse_leave() {}
+	virtual void on_mouse_down() {}
+	virtual void on_mouse_up() {}
 };
 
 template<typename TStyle>
@@ -90,29 +109,49 @@ class Slotted_Widget : public Widget
 public:
 	void begin() final
 	{
+		next_child_idx = 0;
 		TStyle::push();
-		Widget::begin();
 	}
 
 	void end() final
 	{
 		TStyle::pop();
-		Widget::end();
+		set_child_count(next_child_idx);
+
+		on_end();
 	}
 
 	void free() override
 	{
-		for(auto& child : children)
-		{
-			child.widget->free();
-			delete child.widget;
-		}
-
-		children.empty();
+		// Free all children
+		set_child_count(0);
 	}
 
-	void add_child(Widget* child) final { children.add({ TStyle::get(), child }); }
-	Widget* find_child(const Widget_ID& id) final
+	Widget* get_or_add_child(Widget_Class* cls) override
+	{
+		Widget_ID id = Widget_ID(cls, next_child_idx);
+		next_child_idx++;
+
+		Widget* widget = find_child(id);
+		if (widget)
+			return widget;
+
+		// Welp, seems we don't have this child....
+		// In the case that this was an ID mismatch, set the child count
+		//		to remove everything past this point.
+		set_child_count(next_child_idx - 1);
+
+		debug->print(TString::printf("Widget '%s' created", cls->name), 2.f);
+		widget = cls->create_new();
+		widget->id = id;
+		widget->parent = this;
+		add_child(widget);
+
+		return widget;
+	}
+
+	void add_child(Widget* child) { children.add({ TStyle::get(), child }); }
+	Widget* find_child(const Widget_ID& id)
 	{
 		if (children.count() <= id.number)
 			return nullptr;
@@ -122,10 +161,13 @@ public:
 
 		return children[id.number].widget;
 	}
-	void set_child_count(u32 new_count) final
+	void set_child_count(u32 new_count)
 	{
 		for(u32 i = new_count; i < children.count(); ++i)
 		{
+			debug->print(TString::printf("Widget '%s' destroyed", children[i].widget->get_class()->name), 2.f);
+			ui->pre_destroy_widget(children[i].widget);
+
 			children[i].widget->free();
 			delete children[i].widget;
 		}
@@ -133,12 +175,42 @@ public:
 		children.set_count(new_count);
 	}
 
+	Widget_Hit_Result get_child_at(const Vec2& position, const UI_Rect& rect) override
+	{
+		Widget_Hit_Result result = { this, rect };
+		for(auto& slot : children)
+		{
+			UI_Rect child_rect = rect.transform(slot.rect);
+			if (!child_rect.contains_point(position))
+				continue;
+
+			Widget_Hit_Result child_hit = slot.widget->get_child_at(position, child_rect);
+			result = Widget_Hit_Result::select(result, child_hit);
+		}
+
+		return result;
+	}
+	void build_path_to_position(Widget_Path& path, const Vec2& position, const UI_Rect& rect) override
+	{
+		for(auto& slot : children)
+		{
+			UI_Rect child_rect = rect.transform(slot.rect);
+			if (!child_rect.contains_point(position))
+				continue;
+
+			path.add(slot.widget);
+			slot.widget->build_path_to_position(path, position, child_rect);
+		}
+	}
+
 protected:
 	struct Slot
 	{
 		TStyle style;
 		Widget* widget;
+		UI_Rect rect;
 	};
 
 	Array<Slot> children;
+	u32 next_child_idx = 0;
 };

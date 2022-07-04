@@ -13,17 +13,19 @@ public:
 	void init();
 	void begin(const Render_Info& info);
 
-	void rect(UI_Rect rect);
-	void texture(UI_Rect rect, Texture* texture);
+	void draw_rect(UI_Rect rect, const Color& clr);
+	void fill_rect(UI_Rect rect, const Color& clr);
+	void draw_texture(UI_Rect rect, Texture* texture);
 
 	UI_Rect current_rect() { return rect_stack.top(); }
+	Vec2 current_size() { return rect_stack.top().size; }
 	void push_rect(const UI_Rect& new_rect)
 	{
 		// Debug
 		if (rect_stack.count() == 0)
 			rect_stack.add(new_rect);
 
-		rect(new_rect);
+		draw_rect(new_rect, Color::white);
 		rect_stack.add(current_rect().transform(new_rect));
 	}
 	void pop_rect()

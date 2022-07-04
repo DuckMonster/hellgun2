@@ -77,7 +77,7 @@ void Tga_File::load(const String& path)
 	channels = image_spec.pixel_depth / 8;
 
 	u32 image_size = width * height * channels;
-	data = (char*)malloc(image_size);
+	data = Heap_Allocator::malloc<char>(image_size);
 	fread(data, image_size, 1, file);
 
 	fclose(file);
@@ -90,7 +90,7 @@ void Tga_File::flip_vertical()
 		return;
 
 	// Copy all data into a temporary buffer
-	char* buffer = (char*)malloc(width * height * channels);
+	char* buffer = Heap_Allocator::malloc<char>(width * height * channels);
 	memcpy(buffer, data, width * height * channels);
 
 	// Copy over every line 

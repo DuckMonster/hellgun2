@@ -110,7 +110,7 @@ public:
 		ensure_capacity(other._capacity);
 
 		// Copy over each element
-		for(int i = 0; i < other._count; ++i)
+		for(u32 i = 0; i < other._count; ++i)
 			new(_data + i) T(other[i]);
 
 		_count = other._count;
@@ -222,6 +222,25 @@ public:
 		memcpy(_data + index, _data + _count, sizeof(T));
 	}
 
+	Array_Base sub_array(u32 sub_offset, u32 sub_count)
+	{
+		// You can't grab more items than I have!!
+		sub_count = Math::min(sub_count, _count - sub_offset);
+
+		// Either count is zero, or the offset is not valid.
+		if (sub_count == 0 || sub_offset >= _count)
+			return Array_Base();
+
+		auto sub = Array_Base();
+		sub.reserve(sub_count);
+
+		// Copy over elements!
+		for(u32 i = 0; i < sub_count; ++i)
+			sub.add(_data[i + sub_offset]);
+
+		return sub;
+	}
+
 	void set_count(u32 new_count)
 	{
 		// Setting count to a lower number, remove elements
@@ -249,6 +268,13 @@ public:
 
 		return _data[_count - 1];
 	}
+	const T& top() const
+	{
+		if (_count == 0)
+			fatal("Array_Base::top called in an empty array");
+
+		return _data[_count - 1];
+	}
 
 	void pop()
 	{
@@ -270,7 +296,7 @@ public:
 		return move(copy);
 	}
 
-	u32 find(const T& other)
+	u32 find(const T& other) const
 	{
 		for(u32 i = 0; i < _count; ++i)
 		{
@@ -280,8 +306,12 @@ public:
 
 		return INDEX_NONE;
 	}
+	bool contains(const T& other) const
+	{
+		return find(other) != INDEX_NONE;
+	}
 	template<typename TFunctor>
-	u32 find_predicate(TFunctor func)
+	u32 find_predicate(TFunctor func) const
 	{
 		for(u32 i = 0; i < _count; ++i)
 		{

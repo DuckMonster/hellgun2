@@ -38,7 +38,7 @@ void Player::init()
 
 	crosshair_circle->on_render.bind_lambda([this](const Render_Info& info)
 	{
-		crosshair_circle->matrix = mat_translation(Vec3(mouse_x(), mouse_y(), 0.f)) * mat_scale(4.f);
+		crosshair_circle->matrix = mat_translation(Vec3(input->mouse_x(), input->mouse_y(), 0.f)) * mat_scale(4.f);
 	});
 
 	// Line
@@ -51,7 +51,7 @@ void Player::init()
 	crosshair_line->on_render.bind_lambda([this](const Render_Info& info)
 	{
 		Vec2 src = info.world_to_canvas(position);
-		Vec2 tar = Vec2(mouse_x(), mouse_y());
+		Vec2 tar = input->mouse_position();
 
 		float length = ::length(tar - src);
 		Vec2 dir = (tar - src) / length;
@@ -77,15 +77,7 @@ void Player::update()
 	if (!is_alive())
 		return;
 
-	debug->print(TString::printf("HEALTH: %d", health));
-
-	Vec3 input = Vec3::zero;
-	if (key_down(Key::A))
-		input.x -= 1.f;
-	if (key_down(Key::D))
-		input.x += 1.f;
-
-	if (key_pressed(Key::Q))
+	if (input->key_pressed(Key::Q))
 	{
 		weapons[equipped_weapon]->on_unequipped();
 		equipped_weapon = (equipped_weapon + 1) % weapons.count();
@@ -107,6 +99,10 @@ void Player::update()
 	{
 		mesh->set_disabled(false);
 	}
+
+	// Hide the drawable in case we're not in game-mode
+	crosshair_line->set_disabled(!input->is_group_active(Input_Group::Game));
+	crosshair_circle->set_disabled(!input->is_group_active(Input_Group::Game));
 }
 
 void Player::update_movement()
@@ -144,7 +140,7 @@ void Player::update_movement()
 	friction_scale = Math::lerp(friction_scale, 1.f, 2.5f * time_delta());
 
 	// Dashing
-	if (key_pressed(Key::S) && !is_grounded)
+	if (input->key_pressed(Key::S) && !is_grounded)
 	{
 		velocity = Vec3(0.f, -1.f, 0.f) * PLAYER_GROUND_POUND_IMPULSE;
 		friction_scale = 0.f;
@@ -158,7 +154,7 @@ void Player::update_movement()
 			0.5f
 		);
 	}
-	if (key_pressed(Key::LeftShift) && get_movement_input() != 0.f)
+	if (input->key_pressed(Key::LeftShift) && get_movement_input() != 0.f)
 	{
 		velocity = Vec3(1.f, 0.f, 0.f) * get_movement_input() * PLAYER_GROUND_DASH_IMPULSE;
 		friction_scale = 0.f;
@@ -184,7 +180,7 @@ void Player::update_grounded()
 
 	// Jumping
 	air_jumps = 1;
-	if (key_pressed(Key::Spacebar))
+	if (input->key_pressed(Key::Spacebar))
 	{
 		velocity.y = PLAYER_JMP_IMPULSE;
 
@@ -211,7 +207,7 @@ void Player::update_airborne()
 	velocity.x -= velocity.x * PLAYER_AIR_FRICTION_H * friction_scale * time_delta();
 	velocity.y -= velocity.y * PLAYER_AIR_FRICTION_V * friction_scale * time_delta();
 
-	if (key_pressed(Key::Spacebar) && air_jumps > 0)
+	if (input->key_pressed(Key::Spacebar) && air_jumps > 0)
 	{
 		velocity.y = PLAYER_AIR_JMP_IMPULSE;
 		air_jumps--;
@@ -268,13 +264,13 @@ Hit_Result Player::sweep(const Vec3& delta)
 
 float Player::get_movement_input()
 {
-	float input = 0.f;
-	if (key_down(Key::D))
-		input += 1.f;
-	if (key_down(Key::A))
-		input -= 1.f;
+	float move_input = 0.f;
+	if (input->key_down(Key::D))
+		move_input += 1.f;
+	if (input->key_down(Key::A))
+		move_input -= 1.f;
 
-	return input;
+	return move_input;
 }
 
 void Player::hit(const Vec3& direction)

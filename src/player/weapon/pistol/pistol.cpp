@@ -28,7 +28,7 @@ void Pistol::on_unequipped()
 
 void Pistol::update()
 {
-	if (ammo > 0 && mouse_pressed(Mouse_Btn::Left))
+	if (ammo > 0 && input->mouse_pressed(Mouse_Btn::Left))
 	{
 		// Fire projectile
 		Vec3 spawn_pos = position + get_aim_direction() * 1.f;

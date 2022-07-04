@@ -15,11 +15,6 @@
 #include "math/random.h"
 #include "math/plane.h"
 #include "fx/fx.h"
-#include "ui/ui.h"
-#include "ui/wcanvas.h"
-#include "ui/whorizontal_box.h"
-#include "ui/wvertical_box.h"
-#include "ui/wimage.h"
 
 Game* game;
 
@@ -58,6 +53,8 @@ void Game::init()
 
 void Game::update()
 {
+	INPUT_SCOPE(Input_Group::Game);
+
 	// Update camera
 	{
 		Vec3 target_position = Math::lerp(player->position, get_mouse_game_position(), 0.3f);
@@ -66,7 +63,7 @@ void Game::update()
 	}
 
 	// Restart
-	if (key_pressed(Key::R))
+	if (input->key_pressed(Key::R))
 	{
 		// Destroy all entities
 		for(auto* entity : scene->entities)
@@ -80,7 +77,7 @@ void Game::update()
 	}
 
 	// Update enemy spawning
-	if (key_pressed(Key::E))
+	if (input->key_pressed(Key::E))
 	{
 		spawn_enemies = !spawn_enemies;
 	}
@@ -137,36 +134,6 @@ void Game::render()
 
 	level->render(info);
 	fx->render(info);
-	
-	ui->new_frame();
-	Canvas_Style::anchor(Vec2(0.5f, 1.f));
-	Canvas_Style::alignment(Vec2(0.5f, 1.f));
-	Canvas_Style::position(Vec2(0.f, -50.f));
-
-	if (ui->begin<WHorizontal_Box>())
-	{
-		Horizontal_Box_Style::padding(Vec2(8.f));
-
-		if (key_down(Key::X))
-		{
-			if (ui->begin<WVertical_Box>())
-			{
-				Vertical_Box_Style::padding(Vec2(2.f));
-				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
-				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
-				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
-				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(8, 8));
-				ui->end();
-			}
-		}
-
-		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
-		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
-		ui->end();
-	}
-
-	ui->render(info);
-	//player->render_ui(info);
 }
 
 Ray Game::get_mouse_world_ray()
@@ -174,8 +141,8 @@ Ray Game::get_mouse_world_ray()
 	Mat4 projview_inv = inverse(camera.get_view_projection());
 
 	Vec4 ndc = Vec4(
-		mouse_x() / context.width,
-		mouse_y() / context.height,
+		input->mouse_x() / context.width,
+		input->mouse_y() / context.height,
 		-1.f,
 		1.f
 	);

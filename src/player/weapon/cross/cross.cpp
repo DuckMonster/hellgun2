@@ -26,7 +26,7 @@ void Cross::on_unequipped()
 
 void Cross::update()
 {
-	if (mouse_pressed(Mouse_Btn::Left) && ammo > 0)
+	if (input->mouse_pressed(Mouse_Btn::Left) && ammo > 0)
 	{
 		Vec3 spawn_pos = position + get_aim_direction() * 1.f;
 		Vec3 direction = get_aim_direction();

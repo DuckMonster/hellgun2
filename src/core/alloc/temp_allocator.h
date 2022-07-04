@@ -13,6 +13,18 @@ public:
 
 	static void free(void* ptr) {}
 
+	template<typename T, typename... TArgs>
+	static T* malloc_new(const TArgs&... args)
+	{
+		T* ptr = malloc<T>(sizeof(T));
+		new(ptr) T(args...);
+
+		return ptr;
+	}
+
+	template<typename T>
+	static void free_delete(T* ptr) {}
+
 	static u8* buffer;
 	static u32 buffer_size;
 	static u32 buffer_cursor;

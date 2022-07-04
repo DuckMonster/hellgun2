@@ -11,7 +11,6 @@ public:
 	bool active = false;
 
 	Camera camera;
-	i32 time_dilation_exp = 0;
 
 	// Debug sweeping stuff
 	bool has_sweep = false;
@@ -30,8 +29,7 @@ public:
 	void enter_editor();
 	void exit_editor();
 
-private:
-	void change_time_dilation(i32 delta);
+	void method_test();
 };
 
 extern Editor* editor;

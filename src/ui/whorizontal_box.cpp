@@ -20,20 +20,29 @@ Vec2 WHorizontal_Box::get_desired_size()
 	return size;
 }
 
-void WHorizontal_Box::render(UI_Drawer& drawer)
+void WHorizontal_Box::build(const UI_Rect& geom)
 {
 	float x = 0.f;
-	for(const auto& slot : children)
+	for(auto& slot : children)
 	{
 		auto style = slot.style;
 		Widget* widget = slot.widget;
 		Vec2 child_size = widget->get_desired_size();
 		Vec2 padding = style._padding;
 
-		drawer.push_rect(UI_Rect(Vec2(x + padding.x, padding.y), child_size));
-		widget->render(drawer);
-		drawer.pop_rect();
+		slot.rect = UI_Rect(Vec2(x + padding.x, padding.y), child_size);
+		slot.widget->build(slot.rect);
 
 		x += child_size.x + padding.x * 2.f;
+	}
+}
+
+void WHorizontal_Box::render(UI_Drawer& drawer)
+{
+	for(auto& slot : children)
+	{
+		drawer.push_rect(slot.rect);
+		slot.widget->render(drawer);
+		drawer.pop_rect();
 	}
 }

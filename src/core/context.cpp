@@ -25,23 +25,22 @@ void handle_key_event(GLFWwindow* window, int key, int scancode, int action, int
 	if (scancode > (int)Key::MAX)
 		return;
 
-	set_key_state((Key)scancode, action == GLFW_PRESS);
+	input->set_key_state((Key)scancode, action == GLFW_PRESS);
 }
 
 void handle_mouse_btn_event(GLFWwindow* window, int button, int action, int mods)
 {
-	set_mouse_state((Mouse_Btn)button, action == GLFW_PRESS);
+	input->set_mouse_state((Mouse_Btn)button, action == GLFW_PRESS);
 }
 
 void handle_mouse_move_event(GLFWwindow* window, double xpos, double ypos)
 {
-	set_mouse_x((float)xpos);
-	set_mouse_y((float)ypos);
+	input->set_mouse_position(Vec2((float)xpos, (float)ypos));
 }
 
 void handle_mouse_scroll_event(GLFWwindow* window, double xscroll, double yscroll)
 {
-	add_mouse_wheel((i32)yscroll);
+	input->add_mouse_wheel((i32)yscroll);
 }
 
 void Context::open(const char* title, u32 in_width, u32 in_height)
@@ -78,8 +77,7 @@ void Context::update()
 	glfwSwapBuffers(window);
 
 	frame_num++;
-	reset_mouse_delta();
-	reset_mouse_wheel_delta();
+	input->new_frame();
 	glfwPollEvents();
 }
 

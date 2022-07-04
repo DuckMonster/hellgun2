@@ -1,4 +1,5 @@
 #pragma once
+#include "container/array.h"
 
 #define WIDGET_STYLE_DECL(type)\
 static Array<type> style_stack;\
@@ -16,3 +17,9 @@ Array<type> type::style_stack;
 #define WIDGET_STYLE_PROP(type, name)\
 type _##name;\
 static void name(const type& name) { get()._##name = name; }
+
+struct Default_Style
+{
+	WIDGET_STYLE_DECL(Default_Style)
+	WIDGET_STYLE_PROP(Vec2, padding)
+};

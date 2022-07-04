@@ -106,6 +106,20 @@ inline Vec3 component_clamp(const Vec3& v, const Vec3& min, const Vec3& max)
 	);
 }
 
+inline Vec2 component_min(const Vec2& a, const Vec2& b)
+{
+	return Vec2(
+		Math::min(a.x, b.x),
+		Math::min(a.y, b.y)
+	);
+}
+inline Vec2 component_max(const Vec2& a, const Vec2& b)
+{
+	return Vec2(
+		Math::max(a.x, b.x),
+		Math::max(a.y, b.y)
+	);
+}
 inline Vec3 component_min(const Vec3& a, const Vec3& b)
 {
 	return Vec3(

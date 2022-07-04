@@ -52,16 +52,9 @@ void UI_Drawer::begin(const Render_Info& info)
 	textured_material->set("u_ViewProjection", info.ui_canvas);
 }
 
-void UI_Drawer::rect(UI_Rect rect)
+void UI_Drawer::draw_rect(UI_Rect rect, const Color& clr)
 {
 	rect = current_rect().transform(rect);
-
-	/*
-	debug->print(TString::printf("rect(%f, %f - %f, %f)",
-		rect.position.x, rect.position.y,
-		rect.size.x, rect.size.y
-	));
-	*/
 
 	primitive_material->use();
 	primitive_material->set("u_Model", Mat4(
@@ -70,11 +63,28 @@ void UI_Drawer::rect(UI_Rect rect)
 		0.f, 0.f, 1.f, 0.f,
 		rect.position.x, rect.position.y, 0.f, 1.f
 	));
+	primitive_material->set("u_Color", clr);
 
 	rect_mesh.draw();
 }
 
-void UI_Drawer::texture(UI_Rect rect, Texture* texture)
+void UI_Drawer::fill_rect(UI_Rect rect, const Color& clr)
+{
+	rect = current_rect().transform(rect);
+
+	primitive_material->use();
+	primitive_material->set("u_Model", Mat4(
+		rect.size.x, 0.f, 0.f, 0.f,
+		0.f, rect.size.y, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		rect.position.x, rect.position.y, 0.f, 1.f
+	));
+	primitive_material->set("u_Color", clr);
+
+	quad_mesh.draw();
+}
+
+void UI_Drawer::draw_texture(UI_Rect rect, Texture* texture)
 {
 	rect = current_rect().transform(rect);
 

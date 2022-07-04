@@ -44,6 +44,9 @@ int main()
 	debug = new Debug();
 	debug->init();
 
+	input = new Input();
+	input->set_active_group(Input_Group::Game);
+
 	game = new Game();
 	scene = new Scene();
 	editor = new Editor();
@@ -63,6 +66,19 @@ int main()
 	bool editor_mode = false;
 	float next_hotreload_time = 0.f;
 
+	float time_dilation_values[] =
+	{
+		0.01f,
+		0.1f,
+		0.25f,
+		0.5f,
+		1.f,
+		2.f,
+		4.f,
+		8.f
+	};
+	i32 time_dilation_idx = 4;
+
 	while(context.is_open())
 	{
 		Heap_Allocator::new_frame();
@@ -71,21 +87,40 @@ int main()
 		context.update();
 		time_update();
 
-		if (key_pressed(Key::Escape))
+		if (input->key_pressed(Key::Escape))
 			context.close();
 
 		// Toggle editor
-		if (key_pressed(Key::Tab))
+		if (input->key_pressed(Key::Tab))
 		{
 			if (!editor_mode)
 			{
 				editor_mode = true;
 				editor->enter_editor();
+				input->set_active_group(Input_Group::Editor);
 			}
 			else
 			{
 				editor_mode = false;
 				editor->exit_editor();
+				input->set_active_group(Input_Group::Game);
+			}
+		}
+
+		// Time dilation
+		{
+			i32 new_dilation_idx = time_dilation_idx;
+			if (input->key_pressed(Key::Plus))
+				new_dilation_idx++;
+			if (input->key_pressed(Key::Minus))
+				new_dilation_idx--;
+
+			if (new_dilation_idx != time_dilation_idx)
+			{
+				time_dilation_idx = Math::clamp(new_dilation_idx, 0, 7);
+				time_dilate(time_dilation_values[time_dilation_idx]);
+
+				debug->print(TString::printf("Time dilation: %.02f", time_dilation_values[time_dilation_idx]), 2.f);
 			}
 		}
 
@@ -100,6 +135,9 @@ int main()
 		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		ui->new_frame();
+		game->update();
+
 		if (editor_mode)
 		{
 			editor->update();
@@ -107,9 +145,27 @@ int main()
 		}
 		else
 		{
-			game->update();
 			game->render();
 		}
+
+		ui->end_frame();
+
+		// I HATE THIS, please clean this up at some point
+		Render_Info info;
+		info.ui_canvas = mat_ortho(0.f, context.width, context.height, 0.f);
+
+		if (editor_mode)
+		{
+			info.view = editor->camera.get_view();
+			info.projection = editor->camera.get_projection();
+		}
+		else
+		{
+			info.view = game->camera.get_view();
+			info.projection = game->camera.get_projection();
+		}
+		info.view_projection = info.projection * info.view;
+		ui->render(info);
 
 		// Debug text
 		debug->text(TString::printf("%.02f ms", time_delta_raw() * 1000.f), Vec2(context.width, 0.f), Color::yellow, Color::yellow * 0.4f, Vec2(1.f, 0.f));
@@ -129,21 +185,6 @@ int main()
 			debug->print(TString::printf("Hitch: %fms", time_delta() * 1000.f), 2.f);
 
 		// Render debug
-		Render_Info info;
-		info.ui_canvas = mat_ortho(0.f, context.width, context.height, 0.f);
-
-		if (editor_mode)
-		{
-			info.view = editor->camera.get_view();
-			info.projection = editor->camera.get_projection();
-		}
-		else
-		{
-			info.view = game->camera.get_view();
-			info.projection = game->camera.get_projection();
-		}
-		info.view_projection = info.projection * info.view;
-
 		debug->render(info);
 		debug->new_frame();
 	}
