@@ -108,6 +108,7 @@ struct Dat_File
 	float read_f32(const char* path) { return read_simple<float>(path, "%f"); }
 
 	String read_str(const char* path);
+	TString read_str_temp(const char* path);
 
 	Dat_Object* root = nullptr;
 	char* buffer = nullptr;

@@ -6,6 +6,7 @@ struct Mesh;
 struct Material;
 struct Texture;
 struct Shader;
+struct Grid_Font;
 struct Dat_File;
 struct Level;
 
@@ -45,6 +46,7 @@ public:
 	static Shader* load_shader(const TString& path);
 	static Texture* load_texture(const TString& path);
 	static Level* load_level(const TString& path);
+	static Grid_Font* load_font(const TString& path);
 
 	static Dat_File* load_dat(const TString& path);
 

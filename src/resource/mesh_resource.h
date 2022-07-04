@@ -9,7 +9,7 @@ public:
 
 	void init() override;
 	void load() override;
-	void reload() { load(); }
+	void reload() override { load(); }
 	void free() override;
 
 	Mesh mesh;

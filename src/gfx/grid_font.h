@@ -34,7 +34,7 @@ struct Grid_Font
 	float stride_u;
 	float stride_v;
 
-	u32 row_count;
+	u32 col_count;
 
 	struct Glyph_Vertex
 	{
@@ -48,7 +48,9 @@ struct Grid_Font
 
 	Array<Glyph> glyphs;
 
-	void load_file(const char* path, u32 glyph_w, u32 glyph_h);
+	void init();
+	void free();
+	void set_texture(Texture* texture, u32 glyph_w, u32 glyph_h);
 	void render_text(const TString& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info);
 
 	void push_glyph(char glyph, const Vec2& position, float scale);

@@ -2,7 +2,7 @@
 #include "import/tga.h"
 #include "resource/resource.h"
 
-void Grid_Font::load_file(const char* path, u32 glyph_w, u32 glyph_h)
+void Grid_Font::init()
 {
 	mesh.init();
 	mesh.add_buffer(0);
@@ -10,8 +10,15 @@ void Grid_Font::load_file(const char* path, u32 glyph_w, u32 glyph_h)
 	mesh.bind_attribute(0, 1, 2, 4 * sizeof(float), 2 * sizeof(float));
 
 	mat = Resource::load_material("material/ui/gridfont.mat");
-	texture = Resource::load_texture(path);
+}
 
+void Grid_Font::free()
+{
+	mesh.free();
+}
+
+void Grid_Font::set_texture(Texture* texture, u32 glyph_w, u32 glyph_h)
+{
 	this->glyph_w = glyph_w;
 	this->glyph_h = glyph_h;
 
@@ -20,7 +27,7 @@ void Grid_Font::load_file(const char* path, u32 glyph_w, u32 glyph_h)
 	stride_u = (float)(glyph_w + 1) / texture->width;
 	stride_v = (float)(glyph_h + 1) / texture->height;
 
-	row_count = texture->width / (glyph_w + 1);
+	col_count = texture->width / (glyph_w + 1);
 }
 
 void Grid_Font::render_text(const TString& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info)
@@ -52,8 +59,8 @@ void Grid_Font::push_glyph(char chr, const Vec2& position, float scale)
 {
 	Glyph glyph;
 
-	u32 x = chr % row_count;
-	u32 y = chr / row_count;
+	u32 x = chr % col_count;
+	u32 y = chr / col_count;
 
 	Vec2 uv_base = Vec2(stride_u * x, 1.f - stride_v * y);
 	Vec2 u = Vec2(glyph_u, 0.f);

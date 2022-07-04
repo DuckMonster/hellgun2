@@ -94,3 +94,23 @@ String Dat_File::read_str(const char* path)
 
 	return result;
 }
+
+TString Dat_File::read_str_temp(const char* path)
+{
+	TString result;
+
+	Dat_Value* node = find_value(root, path);
+	if (node == nullptr)
+	{
+		printf("Dat path '%s' was not valid\n", path);
+		return result;
+	}
+
+	u32 len = node->token.length;
+
+	result.resize(len);
+	memcpy(result.data(), node->token.ptr, len);
+	result[len] = 0;
+
+	return result;
+}

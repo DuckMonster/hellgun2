@@ -23,5 +23,5 @@ public:
 	Vec3 position;
 	Vec3 velocity;
 
-	Grid_Font font;
+	Grid_Font* font;
 };

@@ -1,8 +1,9 @@
 #include "damage_number.h"
+#include "resource/resource.h"
 
 void Damage_Number::init()
 {
-	font.load_file("ui/font.tga", 6, 9);
+	font = Resource::load_font("ui/font.dat");
 }
 
 void Damage_Number::begin(const Vec3& position, float damage, const Vec3& direction)
@@ -40,5 +41,5 @@ void Damage_Number::render(const Render_Info& info)
 	font_info.alignment = Vec2(0.5f, 1.f);
 	font_info.scale = 2.f;
 
-	font.render_text(damage_text, canvas_location, font_info, info);
+	font->render_text(damage_text, canvas_location, font_info, info);
 }

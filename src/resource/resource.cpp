@@ -9,6 +9,7 @@
 #include "material_resource.h"
 #include "texture_resource.h"
 #include "level_resource.h"
+#include "font_resource.h"
 #include <stdio.h>
 
 String Resource::resource_root = "res/";
@@ -46,6 +47,11 @@ Texture* Resource::load_texture(const TString& path)
 Level* Resource::load_level(const TString& path)
 {
 	return &find_or_load_resource<Level_Resource>(path)->level;
+}
+
+Grid_Font* Resource::load_font(const TString& path)
+{
+	return &find_or_load_resource<Font_Resource>(path)->font;
 }
 
 Dat_File* Resource::load_dat(const TString& path)

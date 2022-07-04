@@ -15,7 +15,7 @@ namespace
 	Mesh box_mesh;
 	Mesh quad_mesh;
 	Mesh sphere_mesh;
-	Grid_Font debug_font;
+	Grid_Font* debug_font;
 }
 
 void Debug::init()
@@ -131,7 +131,7 @@ void Debug::init()
 	sphere_mesh.draw_num = 33 * 2 * 3; // 33 * 2 lines for each circle, with 3 circles
 
 	// Load font
-	debug_font.load_file("ui/font.tga", 6, 9);
+	debug_font = Resource::load_font("ui/font.tga");
 }
 
 void Debug::new_frame()
@@ -275,15 +275,15 @@ void Debug::render(const Render_Info& info)
 		font_info.foreground = text.foreground;
 		font_info.background = text.background;
 
-		debug_font.render_text(text.string, text.position, font_info, info);
+		debug_font->render_text(text.string, text.position, font_info, info);
 	}
 
 	// Print list
 	float y = 10.f;
 	for(u32 i = 0; i < print_list.count(); ++i)
 	{
-		debug_font.render_text(print_list[i].string, Vec2(10.f, y), Grid_Font_Info(), info);
-		y += debug_font.glyph_h;
+		debug_font->render_text(print_list[i].string, Vec2(10.f, y), Grid_Font_Info(), info);
+		y += debug_font->glyph_h;
 	}
 
 	glEnable(GL_DEPTH_TEST);
