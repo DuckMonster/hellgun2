@@ -8,6 +8,8 @@ struct Horizontal_Box_Style
 
 	WIDGET_STYLE_PROP(float, valign)
 	WIDGET_STYLE_PROP(Vec2, padding)
+	WIDGET_STYLE_PROP(Horizontal_Align, halign)
+	WIDGET_STYLE_PROP(Vertical_Align, valign)
 };
 
 class WHorizontal_Box : public Slotted_Widget<Horizontal_Box_Style>

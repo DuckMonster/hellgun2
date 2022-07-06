@@ -21,10 +21,10 @@ public:
 	Vec2 current_size() { return rect_stack.top().size; }
 	void push_rect(const UI_Rect& new_rect)
 	{
-		// Debug
 		if (rect_stack.count() == 0)
 			rect_stack.add(new_rect);
 
+		// Debug
 		//draw_rect(new_rect, Color::white);
 		rect_stack.add(current_rect().transform(new_rect));
 	}

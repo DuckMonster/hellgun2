@@ -30,6 +30,8 @@ void WHorizontal_Box::build(const UI_Rect& geom)
 		Vec2 child_size = widget->get_desired_size();
 		Vec2 padding = style._padding;
 
+
+
 		slot.rect = UI_Rect(Vec2(x + padding.x, padding.y), child_size);
 		slot.widget->build(slot.rect);
 

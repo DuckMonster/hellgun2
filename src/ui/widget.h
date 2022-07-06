@@ -47,6 +47,13 @@ struct Widget_ID
 	bool operator!=(const Widget_ID& other) { return cls != other.cls || number != other.number; }
 };
 
+enum class Widget_Visibility : u8
+{
+	Visible,
+	Hidden,
+	Collapsed
+};
+
 struct Widget_Hit_Result
 {
 	Widget* widget = nullptr;
@@ -67,6 +74,10 @@ public:
 	Widget_ID id;
 	UI_Rect rect = UI_Rect::zero;
 	Widget* parent = nullptr;
+
+	Widget_Visibility visibility = Widget_Visibility::Visible;
+	bool should_build() { return visibility != Widget_Visibility::Collapsed; }
+	bool should_render() { return visibility == Widget_Visibility::Visible; }
 
 	virtual ~Widget() {}
 	virtual Widget_Class* get_class() = 0;
@@ -128,6 +139,20 @@ public:
 	{
 		// Free all children
 		set_child_count(0);
+	}
+
+	Vec2 get_desired_size() override
+	{
+		Vec2 size = Vec2::zero;
+		for(auto& child : children)
+		{
+			if (!child.widget->should_build())
+				continue;
+
+			size = component_max(size, child.widget->get_desired_size());
+		}
+
+		return size;
 	}
 
 	Widget* get_or_add_child_cls(Widget_Class* cls) override
@@ -211,6 +236,9 @@ public:
 	{
 		for(auto& slot : children)
 		{
+			if (!slot.widget->should_build())
+				continue;
+
 			slot.rect = UI_Rect(Vec2::zero, geom.size);
 			slot.widget->build(slot.rect);
 		}
@@ -221,6 +249,9 @@ public:
 	{
 		for(auto& slot : children)
 		{
+			if (!slot.widget->should_render())
+				continue;
+
 			drawer.push_rect(slot.rect);
 			slot.widget->render(drawer);
 			drawer.pop_rect();

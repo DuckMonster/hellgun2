@@ -12,4 +12,7 @@ public:
 	void on_child_end();
 
 	Vec2 get_desired_size() { return children[0].widget->get_desired_size(); }
+
+private:
+	bool collapsed = false;
 };

@@ -181,9 +181,6 @@ int main()
 		debug->text(TString::printf("Temp capacity: %u B", Temp_Allocator::buffer_size), Vec2(context.width, 84.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
 		debug->text(TString::printf("Temp usage: %u B (%u)", Temp_Allocator::frame_allocation_size, Temp_Allocator::frame_allocation_count), Vec2(context.width, 94.f), Color::white, Color::blue * 0.4f, Vec2(1.f, 0.f));
 
-		if (time_delta() > .005f)
-			debug->print(TString::printf("Hitch: %fms", time_delta() * 1000.f), 2.f);
-
 		// Render debug
 		debug->render(info);
 		debug->new_frame();

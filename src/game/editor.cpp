@@ -122,7 +122,7 @@ void Editor::update()
 
 	auto* tab = ui->begin<WCollapse_Tab>();
 	{
-		ui->add<WText>("This is text.");
+		ui->add<WText>("This is a lot of text.");
 	}
 	ui->end();
 }

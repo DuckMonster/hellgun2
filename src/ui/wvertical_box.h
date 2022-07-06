@@ -1,12 +1,14 @@
 #pragma once
 #include "widget.h"
 #include "widget_style.h"
+#include "box_alignment.h"
 
 struct Vertical_Box_Style
 {
 	WIDGET_STYLE_DECL(Vertical_Box_Style)
 
 	WIDGET_STYLE_PROP(Vec2, padding)
+	WIDGET_STYLE_PROP(Horizontal_Align, halign)
 };
 
 class WVertical_Box : public Slotted_Widget<Vertical_Box_Style>
