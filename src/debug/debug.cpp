@@ -131,7 +131,7 @@ void Debug::init()
 	sphere_mesh.draw_num = 33 * 2 * 3; // 33 * 2 lines for each circle, with 3 circles
 
 	// Load font
-	debug_font = Resource::load_font("ui/font.tga");
+	debug_font = Resource::load_font("ui/font.dat");
 }
 
 void Debug::new_frame()

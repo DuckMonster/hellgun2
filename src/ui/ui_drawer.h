@@ -25,13 +25,15 @@ public:
 		if (rect_stack.count() == 0)
 			rect_stack.add(new_rect);
 
-		draw_rect(new_rect, Color::white);
+		//draw_rect(new_rect, Color::white);
 		rect_stack.add(current_rect().transform(new_rect));
 	}
 	void pop_rect()
 	{
 		rect_stack.pop();
 	}
+
+	Render_Info render_info;
 
 private:
 	Array<UI_Rect> rect_stack;

@@ -55,7 +55,7 @@ void Tga_File::load(const String& path)
 	fopen_s(&file, path.data(), "rb");
 	if (file == nullptr)
 	{
-		printf("Failed to load TGA file '%s', file doesn't exist", path.data());
+		printf("Failed to load TGA file '%s', file doesn't exist\n", path.data());
 		return;
 	}
 

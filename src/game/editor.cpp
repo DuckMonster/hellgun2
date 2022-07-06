@@ -15,6 +15,8 @@
 #include "ui/wvertical_box.h"
 #include "ui/wimage.h"
 #include "ui/wbutton.h"
+#include "ui/wtext.h"
+#include "ui/wcollapse_tab.h"
 
 #include "resource/resource.h"
 
@@ -30,11 +32,6 @@ void Editor::init()
 
 	sweep_src = Shape::aabb(Vec3::zero, Vec3(3.5f));
 	sweep_tar = Shape::aabb(Vec3::zero, Vec3(2.5f));
-}
-
-void func_test()
-{
-	debug->print("func_test()", 2.f);
 }
 
 void Editor::update()
@@ -123,38 +120,9 @@ void Editor::update()
 	Canvas_Style::alignment(Vec2(0.5f, 1.f));
 	Canvas_Style::position(Vec2(0.f, -50.f));
 
-	ui->begin<WHorizontal_Box>();
+	auto* tab = ui->begin<WCollapse_Tab>();
 	{
-		Horizontal_Box_Style::padding(Vec2(12.f));
-
-		ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(32, 32));
-
-		ui->begin<WButton>(this, &Editor::method_test);
-		{
-			Default_Style::padding(2.f);
-			ui->add<WImage>(Resource::load_texture("texture/skull.tga"), Vec2(64, 64));
-		}
-		ui->end();
-
-		if (!input->key_down(Key::Z))
-		{
-			WButton* btn = ui->begin<WButton>();
-			{
-				Vec2 size = Vec2(32, 32);
-
-				if (btn->is_held())
-					size = Vec2(64, 64);
-
-				Default_Style::padding(2.f);
-				ui->add<WImage>(Resource::load_texture("texture/skull.tga"), size);
-
-			}
-			ui->end();
-		}
-		else
-		{
-			int apa = 50;
-		}
+		ui->add<WText>("This is text.");
 	}
 	ui->end();
 }
@@ -191,9 +159,4 @@ void Editor::enter_editor()
 void Editor::exit_editor()
 {
 	context.lock_cursor();
-}
-
-void Editor::method_test()
-{
-	debug->print("method_test()", 2.f);
 }

@@ -19,5 +19,4 @@ public:
 
 	Vec2 get_desired_size() override;
 	void build(const UI_Rect& geom) override;
-	void render(UI_Drawer& drawer) override;
 };

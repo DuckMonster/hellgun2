@@ -74,6 +74,7 @@ public:
 	// DONT OVERRIDE THESE
 	virtual void begin() { fatal("Tried to begin widget '%s', but it doesn't support children", get_class()->name); }
 	virtual void end() { fatal("Tried to end widget '%s', but it doesn't support children", get_class()->name); }
+	virtual void on_begin() {}
 	virtual void on_end() {}
 
 	virtual void free() {}
@@ -82,11 +83,11 @@ public:
 	// void init(); <-- NEEDED IN EVERY WIDGET CLASS (arguments optional)
 	virtual void on_free() {}
 
-	virtual Widget* get_or_add_child(Widget_Class* cls) { return nullptr; }
+	virtual Widget* get_or_add_child_cls(Widget_Class* cls) { return nullptr; }
 	template<typename TWidget>
 	TWidget* get_or_add_child()
 	{
-		return (TWidget*)get_or_add_child(TWidget::static_class());
+		return (TWidget*)get_or_add_child_cls(TWidget::static_class());
 	}
 
 	// If we GET to this point as a leaf widget, just return ourself
@@ -111,6 +112,8 @@ public:
 	{
 		next_child_idx = 0;
 		TStyle::push();
+
+		on_begin();
 	}
 
 	void end() final
@@ -127,7 +130,7 @@ public:
 		set_child_count(0);
 	}
 
-	Widget* get_or_add_child(Widget_Class* cls) override
+	Widget* get_or_add_child_cls(Widget_Class* cls) override
 	{
 		Widget_ID id = Widget_ID(cls, next_child_idx);
 		next_child_idx++;
@@ -200,6 +203,27 @@ public:
 
 			path.add(slot.widget);
 			slot.widget->build_path_to_position(path, position, child_rect);
+		}
+	}
+
+	// Default build if you don't care about style
+	void build(const UI_Rect& geom) override
+	{
+		for(auto& slot : children)
+		{
+			slot.rect = UI_Rect(Vec2::zero, geom.size);
+			slot.widget->build(slot.rect);
+		}
+	}
+
+	// Default render if you have nothing to render yourself
+	void render(UI_Drawer& drawer) override
+	{
+		for(auto& slot : children)
+		{
+			drawer.push_rect(slot.rect);
+			slot.widget->render(drawer);
+			drawer.pop_rect();
 		}
 	}
 

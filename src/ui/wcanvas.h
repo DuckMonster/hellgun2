@@ -17,5 +17,4 @@ class WCanvas : public Slotted_Widget<Canvas_Style>
 public:
 	void init() {}
 	void build(const UI_Rect& geom) override;
-	void render(UI_Drawer& drawer) override;
 };

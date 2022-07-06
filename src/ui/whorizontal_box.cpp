@@ -36,13 +36,3 @@ void WHorizontal_Box::build(const UI_Rect& geom)
 		x += child_size.x + padding.x * 2.f;
 	}
 }
-
-void WHorizontal_Box::render(UI_Drawer& drawer)
-{
-	for(auto& slot : children)
-	{
-		drawer.push_rect(slot.rect);
-		slot.widget->render(drawer);
-		drawer.pop_rect();
-	}
-}

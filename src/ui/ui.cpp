@@ -14,27 +14,35 @@ void UI::init()
 
 void UI::new_frame()
 {
-	root->init();
+	// Begin the root
+	capture_stack.emplace(root);
 	root->begin();
-	current = root;
 }
 
 void UI::end_frame()
 {
-	if (current != root)
-		fatal("Tried to end UI frame, but there seems to be more begin's than end's\nMake sure to always 'end' everything you 'begin'!");
+	end();
+	if (capture_stack.count() != 0)
+		fatal("Ended the UI frame, but capture stack is not empty.\nYou probably forgot an 'end()' somwhere!");
 
-	root->end();
 	root->build(UI_Rect(Vec2::zero, Vec2(context.width, context.height)));
+}
+
+void UI::begin_existing(Widget* widget)
+{
+	capture_stack.emplace(widget);
+	widget->begin();
 }
 
 void UI::end()
 {
-	if (current == (Widget*)root)
+	if (!has_capture_widget())
 		fatal("Tried to end widget, but we're currently at the root!\nYou probably have more end's than begin's");
 
-	current->end();
-	current = current->parent;
+	Widget* widget = current_capture_widget();
+	capture_stack.pop();
+
+	widget->end();
 }
 
 void UI::pre_destroy_widget(Widget* widget)

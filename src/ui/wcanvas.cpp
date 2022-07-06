@@ -19,13 +19,3 @@ void WCanvas::build(const UI_Rect& geom)
 		slot.widget->build(slot.rect);
 	}
 }
-
-void WCanvas::render(UI_Drawer& drawer)
-{
-	for(auto& slot : children)
-	{
-		drawer.push_rect(slot.rect);
-		slot.widget->render(drawer);
-		drawer.pop_rect();
-	}
-}

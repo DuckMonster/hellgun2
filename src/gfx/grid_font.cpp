@@ -19,6 +19,7 @@ void Grid_Font::free()
 
 void Grid_Font::set_texture(Texture* texture, u32 glyph_w, u32 glyph_h)
 {
+	this->texture = texture;
 	this->glyph_w = glyph_w;
 	this->glyph_h = glyph_h;
 
@@ -30,8 +31,17 @@ void Grid_Font::set_texture(Texture* texture, u32 glyph_w, u32 glyph_h)
 	col_count = texture->width / (glyph_w + 1);
 }
 
+Vec2 Grid_Font::measure_text(const TString& str, const Grid_Font_Info& font_info)
+{
+	return Vec2(str.length() * glyph_w * font_info.scale, glyph_h);
+}
+
 void Grid_Font::render_text(const TString& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info)
 {
+	// Not loaded...
+	if (texture == nullptr)
+		return;
+
 	glyphs.empty();
 
 	Vec2 string_size = Vec2(str.length() * glyph_w * font_info.scale);

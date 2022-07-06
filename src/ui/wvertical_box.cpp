@@ -32,13 +32,3 @@ void WVertical_Box::build(const UI_Rect& geom)
 		y += child_size.y + padding.y * 2.f;
 	}
 }
-
-void WVertical_Box::render(UI_Drawer& drawer)
-{
-	for(auto& slot : children)
-	{
-		drawer.push_rect(slot.rect);
-		slot.widget->render(drawer);
-		drawer.pop_rect();
-	}
-}

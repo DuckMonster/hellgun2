@@ -28,8 +28,6 @@ public:
 
 	void enter_editor();
 	void exit_editor();
-
-	void method_test();
 };
 
 extern Editor* editor;

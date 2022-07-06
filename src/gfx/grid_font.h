@@ -22,7 +22,7 @@ struct Grid_Font
 {
 	Mesh mesh;
 	Material* mat;
-	Texture* texture;
+	Texture* texture = nullptr;
 
 	// Data for generating glyph UVs
 	float glyph_w;
@@ -51,6 +51,8 @@ struct Grid_Font
 	void init();
 	void free();
 	void set_texture(Texture* texture, u32 glyph_w, u32 glyph_h);
+
+	Vec2 measure_text(const TString& str, const Grid_Font_Info& font_info = Grid_Font_Info());
 	void render_text(const TString& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info);
 
 	void push_glyph(char glyph, const Vec2& position, float scale);

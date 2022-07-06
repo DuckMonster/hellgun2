@@ -45,6 +45,7 @@ void UI_Drawer::init()
 
 void UI_Drawer::begin(const Render_Info& info)
 {
+	render_info = info;
 	primitive_material->use();
 	primitive_material->set("u_ViewProjection", info.ui_canvas);
 
