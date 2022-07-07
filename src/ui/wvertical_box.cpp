@@ -23,6 +23,21 @@ void WVertical_Box::build(const UI_Rect& geom)
 {
 	Vec2 my_size = geom.size;
 
+	// Calculate available y space for vertical filling
+	float available_y = my_size.y - get_desired_size().y;
+	if (available_y < 0.f)
+		available_y = 0.f;
+
+	// Count number of children who wants to fill
+	u32 num_fills = 0;
+	for(auto& slot : children)
+	{
+		if (slot.style._valign == Vertical_Align::Fill)
+			num_fills++;
+	}
+
+	float fill_extra_y = available_y / num_fills;
+
 	float y = 0.f;
 	for(auto& slot : children)
 	{
@@ -39,11 +54,13 @@ void WVertical_Box::build(const UI_Rect& geom)
 		float available_x = my_size.x - child_size.x - padding.x * 2.f;
 		switch(style._halign)
 		{
-		case Horizontal_Align::Left: break;
-		case Horizontal_Align::Center: position.x += available_x * 0.5f; break;
-		case Horizontal_Align::Right: position.x += available_x; break;
-		case Horizontal_Align::Fill: child_size.x += available_x; break;
+			case Horizontal_Align::Left: break;
+			case Horizontal_Align::Center: position.x += available_x * 0.5f; break;
+			case Horizontal_Align::Right: position.x += available_x; break;
+			case Horizontal_Align::Fill: child_size.x += available_x; break;
 		}
+
+		// Vertical alignment
 
 		slot.rect = UI_Rect(position, child_size);
 		slot.widget->build(slot.rect);

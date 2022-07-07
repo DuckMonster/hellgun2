@@ -1,12 +1,12 @@
 #pragma once
 #include "widget.h"
 #include "widget_style.h"
+#include "box_alignment.h"
 
 struct Horizontal_Box_Style
 {
 	WIDGET_STYLE_DECL(Horizontal_Box_Style)
 
-	WIDGET_STYLE_PROP(float, valign)
 	WIDGET_STYLE_PROP(Vec2, padding)
 	WIDGET_STYLE_PROP(Horizontal_Align, halign)
 	WIDGET_STYLE_PROP(Vertical_Align, valign)
