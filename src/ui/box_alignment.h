@@ -12,6 +12,6 @@ enum class Vertical_Align : u8
 {
 	Top,
 	Center,
-	Right,
+	Bottom,
 	Fill
 };

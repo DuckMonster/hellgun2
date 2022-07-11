@@ -137,6 +137,22 @@ inline Vec3 component_max(const Vec3& a, const Vec3& b)
 	);
 }
 
+inline Vec2 truncate(const Vec2& v)
+{
+	return Vec2(
+		Math::truncate(v.x),
+		Math::truncate(v.y)
+	);
+}
+inline Vec3 truncate(const Vec3& v)
+{
+	return Vec3(
+		Math::truncate(v.x),
+		Math::truncate(v.y),
+		Math::truncate(v.z)
+	);
+}
+
 inline float vec_to_angle(const Vec2& a)
 {
 	return Math::atan2(a.y, a.x);

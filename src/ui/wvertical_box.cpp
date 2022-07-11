@@ -61,6 +61,21 @@ void WVertical_Box::build(const UI_Rect& geom)
 		}
 
 		// Vertical alignment
+		switch(style._valign)
+		{
+			case Vertical_Align::Top:
+			case Vertical_Align::Bottom:
+				break;
+
+			case Vertical_Align::Fill:
+				child_size.y += fill_extra_y;
+				break;
+
+			case Vertical_Align::Center:
+				position.y += fill_extra_y / 2.f;
+				y += fill_extra_y / 2.f;
+				break;
+		}
 
 		slot.rect = UI_Rect(position, child_size);
 		slot.widget->build(slot.rect);

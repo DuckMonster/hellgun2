@@ -124,13 +124,11 @@ int main()
 			}
 		}
 
-/*
 		if (next_hotreload_time < time_elapsed_raw())
 		{
 			Resource::update_hotreload();
 			next_hotreload_time = time_elapsed_raw() + 1.f;
 		}
-		*/
 
 		glClearColor(0.1f, 0.1f, 0.1f, 1.f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

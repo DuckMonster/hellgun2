@@ -85,4 +85,9 @@ public:
 	{
 		return a + (b - a) * alpha;
 	}
+
+	static float truncate(float value)
+	{
+		return (float)((u32)value);
+	}
 };

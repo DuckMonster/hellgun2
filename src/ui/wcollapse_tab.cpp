@@ -13,10 +13,20 @@ void WCollapse_Tab::on_begin()
 		Vertical_Box_Style::halign(Horizontal_Align::Fill);
 		ui->begin<WButton>([this] { collapsed = !collapsed; });
 		{
-			Default_Style::padding(Vec2(8.f));
+			Default_Style::padding(Vec2(4.f));
 			ui->begin<WHorizontal_Box>();
 			{
-				ui->add<WImage>("texture/skull.tga", Vec2(10, 10));
+				TString arrow_tex = "ui/arrow_right.tga";
+				if (collapsed)
+					arrow_tex = "ui/arrow_down.tga";
+
+				Horizontal_Box_Style::valign(Vertical_Align::Center);
+				ui->add<WImage>(arrow_tex, Vec2(8.f));
+
+				//Horizontal_Box_Style::halign(Horizontal_Align::Center);
+				Horizontal_Box_Style::padding(Vec2(8.f, 0.f));
+				Horizontal_Box_Style::valign(Vertical_Align::Center);
+				Horizontal_Box_Style::halign(Horizontal_Align::Center);
 				ui->add<WText>("Collapse Tab");
 			}
 			ui->end();
