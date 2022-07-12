@@ -9,7 +9,6 @@ out vec4 o_Color;
 
 void main()
 {
-	//vec4 clr = mix(u_Background, u_Foreground, texture(u_Sampler, f_TexCoord).r);
-	vec4 clr = texture(u_Sampler, f_TexCoord);
+	vec4 clr = mix(u_Background, u_Foreground, texture(u_Sampler, f_TexCoord).r);
 	o_Color = clr;
 }

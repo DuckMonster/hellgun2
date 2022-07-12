@@ -122,7 +122,12 @@ void Editor::update()
 
 	auto* tab = ui->begin<WCollapse_Tab>();
 	{
-		ui->add<WText>("This is a lot a lot a lot of text.");
+		ui->begin<WVertical_Box>();
+		{
+			ui->add<WText>("{this.code();}");
+			ui->add<WText>("emil.strm@gmail.com");
+		}
+		ui->end();
 	}
 	ui->end();
 }

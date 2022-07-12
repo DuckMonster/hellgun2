@@ -11,7 +11,7 @@ public:
 	void init(const TString& text)
 	{
 		this->text = text;
-		this->font = Resource::load_font("ui/font.dat");
+		this->font = Resource::load_font("ui/font_big.dat");
 	}
 	void init(const TString& text, Grid_Font* font)
 	{
