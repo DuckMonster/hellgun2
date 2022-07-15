@@ -25,7 +25,9 @@ public:
 			rect_stack.add(new_rect);
 
 		// Debug
-		//draw_rect(new_rect, Color::white);
+		if (debug)
+			draw_rect(new_rect, Color::white);
+
 		rect_stack.add(current_rect().transform(new_rect));
 	}
 	void pop_rect()
@@ -34,6 +36,7 @@ public:
 	}
 
 	Render_Info render_info;
+	bool debug = false;
 
 private:
 	Array<UI_Rect> rect_stack;

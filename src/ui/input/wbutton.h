@@ -1,5 +1,5 @@
 #pragma once
-#include "widget.h"
+#include "ui/widget.h"
 #include "core/delegate.h"
 
 using Button_Callback = TDelegate<void>;

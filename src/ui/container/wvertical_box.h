@@ -1,6 +1,5 @@
 #pragma once
-#include "widget.h"
-#include "widget_style.h"
+#include "ui/widget.h"
 #include "box_alignment.h"
 
 struct Vertical_Box_Style

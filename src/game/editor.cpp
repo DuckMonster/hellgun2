@@ -10,13 +10,13 @@
 #include "debug/debug.h"
 
 #include "ui/ui.h"
-#include "ui/wcanvas.h"
-#include "ui/whorizontal_box.h"
-#include "ui/wvertical_box.h"
-#include "ui/wimage.h"
-#include "ui/wbutton.h"
-#include "ui/wtext.h"
-#include "ui/wcollapse_tab.h"
+#include "ui/container/wcanvas.h"
+#include "ui/container/whorizontal_box.h"
+#include "ui/container/wvertical_box.h"
+#include "ui/container/wcollapse_tab.h"
+#include "ui/visual/wimage.h"
+#include "ui/visual/wtext.h"
+#include "ui/input/wbutton.h"
 
 #include "resource/resource.h"
 

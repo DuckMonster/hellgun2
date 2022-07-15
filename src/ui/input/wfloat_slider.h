@@ -1,4 +1,4 @@
-#include "widget.h"
+#include "ui/widget.h"
 
 class WFloat_Slider : public Slotted_Widget<Default_Style>
 {

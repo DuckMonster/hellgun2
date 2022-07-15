@@ -241,7 +241,8 @@ public:
 		return sub;
 	}
 
-	void set_count(u32 new_count)
+	template<typename... TArgs>
+	void set_count(u32 new_count, TArgs... args)
 	{
 		// Setting count to a lower number, remove elements
 		if (new_count < _count)
@@ -254,7 +255,7 @@ public:
 		{
 			ensure_capacity(new_count);
 			for(u32 i = _count; i < new_count; ++i)
-				new(_data + i) T();
+				new(_data + i) T(args...);
 		}
 
 		_count = new_count;

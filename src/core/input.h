@@ -48,6 +48,7 @@ public:
 
 	// Group stuff
 	void set_active_group(Input_Group group) { active_group = group; }
+	Input_Group get_active_group() { return active_group; }
 	bool is_group_active(Input_Group group) { return active_group == group; }
 	bool should_ignore_input();
 

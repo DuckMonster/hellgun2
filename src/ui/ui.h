@@ -30,6 +30,7 @@ public:
 		TWidget* widget = current_capture_widget()->get_or_add_child<TWidget>();
 		capture_stack.emplace(widget);
 
+		widget->input_group = input->get_active_group();
 		widget->init(args...);
 		widget->begin();
 

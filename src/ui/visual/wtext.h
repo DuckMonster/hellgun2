@@ -1,5 +1,5 @@
 #pragma once
-#include "widget.h"
+#include "ui/widget.h"
 #include "gfx/grid_font.h"
 #include "resource/resource.h"
 

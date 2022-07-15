@@ -1,5 +1,5 @@
 #pragma once
-#include "widget.h"
+#include "ui/widget.h"
 
 class WCollapse_Tab : public Slotted_Widget<Default_Style>
 {

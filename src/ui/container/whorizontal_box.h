@@ -1,6 +1,5 @@
 #pragma once
-#include "widget.h"
-#include "widget_style.h"
+#include "ui/widget.h"
 #include "box_alignment.h"
 
 struct Horizontal_Box_Style

@@ -6,6 +6,7 @@
 #include "ui_drawer.h"
 #include "widget_path.h"
 #include "debug/debug.h"
+#include "core/input.h"
 
 struct Widget_Class
 {
@@ -73,7 +74,7 @@ class Widget
 public:
 	Widget_ID id;
 	UI_Rect rect = UI_Rect::zero;
-	Widget* parent = nullptr;
+	Input_Group input_group;
 
 	Widget_Visibility visibility = Widget_Visibility::Visible;
 	bool should_build() { return visibility != Widget_Visibility::Collapsed; }
@@ -172,7 +173,6 @@ public:
 		debug->print(TString::printf("Widget '%s' created", cls->name), 2.f);
 		widget = cls->create_new();
 		widget->id = id;
-		widget->parent = this;
 		add_child(widget);
 
 		return widget;
@@ -222,12 +222,16 @@ public:
 	{
 		for(auto& slot : children)
 		{
+			if (!input->is_group_active(slot.widget->input_group))
+				continue;
+
 			UI_Rect child_rect = rect.transform(slot.rect);
 			if (!child_rect.contains_point(position))
 				continue;
 
 			path.add(slot.widget);
 			slot.widget->build_path_to_position(path, position, child_rect);
+			return;
 		}
 	}
 

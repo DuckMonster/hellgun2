@@ -1,5 +1,5 @@
 #include "ui_drawer.h"
-#include "widget.h"
+#include "ui/widget.h"
 #include "resource/resource.h"
 #include "debug/debug.h"
 

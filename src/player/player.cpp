@@ -29,7 +29,6 @@ void Player::init()
 	mesh->attach_to(this);
 
 	// Load crosshair meshes
-
 	// Circle
 	crosshair_circle = scene->add_drawable();
 	crosshair_circle->material = Resource::load_material("material/ui/crosshair.mat");

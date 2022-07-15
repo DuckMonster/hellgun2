@@ -1,5 +1,5 @@
 #pragma once
-#include "widget.h"
+#include "ui/widget.h"
 #include "resource/resource.h"
 
 class WImage : public Widget

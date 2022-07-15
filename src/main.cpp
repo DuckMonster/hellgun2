@@ -3,7 +3,8 @@
 #include "game/game.h"
 #include "game/scene.h"
 #include "game/editor.h"
-#include "game/level.h"
+#include "game/item_shop.h"
+#include "player/item_bank.h"
 #include "fx/fx.h"
 #include "debug/debug.h"
 #include "resource/resource.h"
@@ -16,14 +17,6 @@
 #include "core/alloc/temp_allocator.h"
 #include <stdlib.h>
 #include <stdio.h>
-
-template<typename T, typename TAllocator>
-struct Test_Base
-{
-};
-
-template<typename T>
-using Test = Test_Base<T, Heap_Allocator>;
 
 int main()
 {
@@ -39,8 +32,6 @@ int main()
 
 	time_init();
 
-	Level* lvl = Resource::load_level("level/test.lvl");
-
 	debug = new Debug();
 	debug->init();
 
@@ -51,12 +42,15 @@ int main()
 	scene = new Scene();
 	editor = new Editor();
 	fx = new Fx();
+	item_shop = new Item_Shop();
 
 	ui = new UI();
 	ui->init();
 
 	game->init();
 	editor->init();
+
+	register_all_items();
 
 	glEnable(GL_DEPTH_TEST);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

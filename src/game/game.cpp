@@ -5,6 +5,7 @@
 #include "collision/collider.h"
 #include "scene.h"
 #include "level.h"
+#include "item_shop.h"
 
 #include "resource/resource.h"
 
@@ -53,9 +54,22 @@ void Game::init()
 
 void Game::update()
 {
+	// DEV item shop
+	if (input->key_pressed(Key::B))
+	{
+		if (item_shop->is_open)
+			item_shop->close();
+		else
+			item_shop->open();
+	}
+
+	if (item_shop->is_open)
+		item_shop->update_ui();
+
 	INPUT_SCOPE(Input_Group::Game);
 
 	// Update camera
+	if (input->is_group_active(Input_Group::Game))
 	{
 		Vec3 target_position = Math::lerp(player->position, get_mouse_game_position(), 0.3f);
 		camera.position = Math::lerp(camera.position, target_position, 15.f * time_delta());

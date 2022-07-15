@@ -2,7 +2,7 @@
 #include "resource/resource.h"
 #include "core/context.h"
 #include "core/input.h"
-#include "wcanvas.h"
+#include "container/wcanvas.h"
 
 UI* ui;
 
@@ -58,55 +58,54 @@ void UI::render(const Render_Info& info)
 	glEnable(GL_BLEND);
 	UI_Rect screen_rect = UI_Rect(Vec2::zero, Vec2(context.width, context.height));
 	drawer.begin(info);
-
 	drawer.push_rect(screen_rect);
+
+	if (input->key_pressed(Key::F2))
+		drawer.debug = !drawer.debug;
 
 	root->render(drawer);
 
-	if (input->is_group_active(Input_Group::Editor))
+	// !! UPDATE HOVER PATH !!
+	Widget_Path new_path;
+	new_path.add(root);
+
+	root->build_path_to_position(new_path, input->mouse_position(), UI_Rect(Vec2::zero, Vec2(context.width, context.height)));
+
+	if (!hovered_path.equals(new_path))
 	{
-		// !! UPDATE HOVER PATH !!
-		Widget_Path new_path;
-		new_path.add(root);
-
-		root->build_path_to_position(new_path, input->mouse_position(), UI_Rect(Vec2::zero, Vec2(context.width, context.height)));
-
-		if (!hovered_path.equals(new_path))
+		Widget_Path enter_path = new_path.difference_from(hovered_path);
+		enter_path.propegate([](Widget* widget) -> bool
 		{
-			Widget_Path enter_path = new_path.difference_from(hovered_path);
-			enter_path.propegate([](Widget* widget) -> bool
-			{
-				widget->on_mouse_enter();
-				return false;
-			});
+			widget->on_mouse_enter();
+			return false;
+		});
 
-			Widget_Path exit_path = hovered_path.difference_from(new_path);
-			exit_path.propegate([](Widget* widget) -> bool
-			{
-				widget->on_mouse_leave();
-				return false;
-			});
-
-			hovered_path = new_path;
-		}
-
-		// !! MOUSE EVENTS !!
-		if (input->mouse_pressed(Mouse_Btn::Left))
+		Widget_Path exit_path = hovered_path.difference_from(new_path);
+		exit_path.propegate([](Widget* widget) -> bool
 		{
-			hovered_path.propegate([](Widget* widget) -> bool
-			{
-				widget->on_mouse_down();
-				return false;
-			});
-		}
-		if (input->mouse_released(Mouse_Btn::Left))
+			widget->on_mouse_leave();
+			return false;
+		});
+
+		hovered_path = new_path;
+	}
+
+	// !! MOUSE EVENTS !!
+	if (input->mouse_pressed(Mouse_Btn::Left))
+	{
+		hovered_path.propegate([](Widget* widget) -> bool
 		{
-			hovered_path.propegate([](Widget* widget) -> bool
-			{
-				widget->on_mouse_up();
-				return false;
-			});
-		}
+			widget->on_mouse_down();
+			return false;
+		});
+	}
+	if (input->mouse_released(Mouse_Btn::Left))
+	{
+		hovered_path.propegate([](Widget* widget) -> bool
+		{
+			widget->on_mouse_up();
+			return false;
+		});
 	}
 
 	drawer.pop_rect();

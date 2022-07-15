@@ -1,5 +1,5 @@
 #pragma once
-#include "widget.h"
+#include "ui/widget.h"
 #include "core/delegate.h"
 
 class WChild_Widget : public Slotted_Widget<Default_Style>
