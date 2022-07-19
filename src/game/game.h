@@ -6,7 +6,6 @@ class Player;
 struct Game
 {
 	Camera camera;
-	Camera editor_camera;
 
 	Player* player;
 
@@ -14,6 +13,7 @@ struct Game
 	float next_spawn_time = 0.f;
 
 	void init();
+	void restart();
 	void update();
 	void render();
 

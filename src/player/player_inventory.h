@@ -1,10 +1,11 @@
 #pragma once
+#include "container/array.h"
+class Weapon;
 
 class Player_Inventory
 {
 public:
 	void init();
-
 	Array<Weapon*> weapons;
 };
 

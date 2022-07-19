@@ -3,26 +3,16 @@
 #include "debug/debug.h"
 #include "game/game.h"
 #include "game/scene.h"
-#include "resource/resource_common.h"
-#include "math/plane.h"
 #include "resource/resource.h"
 #include "fx/fx.h"
-#include "fx/weapon/muzzle_flash_system.h"
 #include "fx/surface_impact_system.h"
-#include "weapon/pistol/pistol.h"
-#include "weapon/cross/cross.h"
+#include "weapon/weapon.h"
 #include "crosshair.h"
 
 #include <stdio.h>
 
 void Player::init()
 {
-	weapons.add(new Pistol());
-	weapons.add(new Cross());
-
-	for(auto* wpn : weapons)
-		wpn->init();
-
 	// Meshes
 	mesh = scene->add_drawable();
 	mesh->load("mesh/plane.msh", "material/default.mat");
@@ -76,14 +66,8 @@ void Player::update()
 	if (!is_alive())
 		return;
 
-	if (input->key_pressed(Key::Q))
-	{
-		weapons[equipped_weapon]->on_unequipped();
-		equipped_weapon = (equipped_weapon + 1) % weapons.count();
-		weapons[equipped_weapon]->on_equipped();
-	}
-
-	weapons[equipped_weapon]->update();
+	if (equipped_weapon)
+		equipped_weapon->update();
 
 	update_movement();
 	move(velocity * time_delta());

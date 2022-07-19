@@ -56,8 +56,7 @@ public:
 	bool is_immune() { return !time_has_reached(immune_until); }
 
 	// Weapon stuff
-	Array<Weapon*> weapons;
-	u32 equipped_weapon = 0;
+	Weapon* equipped_weapon = nullptr;
 
 	// Movement stuff
 	void update_movement();

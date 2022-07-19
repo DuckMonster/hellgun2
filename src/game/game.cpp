@@ -11,6 +11,8 @@
 
 #include "player/player.h"
 #include "player/weapon/weapon.h"
+#include "player/item_bank.h"
+#include "player/player_inventory.h"
 #include "entity/enemy/enemy.h"
 
 #include "math/random.h"
@@ -21,35 +23,42 @@ Game* game;
 
 void Game::init()
 {
+	// Load level
+	level = Resource::load_level("level/test.lvl");
+	level->open();
+
+	// Init game systems
+	item_shop = new Item_Shop();
+	inventory = new Player_Inventory();
+	register_all_items();
+
+	context.lock_cursor();
+
+	restart();
+}
+
+void Game::restart()
+{
+	// Destroy all entities
+	for(auto* entity : scene->entities)
+		scene->destroy_entity(entity);
+	scene->finish_destruction();
+
+	// Reset camera
 	camera.rotation = Quat::identity;
 	camera.position = Vec3(0.f, 0.f, 40.f);
 	camera.fov = 45.f;
 	camera.near = 1.f;
 	camera.far = 100.f;
 
-	editor_camera.rotation = Quat::identity;
-	editor_camera.fov = 90.f;
-	editor_camera.near = 0.1f;
-	editor_camera.far = 1000.f;
-
 	// Spawn player
 	player = scene->spawn_entity<Player>(Vec3::zero);
-	player->weapons[0]->on_equipped(); // sigh..
 
 	// Load level
 	level = Resource::load_level("level/test.lvl");
 	level->open();
 
 	next_spawn_time = 0.f;
-
-	context.lock_cursor();
-
-	// Test stuff
-	/*
-	Collider* test_collider = scene->add_collider();
-	test_collider->attach_shape(Shape::aabb(Vec3(-3.f, 0.f, 0.f), Vec3(3.f)));
-	test_collider->attach_shape(Shape::sphere(Vec3(3.f, 0.f, 0.f), 1.5f));
-	*/
 }
 
 void Game::update()
@@ -79,14 +88,7 @@ void Game::update()
 	// Restart
 	if (input->key_pressed(Key::R))
 	{
-		// Destroy all entities
-		for(auto* entity : scene->entities)
-			scene->destroy_entity(entity);
-
-		scene->finish_destruction();
-		level->close();
-
-		init();
+		restart();
 		return;
 	}
 
