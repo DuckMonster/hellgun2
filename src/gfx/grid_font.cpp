@@ -33,7 +33,25 @@ void Grid_Font::set_texture(Texture* texture, u32 glyph_w, u32 glyph_h)
 
 Vec2 Grid_Font::measure_text(const TString& str, const Grid_Font_Info& font_info)
 {
-	return Vec2(str.length() * glyph_w * font_info.scale, glyph_h);
+	u32 longest_line = 0;
+	u32 cur_line = 0;
+	u32 num_lines = 1;
+
+	for(char c : str)
+	{
+		if (c == '\n')
+		{
+			num_lines++;
+			longest_line = Math::max(longest_line, cur_line);
+			cur_line = 0;
+			continue;
+		}
+
+		cur_line++;
+	}
+	longest_line = Math::max(longest_line, cur_line);
+
+	return Vec2(longest_line * glyph_w, num_lines * glyph_h) * font_info.scale;
 }
 
 void Grid_Font::render_text(const TString& str, Vec2 position, const Grid_Font_Info& font_info, const Render_Info& render_info)
@@ -45,12 +63,20 @@ void Grid_Font::render_text(const TString& str, Vec2 position, const Grid_Font_I
 	glyphs.empty();
 
 	Vec2 string_size = Vec2(str.length() * glyph_w * font_info.scale);
-	position -= string_size * font_info.alignment;
+	Vec2 pos = position - string_size * font_info.alignment;
 
 	for(char c : str)
 	{
-		push_glyph(c, position, font_info.scale);
-		position.x += glyph_w * font_info.scale;
+		// Newline
+		if (c == '\n')
+		{
+			pos.x = position.x - string_size.x * font_info.alignment.x;
+			pos.y += glyph_h * font_info.scale;
+			continue;
+		}
+
+		push_glyph(c, pos, font_info.scale);
+		pos.x += glyph_w * font_info.scale;
 	}
 
 	mesh.buffer_data(0, glyphs.count() * sizeof(Glyph), glyphs.data());

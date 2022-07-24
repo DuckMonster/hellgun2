@@ -22,7 +22,7 @@
   <PropertyGroup>
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <OutDir>bin\</OutDir>
     <IntDir>build\</IntDir>
     <TargetName>hellgun_$(Configuration)</TargetName>

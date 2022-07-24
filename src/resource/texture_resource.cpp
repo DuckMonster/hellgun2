@@ -11,6 +11,7 @@ void Texture_Resource::load()
 	Tga_File tga;
 	tga.load(get_absolute_path());
 	tga.flip_vertical();
+	tga.swizzle_rgb();
 
 	if (tga.data == nullptr)
 		return;

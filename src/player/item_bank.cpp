@@ -2,15 +2,15 @@
 #include "weapon/pistol/pistol.h"
 #include "weapon/cross/cross.h"
 
-Array<Weapon_Info> weapon_bank;
+Array<Weapon_Type*> weapon_bank;
 template<typename TWeapon>
-void register_weapon(const TString& name)
+void register_weapon()
 {
-	weapon_bank.add({name, []() -> Weapon* { return new TWeapon(); }});
+	weapon_bank.add(TWeapon::static_type());
 }
 
 void register_all_items()
 {
-	register_weapon<Pistol>("Pistol");
-	register_weapon<Cross>("Cross");
+	register_weapon<Pistol>();
+	register_weapon<Cross>();
 }

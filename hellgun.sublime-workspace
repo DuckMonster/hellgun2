@@ -337,9 +337,34 @@
 	},
 	"file_history":
 	[
+		"/D/Prog/hellgun/src/player/player.h",
+		"/D/Prog/hellgun/src/game/item_shop.cpp",
+		"/D/Prog/hellgun/src/player/player_inventory.h",
+		"/D/Prog/hellgun/src/player/player_inventory.cpp",
+		"/D/Prog/hellgun/src/player/weapon/weapon.h",
+		"/D/Prog/hellgun/src/player/weapon/pistol/pistol.h",
+		"/D/Prog/hellgun/src/player/weapon/cross/cross.h",
+		"/D/Prog/hellgun/src/player/item_bank.cpp",
+		"/D/Prog/hellgun/src/math/matrix_math.h",
+		"/D/Prog/hellgun/src/math/my_math.h",
+		"/D/Prog/hellgun/src/core/template.h",
+		"/D/Prog/hellgun/src/resource/texture_resource.cpp",
+		"/D/Prog/hellgun/src/player/item_bank.h",
+		"/D/Prog/hellgun/src/import/tga.h",
+		"/D/Prog/hellgun/src/import/tga.cpp",
+		"/D/Prog/hellgun/src/gfx/grid_font.cpp",
+		"/D/Prog/hellgun/src/game/game.cpp",
+		"/D/Prog/hellgun/src/gfx/grid_font.h",
+		"/D/Prog/hellgun/src/ui/visual/wtext.h",
+		"/D/Prog/hellgun/src/ui/widget.h",
+		"/D/Prog/hellgun/hellgun.vcxproj",
+		"/D/Prog/hellgun/src/entity/entity.h",
+		"/D/Prog/hellgun/src/container/array.h",
+		"/D/Prog/hellgun/src/game/item_shop.h",
+		"/D/Prog/hellgun/src/player/weapon/weapon.cpp",
+		"/D/Prog/hellgun/src/main.cpp",
 		"/D/Prog/hellgun/src/ui/ui_drawer.cpp",
 		"/D/Prog/hellgun/src/core/input.h",
-		"/D/Prog/hellgun/src/ui/widget.h",
 		"/D/Prog/hellgun/src/ui/ui.h",
 		"/D/Prog/hellgun/src/ui/ui.cpp",
 		"/D/Prog/hellgun/src/ui/input/wfloat_slider.h",
@@ -347,7 +372,6 @@
 		"/D/Prog/hellgun/src/ui/container/wbox.h",
 		"/D/Prog/hellgun/src/ui/container/wcanvas.cpp",
 		"/D/Prog/hellgun/src/ui/container/wcanvas.h",
-		"/D/Prog/hellgun/src/game/item_shop.cpp",
 		"/D/Prog/hellgun/src/ui/container/wchild_widget.h",
 		"/D/Prog/hellgun/src/ui/container/wcollapse_tab.cpp",
 		"/D/Prog/hellgun/src/ui/container/wcollapse_tab.h",
@@ -355,33 +379,25 @@
 		"/D/Prog/hellgun/src/ui/container/wvertical_box.h",
 		"/D/Prog/hellgun/src/ui/container/wvertical_box.cpp",
 		"/D/Prog/hellgun/src/ui/visual/wimage.h",
-		"/D/Prog/hellgun/src/ui/visual/wtext.h",
 		"/D/Prog/hellgun/src/ui/input/wbutton.h",
 		"/D/Prog/hellgun/src/ui/widget/container/wbox.h",
-		"/D/Prog/hellgun/src/main.cpp",
 		"/D/Prog/hellgun/src/game/editor.cpp",
-		"/D/Prog/hellgun/src/player/weapon/weapon.cpp",
 		"/D/Prog/hellgun/src/player/weapon/pistol/pistol.cpp",
 		"/D/Prog/hellgun/src/player/player.cpp",
 		"/D/Prog/hellgun/src/ui/wbox.h",
 		"/D/Prog/hellgun/src/ui/wbox.cpp",
-		"/D/Prog/hellgun/src/game/game.cpp",
 		"/D/Prog/hellgun/src/game/game.h",
-		"/D/Prog/hellgun/src/player/player.h",
-		"/D/Prog/hellgun/src/game/item_shop.h",
 		"/D/Prog/hellgun/src/ui/wchild_widget.h",
 		"/D/Prog/hellgun/src/ui/wbutton.h",
 		"/D/Prog/hellgun/src/ui/wbutton.cpp",
 		"/D/Prog/hellgun/src/ui/wcollapse_tab.cpp",
 		"/D/Prog/hellgun/src/ui/whorizontal_box.h",
-		"/D/Prog/hellgun/src/core/template.h",
 		"/D/Prog/hellgun/src/ui/ui_drawer.h",
 		"/D/Prog/hellgun/src/ui/widget_builder.h",
 		"/D/Prog/hellgun/src/ui/wtext.h",
 		"/D/Prog/hellgun/src/ui/wcollapse_tab.h",
 		"/D/Prog/hellgun/src/ui/wvertical_box.h",
 		"/D/Prog/hellgun/src/ui/wimage.h",
-		"/D/Prog/hellgun/hellgun.vcxproj",
 		"/D/Prog/hellgun/src/ui/wcanvas.h",
 		"/D/Prog/hellgun/src/ui/wfloat_slider.h",
 		"/D/Prog/hellgun/src/ui/wtext.cpp",
@@ -394,10 +410,7 @@
 		"/D/Prog/hellgun/src/ui/widget_path.h",
 		"/D/Prog/hellgun/src/game/editor.h",
 		"/D/Prog/hellgun/src/ui/wcanvas.cpp",
-		"/D/Prog/hellgun/src/import/tga.cpp",
 		"/D/Prog/hellgun/src/ui/wfloat_slider.cpp",
-		"/D/Prog/hellgun/src/gfx/grid_font.h",
-		"/D/Prog/hellgun/src/gfx/grid_font.cpp",
 		"/D/Prog/hellgun/src/debug/debug.cpp",
 		"/D/Prog/hellgun/src/resource/resource.h",
 		"/D/Prog/hellgun/src/resource/font_resource.cpp",
@@ -411,11 +424,9 @@
 		"/D/Prog/hellgun/src/resource/font_resource.h",
 		"/D/Prog/hellgun/src/import/dat.cpp",
 		"/D/Prog/hellgun/src/import/dat.h",
-		"/D/Prog/hellgun/src/resource/texture_resource.cpp",
 		"/D/Prog/hellgun/src/resource/mesh_resource.h",
 		"/D/Prog/hellgun/src/core/delegate.h",
 		"/D/Prog/hellgun/src/container/string.h",
-		"/D/Prog/hellgun/src/container/array.h",
 		"/D/Prog/hellgun/src/core/callback.h",
 		"/D/Prog/hellgun/src/core/io.cpp",
 		"/D/Prog/hellgun/src/core/alloc/heap_allocator.h",
@@ -442,7 +453,6 @@
 		"/D/Prog/hellgun/src/math/hash.h",
 		"/D/Prog/hellgun/src/ui/wroot.h",
 		"/D/Prog/hellgun/src/ui/widget_id.h",
-		"/D/Prog/hellgun/src/entity/entity.h",
 		"/D/Prog/hellgun/include/GLFW/glfw3.h",
 		"/D/Prog/hellgun/src/fx/particle_system.cpp",
 		"/D/Prog/hellgun/src/container/string.cpp",
@@ -454,17 +464,7 @@
 		"/D/Prog/hellgun/src/gfx/render_info.h",
 		"/D/Prog/hellgun/src/math/matrix.h",
 		"/D/Prog/hellgun/res/shader/ui/textured.vert",
-		"/D/Prog/hellgun/res/shader/ui/textured.frag",
-		"/D/Prog/hellgun/res/material/ui/textured.mat",
-		"/D/Prog/hellgun/res/material/ui/primitive.mat",
-		"/D/Prog/hellgun/res/shader/ui/ui.vert",
-		"/D/Prog/hellgun/src/ui/wrect.h",
-		"/D/Prog/hellgun/src/ui/wrect.cpp",
-		"/D/Prog/hellgun/src/debug/error.h",
-		"/D/Prog/hellgun/src/ui/canvas.h",
-		"/D/Prog/hellgun/res/material/ui/ui.mat",
-		"/D/Prog/hellgun/res/shader/ui/ui.frag",
-		"/D/Prog/hellgun/src/ui/ui_canvas.h"
+		"/D/Prog/hellgun/res/shader/ui/textured.frag"
 	],
 	"find":
 	{
@@ -617,6 +617,122 @@
 		"selected_items":
 		[
 			[
+				"widget.h",
+				"Source\\ui\\widget.h"
+			],
+			[
+				"ui.h",
+				"Source\\ui\\ui.h"
+			],
+			[
+				"weaopn.h",
+				"Source\\player\\weapon\\weapon.h"
+			],
+			[
+				"game.h",
+				"Source\\game\\game.h"
+			],
+			[
+				"wbox.h",
+				"Source\\ui\\container\\wbox.h"
+			],
+			[
+				"inventory",
+				"Source\\player\\player_inventory.h"
+			],
+			[
+				"player.h",
+				"Source\\player\\player.h"
+			],
+			[
+				"playe.rh",
+				"Source\\player\\player.h"
+			],
+			[
+				"plyaer_inv",
+				"Source\\player\\player_inventory.h"
+			],
+			[
+				"item_shop",
+				"Source\\game\\item_shop.cpp"
+			],
+			[
+				"invenoty",
+				"Source\\player\\player_inventory.h"
+			],
+			[
+				"plyae.rh",
+				"Source\\player\\player.h"
+			],
+			[
+				"weapon.h",
+				"Source\\player\\weapon\\weapon.h"
+			],
+			[
+				"texture",
+				"Source\\resource\\texture_resource.cpp"
+			],
+			[
+				"template",
+				"Source\\core\\template.h"
+			],
+			[
+				"math.h",
+				"Source\\math\\my_math.h"
+			],
+			[
+				"tga.h",
+				"Source\\import\\tga.h"
+			],
+			[
+				"cross.h",
+				"Source\\player\\weapon\\cross\\cross.h"
+			],
+			[
+				"game.cpp",
+				"Source\\game\\game.cpp"
+			],
+			[
+				"grid_font.cp",
+				"Source\\gfx\\grid_font.cpp"
+			],
+			[
+				"pistol.h",
+				"Source\\player\\weapon\\pistol\\pistol.h"
+			],
+			[
+				"wtext.h",
+				"Source\\ui\\visual\\wtext.h"
+			],
+			[
+				"item_ban",
+				"Source\\player\\item_bank.cpp"
+			],
+			[
+				"vcxproj",
+				"Root\\hellgun.vcxproj"
+			],
+			[
+				"entity",
+				"Source\\entity\\entity.h"
+			],
+			[
+				"array.h",
+				"Source\\container\\array.h"
+			],
+			[
+				"main.cp",
+				"Source\\main.cpp"
+			],
+			[
+				"pistol",
+				"Source\\player\\weapon\\pistol\\pistol.h"
+			],
+			[
+				"weapon.cp",
+				"Source\\player\\weapon\\weapon.cpp"
+			],
+			[
 				"ui.cp",
 				"Source\\ui\\ui.cpp"
 			],
@@ -633,16 +749,8 @@
 				"Source\\core\\input.h"
 			],
 			[
-				"widget.h",
-				"Source\\ui\\widget.h"
-			],
-			[
 				"inputlh",
 				"Source\\ui\\input\\wfloat_slider.h"
-			],
-			[
-				"ui.h",
-				"Source\\ui\\ui.h"
 			],
 			[
 				"ui.lh",
@@ -655,10 +763,6 @@
 			[
 				"vertical",
 				"Source\\ui\\container\\wvertical_box.h"
-			],
-			[
-				"item_shop",
-				"Source\\game\\item_shop.cpp"
 			],
 			[
 				"wcollapse",
@@ -677,10 +781,6 @@
 				"Source\\ui\\container\\wcanvas.cpp"
 			],
 			[
-				"wbox.h",
-				"Source\\ui\\container\\wbox.h"
-			],
-			[
 				"player.cp",
 				"Source\\player\\player.cpp"
 			],
@@ -689,20 +789,12 @@
 				"Source\\player\\weapon\\pistol\\pistol.cpp"
 			],
 			[
-				"weapon.cp",
-				"Source\\player\\weapon\\weapon.cpp"
-			],
-			[
 				"editor.cp",
 				"Source\\game\\editor.cpp"
 			],
 			[
 				"game.cp",
 				"Source\\game\\game.cpp"
-			],
-			[
-				"main.cp",
-				"Source\\main.cpp"
 			],
 			[
 				"plyaer.h",
@@ -727,10 +819,6 @@
 			[
 				"ui_drawer.cp",
 				"Source\\ui\\ui_drawer.cpp"
-			],
-			[
-				"template",
-				"Source\\core\\template.h"
 			],
 			[
 				"wcollaps",
@@ -763,10 +851,6 @@
 			[
 				"widgetbuil",
 				"Source\\ui\\widget_builder.h"
-			],
-			[
-				"wtext.h",
-				"Source\\ui\\wtext.h"
 			],
 			[
 				"vcxpro",
@@ -845,10 +929,6 @@
 				"Source\\ui\\whorizontal_box.cpp"
 			],
 			[
-				"vcxproj",
-				"Root\\hellgun.vcxproj"
-			],
-			[
 				"widget_path",
 				"Source\\ui\\widget_path.h"
 			],
@@ -859,10 +939,6 @@
 			[
 				"tga.cpp",
 				"Source\\import\\tga.cpp"
-			],
-			[
-				"game.cpp",
-				"Source\\game\\game.cpp"
 			],
 			[
 				"wcollapse_",
@@ -965,10 +1041,6 @@
 				"Source\\core\\alloc\\temp_allocator.h"
 			],
 			[
-				"array.h",
-				"Source\\container\\array.h"
-			],
-			[
 				"temp",
 				"Source\\core\\alloc\\temp_allocator.h"
 			],
@@ -1041,10 +1113,6 @@
 				"Source\\ui\\ui_drawer.h"
 			],
 			[
-				"game.h",
-				"Source\\game\\game.h"
-			],
-			[
 				"player.cpp",
 				"Source\\player\\player.cpp"
 			],
@@ -1059,74 +1127,6 @@
 			[
 				"pistolc.pp",
 				"Source\\player\\weapon\\pistol\\pistol.cpp"
-			],
-			[
-				"plyaer.cpp",
-				"Source\\player\\player.cpp"
-			],
-			[
-				"cross.cp",
-				"Source\\player\\weapon\\cross\\cross.cpp"
-			],
-			[
-				"context.cpp",
-				"Source\\core\\context.cpp"
-			],
-			[
-				"wimage.cpp",
-				"Source\\ui\\wimage.cpp"
-			],
-			[
-				"primi",
-				"Resources\\shader\\ui\\primitive.frag"
-			],
-			[
-				"ui_drawer.h",
-				"Source\\ui\\ui_drawer.h"
-			],
-			[
-				"ui_rec",
-				"Source\\ui\\ui_rect.h"
-			],
-			[
-				"widget.cpp",
-				"Source\\ui\\widget.cpp"
-			],
-			[
-				"wvert",
-				"Source\\ui\\wvertical_box.cpp"
-			],
-			[
-				"wcavnas",
-				"Source\\ui\\wcanvas.cpp"
-			],
-			[
-				"wverti",
-				"Source\\ui\\wvertical_box.cpp"
-			],
-			[
-				"wcan",
-				"Source\\ui\\wcanvas.cpp"
-			],
-			[
-				"wcanva",
-				"Source\\ui\\wcanvas.h"
-			],
-			[
-				"horizonta",
-				"Source\\ui\\whorizontal_box.h"
-			],
-			[
-				"wver",
-				"Source\\ui\\wvertical_box.cpp"
-			],
-			[
-				"hori",
-				"Source\\ui\\whorizontal_box.h"
-			],
-			[
-				"horion",
-				"Source\\ui\\whorizontal_box.h"
 			]
 		],
 		"width": 0.0
@@ -1676,22 +1676,120 @@
 				[
 					"insert",
 					{
-						"characters": "return;"
+						"characters": "weap"
+					}
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"insert",
+					{
+						"characters": "equip_weapon"
+					}
+				],
+				[
+					"insert_snippet",
+					{
+						"contents": "($0)"
+					}
+				],
+				[
+					"insert",
+					{
+						"characters": "we"
+					}
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"insert",
+					{
+						"characters": "inventory->weapöon"
+					}
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"left_delete",
+					null
+				],
+				[
+					"insert",
+					{
+						"characters": "ons"
+					}
+				],
+				[
+					"insert_snippet",
+					{
+						"contents": "[$0]"
+					}
+				],
+				[
+					"insert",
+					{
+						"characters": "i"
+					}
+				],
+				[
+					"move",
+					{
+						"by": "characters",
+						"forward": true
+					}
+				],
+				[
+					"move",
+					{
+						"by": "characters",
+						"forward": true
+					}
+				],
+				[
+					"insert",
+					{
+						"characters": ";"
 					}
 				]
 			],
-			"alternate_view": 411,
+			"alternate_view": 198,
 			"last_command_line": null,
 			"last_search_pattern":
 			[
-				"parent"
+				"health"
 			]
 		}
 	},
 	"show_minimap": false,
 	"show_open_files": false,
 	"show_tabs": true,
-	"side_bar_visible": true,
+	"side_bar_visible": false,
 	"side_bar_width": 277.0,
 	"status_bar_visible": true,
 	"template_settings":

@@ -30,6 +30,8 @@ void Game::init()
 	// Init game systems
 	item_shop = new Item_Shop();
 	inventory = new Player_Inventory();
+	inventory->init();
+
 	register_all_items();
 
 	context.lock_cursor();
@@ -78,9 +80,11 @@ void Game::update()
 	INPUT_SCOPE(Input_Group::Game);
 
 	// Update camera
-	if (input->is_group_active(Input_Group::Game))
 	{
-		Vec3 target_position = Math::lerp(player->position, get_mouse_game_position(), 0.3f);
+		Vec3 target_position = player->position;
+		if (input->is_group_active(Input_Group::Game))
+			target_position += (get_mouse_game_position() - player->position) * 0.3f;
+
 		camera.position = Math::lerp(camera.position, target_position, 15.f * time_delta());
 		camera.position.z = 55.f;
 	}
@@ -125,6 +129,8 @@ void Game::update()
 
 	if (scene->pending_destruction)
 		scene->finish_destruction();
+
+	player->update_ui();
 }
 
 void Game::render()

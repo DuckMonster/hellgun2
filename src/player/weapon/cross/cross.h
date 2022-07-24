@@ -5,6 +5,10 @@ class Drawable;
 
 class Cross : public Weapon
 {
+	WEAPON_BEGIN(Cross)
+	WEAPON_ICON("texture/cross.tga")
+	WEAPON_END()
+
 public:
 	void init() override;
 	void on_equipped() override;

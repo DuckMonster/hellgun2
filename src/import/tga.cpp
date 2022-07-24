@@ -107,6 +107,15 @@ void Tga_File::flip_vertical()
 	::free(buffer);
 }
 
+void Tga_File::swizzle_rgb()
+{
+	u32 pixels = width * height;
+	for(u32 i = 0; i < pixels * channels; i += channels)
+	{
+		swap(data[i], data[i + 2]);
+	}
+}
+
 void Tga_File::free()
 {
 	if (data)

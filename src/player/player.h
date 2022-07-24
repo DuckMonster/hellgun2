@@ -40,6 +40,7 @@ public:
 	void on_destroyed() override;
 
 	void update() override;
+	void update_ui();
 	bool is_alive() { return health > 0; }
 
 	float get_movement_input();
@@ -50,13 +51,14 @@ public:
 	Drawable* crosshair_line;
 
 	// Health
-	int health = 3;
+	u32 health = 3;
 	float immune_until = 0.f;
 	void hit(const Vec3& direction);
 	bool is_immune() { return !time_has_reached(immune_until); }
 
 	// Weapon stuff
 	Weapon* equipped_weapon = nullptr;
+	void equip_weapon(Weapon* weapon);
 
 	// Movement stuff
 	void update_movement();

@@ -5,6 +5,11 @@ class Drawable;
 
 class Pistol : public Weapon
 {
+	WEAPON_BEGIN(Pistol)
+	WEAPON_DESCRIPTION("Fires powerful bullets\nHowever you need to pick them back up after firing")
+	WEAPON_ICON("texture/pistol_hold.tga")
+	WEAPON_END()
+
 public:
 	void init() override;
 	void on_equipped() override;

@@ -9,7 +9,24 @@
 #include "weapon/weapon.h"
 #include "crosshair.h"
 
+#include "ui/ui.h"
+#include "ui/container/wcanvas.h"
+#include "ui/container/wbox.h"
+#include "ui/container/wvertical_box.h"
+#include "ui/container/whorizontal_box.h"
+#include "ui/visual/wimage.h"
+
+#include "player_inventory.h"
+
 #include <stdio.h>
+
+static Key weapon_equip_keys[] = 
+{
+	Key::Num1,
+	Key::Num2,
+	Key::Num3,
+	Key::Num4,
+};
 
 void Player::init()
 {
@@ -61,13 +78,33 @@ void Player::on_destroyed()
 	scene->destroy_drawable(crosshair_circle);
 }
 
+void Player::equip_weapon(Weapon* weapon)
+{
+	if (equipped_weapon)
+		equipped_weapon->on_unequipped();
+	if (weapon)
+		weapon->on_equipped();
+
+	equipped_weapon = weapon;
+}
+
 void Player::update()
 {
 	if (!is_alive())
 		return;
 
+	// Weapon equipment
 	if (equipped_weapon)
 		equipped_weapon->update();
+
+	for(u32 i = 0; i < inventory->weapons.count(); ++i)
+	{
+		if (inventory->weapons[i] == nullptr)
+			continue;
+
+		if (input->key_pressed(weapon_equip_keys[i]))
+			equip_weapon(inventory->weapons[i]);
+	}
 
 	update_movement();
 	move(velocity * time_delta());
@@ -254,6 +291,48 @@ float Player::get_movement_input()
 		move_input -= 1.f;
 
 	return move_input;
+}
+
+void Player::update_ui()
+{
+	Canvas_Style::alignment(Vec2(0.5f, 1.f));
+	Canvas_Style::anchor(Vec2(0.5f, 1.f));
+	Canvas_Style::position(Vec2(0.f, -8.f));
+
+	ui->begin<WVertical_Box>();
+	{
+		Vertical_Box_Style::halign(Horizontal_Align::Center);
+
+		// Inventory
+		ui->begin<WHorizontal_Box>();
+		{
+			Horizontal_Box_Style::padding(4.f);
+			for(u32 i = 0; i < inventory->weapons.count(); ++i)
+			{
+				ui->begin<WBox>(Vec2(32.f), Color(0.f, 0.f, 0.f, 0.4f));
+				if (inventory->weapons[i] != nullptr)
+				{
+					Weapon_Type* type = inventory->weapons[i]->get_type();
+					ui->add<WImage>(type->icon_path, Vec2(32.f));
+				}
+
+				ui->end();
+			}
+		}
+		ui->end();
+
+		// Health
+		ui->begin<WHorizontal_Box>();
+		{
+			for(u32 i = 0; i < 3; ++i)
+			{
+				TString icon = (i < health) ? "texture/heart.tga" : "texture/heart_empty.tga";
+				ui->add<WImage>(icon, Vec2(64.f));
+			}
+		}
+		ui->end();
+	}
+	ui->end();
 }
 
 void Player::hit(const Vec3& direction)

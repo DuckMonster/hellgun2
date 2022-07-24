@@ -8,7 +8,10 @@
 #include "ui/container/whorizontal_box.h"
 #include "ui/input/wbutton.h"
 #include "ui/visual/wtext.h"
+#include "ui/visual/wimage.h"
 #include "player/item_bank.h"
+#include "player/weapon/weapon.h"
+#include "player/player_inventory.h"
 
 Item_Shop* item_shop = nullptr;
 
@@ -52,17 +55,34 @@ void Item_Shop::update_ui()
 			ui->begin<WBox>(Color(0.f, 0.f, 0.f, 0.4f));
 			{
 				ui->begin<WVertical_Box>();
-				Vertical_Box_Style::padding(Vec2(4.f));
-				for(const auto& wpn_info : weapon_bank)
+				//Vertical_Box_Style::padding(Vec2(4.f));
+				Vertical_Box_Style::halign(Horizontal_Align::Fill);
+				for(auto wpn_type : weapon_bank)
 				{
 					auto* buy_btn = ui->begin<WButton>();
 					if (buy_btn->was_pressed())
 					{
-						debug->print(TString::printf("Bought '%s'", wpn_info.name.data()), 4.f);
+						inventory->add_weapon(wpn_type);
 						close();
 					}
 
-					ui->add<WText>(TString::printf("Buy '%s'", wpn_info.name.data()));
+					{
+						ui->begin<WVertical_Box>();
+						{
+							ui->begin<WHorizontal_Box>();
+							{
+								Horizontal_Box_Style::padding(Vec2(4.f));
+								Horizontal_Box_Style::valign(Vertical_Align::Center);
+								ui->add<WImage>(wpn_type->icon_path, Vec2(32.f));
+								ui->add<WText>(wpn_type->name);
+							}
+							ui->end();
+
+							ui->add<WText>(wpn_type->description, Resource::load_font("ui/font.dat"));
+						}
+						ui->end();
+					}
+
 					ui->end();
 				}
 				ui->end();
